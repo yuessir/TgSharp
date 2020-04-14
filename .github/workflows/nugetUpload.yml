@@ -21,7 +21,7 @@ jobs:
     - name: Build & Upload Package
       run: |
         $date = get-date -format "yyyyMMdd-HHmm"
-        $hash = & git rev-parse --short HEAD
+        $hash = "0122072"
 
         $tagPrefix = "refs/tags/"
         If ($Env:GITHUB_REF.StartsWith($tagPrefix)) {
