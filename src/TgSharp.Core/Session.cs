@@ -39,7 +39,7 @@ namespace TgSharp.Core
 
             using (var stream = new FileStream(sessionPath, FileMode.OpenOrCreate))
             {
-                var result = session.ToBytes();
+                var result = ToBytes(session);
                 stream.Write(result, 0, result.Length);
             }
         }
@@ -58,7 +58,68 @@ namespace TgSharp.Core
                 var buffer = new byte[2048];
                 stream.Read(buffer, 0, 2048);
 
-                return Session.FromBytes(buffer, this, sessionUserId);
+                return FromBytes(buffer, sessionUserId);
+            }
+        }
+
+        public byte [] ToBytes (Session session)
+        {
+            using (var stream = new MemoryStream ())
+            using (var writer = new BinaryWriter (stream)) {
+                writer.Write (session.Id);
+                writer.Write (session.Sequence);
+                writer.Write (session.Salt);
+                writer.Write (session.LastMessageId);
+                writer.Write (session.TimeOffset);
+                Serializers.String.Write (writer, session.DataCenter.Address);
+                writer.Write (session.DataCenter.Port);
+
+                if (session.AuthenticatedSuccessfully) {
+                    writer.Write (1);
+                    writer.Write (session.SessionExpires);
+                } else {
+                    writer.Write (0);
+                }
+
+                Serializers.Bytes.Write (writer, session.AuthKey.Data);
+
+                return stream.ToArray ();
+            }
+        }
+
+        public static Session FromBytes (byte [] buffer, string sessionUserId)
+        {
+            using (var stream = new MemoryStream (buffer))
+            using (var reader = new BinaryReader (stream)) {
+                var id = reader.ReadUInt64 ();
+                var sequence = reader.ReadInt32 ();
+                var salt = reader.ReadUInt64 ();
+                var lastMessageId = reader.ReadInt64 ();
+                var timeOffset = reader.ReadInt32 ();
+                var serverAddress = Serializers.String.Read (reader);
+                var port = reader.ReadInt32 ();
+
+                var authenticatedSuccessfully = reader.ReadInt32 () == 1;
+                int sessionExpires = 0;
+                if (authenticatedSuccessfully) {
+                    sessionExpires = reader.ReadInt32 ();
+                }
+
+                var authData = Serializers.Bytes.Read (reader);
+                var defaultDataCenter = new DataCenter (null, serverAddress, port);
+
+                return new Session {
+                    AuthKey = new AuthKey (authData),
+                    Id = id,
+                    Salt = salt,
+                    Sequence = sequence,
+                    LastMessageId = lastMessageId,
+                    TimeOffset = timeOffset,
+                    SessionExpires = sessionExpires,
+                    AuthenticatedSuccessfully = authenticatedSuccessfully,
+                    SessionUserId = sessionUserId,
+                    DataCenter = defaultDataCenter,
+                };
             }
         }
     }
@@ -159,75 +220,6 @@ namespace TgSharp.Core
         public int SessionExpires { get; set; }
         public bool AuthenticatedSuccessfully { get; set; } = false;
         private readonly Random random = new Random();
-
-        public byte[] ToBytes()
-        {
-            using (var stream = new MemoryStream())
-            using (var writer = new BinaryWriter(stream))
-            {
-                writer.Write(Id);
-                writer.Write(Sequence);
-                writer.Write(Salt);
-                writer.Write(LastMessageId);
-                writer.Write(TimeOffset);
-                Serializers.String.Write(writer, DataCenter.Address);
-                writer.Write(DataCenter.Port);
-
-                if (AuthenticatedSuccessfully)
-                {
-                    writer.Write(1);
-                    writer.Write(SessionExpires);
-                }
-                else
-                {
-                    writer.Write(0);
-                }
-
-                Serializers.Bytes.Write(writer, AuthKey.Data);
-
-                return stream.ToArray();
-            }
-        }
-
-        public static Session FromBytes(byte[] buffer, ISessionStore store, string sessionUserId)
-        {
-            using (var stream = new MemoryStream(buffer))
-            using (var reader = new BinaryReader(stream))
-            {
-                var id = reader.ReadUInt64();
-                var sequence = reader.ReadInt32();
-                var salt = reader.ReadUInt64();
-                var lastMessageId = reader.ReadInt64();
-                var timeOffset = reader.ReadInt32();
-                var serverAddress = Serializers.String.Read(reader);
-                var port = reader.ReadInt32();
-
-                var isAuthExsist = reader.ReadInt32() == 1;
-                int sessionExpires = 0;
-                TLUser TLUser = null;
-                if (isAuthExsist)
-                {
-                    sessionExpires = reader.ReadInt32();
-                }
-
-                var authData = Serializers.Bytes.Read(reader);
-                var defaultDataCenter = new DataCenter (null, serverAddress, port);
-
-                return new Session()
-                {
-                    AuthKey = new AuthKey(authData),
-                    Id = id,
-                    Salt = salt,
-                    Sequence = sequence,
-                    LastMessageId = lastMessageId,
-                    TimeOffset = timeOffset,
-                    SessionExpires = sessionExpires,
-                    AuthenticatedSuccessfully = isAuthExsist,
-                    SessionUserId = sessionUserId,
-                    DataCenter = defaultDataCenter,
-                };
-            }
-        }
 
         public long GetNewMessageId()
         {
