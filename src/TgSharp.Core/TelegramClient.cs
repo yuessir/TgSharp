@@ -28,6 +28,7 @@ namespace TgSharp.Core
     {
         private MtProtoSender sender;
         private TcpTransport transport;
+        private int autoReconnectMaxAttempts;
         private readonly string apiHash;
         private readonly int apiId;
         private readonly string sessionUserId;
@@ -74,17 +75,18 @@ namespace TgSharp.Core
             this.sessionUserId = sessionUserId;
         }
 
-        public async Task ConnectAsync (CancellationToken token = default (CancellationToken))
+        public async Task ConnectAsync (int autoReconnectMaxAttempts = 0, CancellationToken token = default (CancellationToken))
         {
-            await ConnectInternalAsync(false, token);
+            await ConnectInternalAsync(false, autoReconnectMaxAttempts, token);
         }
 
-        private async Task ConnectInternalAsync (bool reconnect = false, CancellationToken token = default (CancellationToken))
+        private async Task ConnectInternalAsync (bool reconnect = false, int autoReconnectMaxAttempts = 0, CancellationToken token = default (CancellationToken))
         {
             token.ThrowIfCancellationRequested();
 
             Session = SessionFactory.TryLoadOrCreateNew (store, sessionUserId);
             transport = new TcpTransport (Session.DataCenter.Address, Session.DataCenter.Port, this.handler);
+            this.autoReconnectMaxAttempts = autoReconnectMaxAttempts;
 
             if (Session.AuthKey == null || reconnect)
             {
@@ -154,7 +156,7 @@ namespace TgSharp.Core
             Session.DataCenter = dataCenter;
             this.store.Save (Session);
 
-            await ConnectInternalAsync(true, token).ConfigureAwait(false);
+            await ConnectInternalAsync(true, autoReconnectMaxAttempts, token).ConfigureAwait(false);
 
             if (Session.AuthenticatedSuccessfully)
             {
@@ -169,13 +171,16 @@ namespace TgSharp.Core
             if (sender == null)
                 throw new InvalidOperationException("Not connected!");
 
-            var completed = false;
+            bool completed = false;
+            int attempts = 0;
+
             while (!completed)
             {
                 try
                 {
                     await sender.Send(request, token).ConfigureAwait(false);
                     await sender.Receive(request, token).ConfigureAwait(false);
+
                     completed = true;
                 }
                 catch (DataCenterMigrationException e)
@@ -187,8 +192,23 @@ namespace TgSharp.Core
                     }
 
                     await ReconnectToDcAsync(e.DC, token).ConfigureAwait(false);
+
                     // prepare the request for another try
                     request.ConfirmReceived = false;
+                }
+                catch (IOException)
+                {
+                    if (attempts++ < autoReconnectMaxAttempts)
+                    {
+                        await ConnectInternalAsync(false, autoReconnectMaxAttempts, token).ConfigureAwait(false);
+
+                        // prepare the request for another try
+                        request.ConfirmReceived = false;
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
         }
