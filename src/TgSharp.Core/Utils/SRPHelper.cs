@@ -1,15 +1,11 @@
 ﻿using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using TgSharp.Core.MTProto.Crypto;
 using TgSharp.TL;
 using TgSharp.TL.Account;
@@ -20,10 +16,9 @@ namespace TgSharp.Core.Utils
     {
         public static async Task<TLInputCheckPasswordSRP> CheckPassword(this TelegramClient client, string password, CancellationToken token = default)
         {
-            var passwordSettings = await client.SendRequestAsync<TLPassword>(new TLRequestGetPassword { }, token);
+            var passwordSettings = await client.SendRequestAsync<TLPassword>(new TLRequestGetPassword(), token);
 
-            var algoSettings = passwordSettings.CurrentAlgo as TLPasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow;
-            if (algoSettings == null)
+            if (!(passwordSettings.CurrentAlgo is TLPasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow algoSettings))
                 throw new NotImplementedException();
 
             var passwordInBytes = Encoding.UTF8.GetBytes(password);
