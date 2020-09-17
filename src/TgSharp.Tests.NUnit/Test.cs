@@ -9,7 +9,7 @@ namespace TgSharp.Tests
     [TestFixture]
     public class TgSharpTestsNUnit : TgSharpTests
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Init()
         {
             base.Init(o => Assert.IsNotNull(o), b => Assert.IsTrue(b));
