@@ -266,7 +266,7 @@ namespace TgSharp.Core
             return (T)result;
         }
 
-        internal async Task<T> SendAuthenticatedRequestAsync<T>(TLMethod methodToExecute, CancellationToken token = default(CancellationToken))
+        public async Task<T> SendAuthenticatedRequestAsync<T>(TLMethod methodToExecute, CancellationToken token = default(CancellationToken))
         {
             if (!IsUserAuthorized())
                 throw new InvalidOperationException("Authorize user first!");
