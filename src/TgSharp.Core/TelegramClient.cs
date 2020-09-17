@@ -228,33 +228,32 @@ namespace TgSharp.Core
             {
                 await RequestWithDcMigration(request, token).ConfigureAwait(false);
             }
-            catch (CloudPasswordNeededException ex)
+            catch (CloudPasswordNeededException)
             {
                 if (password != "")
                 {
-                    requestCheckPassword = new TLRequestCheckPassword { Password = await SRPHelper.CheckPassword(this, password, token) };
+                    requestCheckPassword = new TLRequestCheckPassword { Password = await this.CheckPassword(password, token) };
                     await RequestWithDcMigration(requestCheckPassword, token).ConfigureAwait(false);
                 }
-                else throw ex;
+                else throw;
             }
 
-            if (requestCheckPassword == null && request.Response is TLAuthorization)
+            if (requestCheckPassword == null && request.Response is TLAuthorization authorization1)
             {
-                OnUserAuthenticated(((TLUser)((TLAuthorization)request.Response).User));
-                return ((TLUser)((TLAuthorization)request.Response).User);
+                OnUserAuthenticated(((TLUser)authorization1.User));
+                return ((TLUser)authorization1.User);
             }
-            else if (requestCheckPassword != null && requestCheckPassword.Response is TLAuthorization)
+
+            if (requestCheckPassword?.Response is TLAuthorization authorization2)
             {
-                OnUserAuthenticated(((TLUser)((TLAuthorization)requestCheckPassword.Response).User));
-                return ((TLUser)((TLAuthorization)requestCheckPassword.Response).User);
+                OnUserAuthenticated(((TLUser)authorization2.User));
+                return ((TLUser)authorization2.User);
             }
-            else
-            {
-                var signUpRequest = new TLRequestSignUp() { PhoneNumber = phoneNumber, PhoneCodeHash = phoneCodeHash, FirstName = firstName, LastName = lastName };
-                await RequestWithDcMigration(signUpRequest, token).ConfigureAwait(false);
-                OnUserAuthenticated((TLUser)signUpRequest.Response.User);
-                return (TLUser)signUpRequest.Response.User;
-            }
+
+            var signUpRequest = new TLRequestSignUp() { PhoneNumber = phoneNumber, PhoneCodeHash = phoneCodeHash, FirstName = firstName, LastName = lastName };
+            await RequestWithDcMigration(signUpRequest, token).ConfigureAwait(false);
+            OnUserAuthenticated((TLUser)signUpRequest.Response.User);
+            return (TLUser)signUpRequest.Response.User;
         }
 
         public async Task<T> SendRequestAsync<T>(TLMethod methodToExecute, CancellationToken token = default(CancellationToken))
