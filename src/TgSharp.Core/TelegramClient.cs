@@ -38,7 +38,6 @@ namespace TgSharp.Core
         private readonly DataCenterIPVersion dcIpVersion;
 
         public Session Session { get; private set; }
-        public TLInputCheckPasswordSRP InputCheckPasswordSRP { get; private set; }
 
         /// <summary>
         /// Creates a new TelegramClient
@@ -253,10 +252,7 @@ namespace TgSharp.Core
             {
                 if (password != "")
                 {
-                    InputCheckPasswordSRP = await this.CheckPassword(password, token);
-
-                    requestCheckPassword = new TLRequestCheckPassword { Password = InputCheckPasswordSRP };
-
+                    requestCheckPassword = new TLRequestCheckPassword { Password = await this.CheckPassword(password, token) };
                     await RequestWithDcMigration(requestCheckPassword, token).ConfigureAwait(false);
                 }
                 else throw;
