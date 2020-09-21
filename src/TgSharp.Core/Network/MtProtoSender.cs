@@ -39,7 +39,20 @@ namespace TgSharp.Core.Network
 
         private int GenerateSequence(bool confirmed)
         {
-            return confirmed ? session.Sequence++ * 2 + 1 : session.Sequence * 2;
+            lock (session.Lock)
+            {
+                var newSequence = session.Sequence + 1;
+
+                try
+                {
+                    return confirmed ? newSequence * 2 + 1 : newSequence * 2;
+                }
+                finally
+                {
+                    session.Sequence = newSequence;
+                    sessionStore.Save(session);
+                }
+            }
         }
 
         public async Task Send(TLMethod request, CancellationToken token = default(CancellationToken))

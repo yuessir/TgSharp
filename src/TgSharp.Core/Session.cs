@@ -214,6 +214,7 @@ namespace TgSharp.Core
         public AuthKey AuthKey { get; set; }
         public ulong Id { get; set; }
         public int Sequence { get; set; }
+        internal object Lock { get; } = new object();
         public ulong Salt { get; set; }
         public int TimeOffset { get; set; }
         public long LastMessageId { get; set; }
