@@ -102,11 +102,11 @@ namespace TgSharp.Core
             var request = new TLRequestInitConnection()
             {
                 ApiId = apiId,
-                AppVersion = "1.0.0",
-                DeviceModel = "PC",
+                AppVersion = "2.7.1 x64",
+                DeviceModel = "PC 64bit",
                 LangCode = "en",
                 Query = config,
-                SystemVersion = "Win 10.0",
+                SystemVersion = "Windows 10",
                 SystemLangCode = "en",
                 LangPack = ""
             };
