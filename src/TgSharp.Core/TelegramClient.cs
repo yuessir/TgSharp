@@ -218,7 +218,7 @@ namespace TgSharp.Core
             return Session.AuthenticatedSuccessfully;
         }
 
-        public async Task<string> SendCodeRequestAsync(string phoneNumber, CancellationToken token = default(CancellationToken))
+        public async Task<TLSentCode> SendCodeRequestAsync(string phoneNumber, CancellationToken token = default(CancellationToken))
         {
             if (String.IsNullOrWhiteSpace(phoneNumber))
                 throw new ArgumentNullException(nameof(phoneNumber));
@@ -227,7 +227,7 @@ namespace TgSharp.Core
 
             await RequestWithDcMigration(request, token).ConfigureAwait(false);
 
-            return request.Response.PhoneCodeHash;
+            return request.Response;
         }
 
         public async Task<TLUser> MakeAuthAsync(string phoneNumber, string phoneCodeHash, string code, string password = "", string firstName = "", string lastName = "", CancellationToken token = default(CancellationToken))
