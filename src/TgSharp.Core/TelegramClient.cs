@@ -270,10 +270,20 @@ namespace TgSharp.Core
                 return ((TLUser)authorization2.User);
             }
 
-            var signUpRequest = new TLRequestSignUp() { PhoneNumber = phoneNumber, PhoneCodeHash = phoneCodeHash, FirstName = firstName, LastName = lastName };
-            await RequestWithDcMigration(signUpRequest, token).ConfigureAwait(false);
-            OnUserAuthenticated((TLUser)signUpRequest.Response.User);
-            return (TLUser)signUpRequest.Response.User;
+            while (true)
+            {
+                try
+                {
+                    var signUpRequest = new TLRequestSignUp() { PhoneNumber = phoneNumber, PhoneCodeHash = phoneCodeHash, FirstName = firstName, LastName = lastName };
+                    await RequestWithDcMigration(signUpRequest, token).ConfigureAwait(false);
+                    OnUserAuthenticated((TLUser)signUpRequest.Response.User);
+                    return (TLUser)signUpRequest.Response.User;
+                }
+                catch (FloodException ex)
+                {
+                    await Task.Delay(ex.TimeToWait, token);
+                }
+            }
         }
 
         public async Task<T> SendRequestAsync<T>(TLMethod methodToExecute, CancellationToken token = default(CancellationToken))
