@@ -27,7 +27,10 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Stopped ? (Flags | 1) : (Flags & ~1);
+            Flags = Period != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -45,6 +48,7 @@ namespace TgSharp.TL
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             ObjectUtils.SerializeObject(GeoPoint, bw);
             if ((Flags & 2) != 0)

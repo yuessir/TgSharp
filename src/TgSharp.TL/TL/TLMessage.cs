@@ -48,7 +48,28 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Out ? (Flags | 2) : (Flags & ~2);
+            Flags = Mentioned ? (Flags | 16) : (Flags & ~16);
+            Flags = MediaUnread ? (Flags | 32) : (Flags & ~32);
+            Flags = Silent ? (Flags | 8192) : (Flags & ~8192);
+            Flags = Post ? (Flags | 16384) : (Flags & ~16384);
+            Flags = FromScheduled ? (Flags | 262144) : (Flags & ~262144);
+            Flags = Legacy ? (Flags | 524288) : (Flags & ~524288);
+            Flags = EditHide ? (Flags | 2097152) : (Flags & ~2097152);
+            Flags = FromId != null ? (Flags | 256) : (Flags & ~256);
+            Flags = FwdFrom != null ? (Flags | 4) : (Flags & ~4);
+            Flags = ViaBotId != null ? (Flags | 2048) : (Flags & ~2048);
+            Flags = ReplyToMsgId != null ? (Flags | 8) : (Flags & ~8);
+            Flags = Media != null ? (Flags | 512) : (Flags & ~512);
+            Flags = ReplyMarkup != null ? (Flags | 64) : (Flags & ~64);
+            Flags = Entities != null ? (Flags | 128) : (Flags & ~128);
+            Flags = Views != null ? (Flags | 1024) : (Flags & ~1024);
+            Flags = EditDate != null ? (Flags | 32768) : (Flags & ~32768);
+            Flags = PostAuthor != null ? (Flags | 65536) : (Flags & ~65536);
+            Flags = GroupedId != null ? (Flags | 131072) : (Flags & ~131072);
+            Flags = RestrictionReason != null ? (Flags | 4194304) : (Flags & ~4194304);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -131,6 +152,7 @@ namespace TgSharp.TL
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             bw.Write(Id);
             if ((Flags & 256) != 0)

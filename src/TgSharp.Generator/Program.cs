@@ -174,7 +174,7 @@ namespace TgSharp.Generator
                     temp = temp.Replace("/* PARAMS */", fields);
                     #endregion
                     #region ComputeFlagFunc
-                    if (!c.Params.Any(x => x.Name == "Flags")) temp = temp.Replace("/* COMPUTE */", "// do nothing");
+                    if (!c.Params.Any(x => x.Name.ToLower() == "flags")) temp = temp.Replace("/* COMPUTE */", "// do nothing");
                     else
                     {
                         var compute = "Flags = 0;" + Environment.NewLine;
@@ -195,13 +195,13 @@ namespace TgSharp.Generator
                     #region SerializeFunc
                     var serialize = String.Empty;
                     first = true;
-                    if (c.Params.Any (x => x.Name == "Flags")) {
+                    if (c.Params.Any (x => x.Name == "flags")) {
                         serialize += "ComputeFlags();" +
                                     Environment.NewLine + "            " +
                                      "bw.Write(Flags);";
                         first = false;
                     }
-                    foreach (var p in c.Params.Where(x => x.Name != "Flags"))
+                    foreach (var p in c.Params.Where(x => x.Name != "flags"))
                     {
                         var code = WriteWriteCode (p);
                         if (String.IsNullOrEmpty(code))
@@ -285,7 +285,7 @@ namespace TgSharp.Generator
                     temp = temp.Replace("/* PARAMS */", fields);
                     #endregion
                     #region ComputeFlagFunc
-                    if (!c.Params.Any(x => x.Name == "Flags")) temp = temp.Replace("/* COMPUTE */", "// do nothing");
+                    if (!c.Params.Any(x => x.Name.ToLower() == "flags")) temp = temp.Replace("/* COMPUTE */", "// do nothing");
                     else
                     {
                         var compute = "Flags = 0;" + Environment.NewLine;
@@ -306,12 +306,12 @@ namespace TgSharp.Generator
                     #region SerializeFunc
                     var serialize = String.Empty;
                     first = true;
-                    if (c.Params.Any (x => x.Name == "Flags")) {
+                    if (c.Params.Any (x => x.Name.ToLower() == "flags")) {
                         serialize += "ComputeFlags();" + Environment.NewLine +
                                      "            " + "bw.Write(Flags);";
                         first = false;
                     }
-                    foreach (var p in c.Params.Where(x => x.Name != "Flags"))
+                    foreach (var p in c.Params.Where(x => x.Name != "flags"))
                     {
                         var code = WriteWriteCode (p);
                         if (String.IsNullOrEmpty (code))

@@ -27,7 +27,10 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Stickers != null ? (Flags | 1) : (Flags & ~1);
+            Flags = TtlSeconds != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -49,6 +52,7 @@ namespace TgSharp.TL
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             ObjectUtils.SerializeObject(File, bw);
             if ((Flags & 1) != 0)

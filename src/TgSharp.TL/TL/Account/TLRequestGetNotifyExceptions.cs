@@ -27,7 +27,10 @@ namespace TgSharp.TL.Account
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = CompareSound ? (Flags | 2) : (Flags & ~2);
+            Flags = Peer != null ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -44,6 +47,7 @@ namespace TgSharp.TL.Account
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             if ((Flags & 1) != 0)
                 ObjectUtils.SerializeObject(Peer, bw);

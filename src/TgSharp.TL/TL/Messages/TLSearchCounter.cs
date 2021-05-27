@@ -27,7 +27,9 @@ namespace TgSharp.TL.Messages
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Inexact ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -41,6 +43,7 @@ namespace TgSharp.TL.Messages
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             ObjectUtils.SerializeObject(Filter, bw);
             bw.Write(Count);

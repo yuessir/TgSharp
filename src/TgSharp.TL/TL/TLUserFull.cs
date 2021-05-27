@@ -38,7 +38,18 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Blocked ? (Flags | 1) : (Flags & ~1);
+            Flags = PhoneCallsAvailable ? (Flags | 16) : (Flags & ~16);
+            Flags = PhoneCallsPrivate ? (Flags | 32) : (Flags & ~32);
+            Flags = CanPinMessage ? (Flags | 128) : (Flags & ~128);
+            Flags = HasScheduled ? (Flags | 4096) : (Flags & ~4096);
+            Flags = About != null ? (Flags | 2) : (Flags & ~2);
+            Flags = ProfilePhoto != null ? (Flags | 4) : (Flags & ~4);
+            Flags = BotInfo != null ? (Flags | 8) : (Flags & ~8);
+            Flags = PinnedMsgId != null ? (Flags | 64) : (Flags & ~64);
+            Flags = FolderId != null ? (Flags | 2048) : (Flags & ~2048);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -83,6 +94,7 @@ namespace TgSharp.TL
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             ObjectUtils.SerializeObject(User, bw);
             if ((Flags & 2) != 0)

@@ -35,7 +35,16 @@ namespace TgSharp.TL.Account
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = HasRecovery ? (Flags | 1) : (Flags & ~1);
+            Flags = HasSecureValues ? (Flags | 2) : (Flags & ~2);
+            Flags = HasPassword ? (Flags | 4) : (Flags & ~4);
+            Flags = CurrentAlgo != null ? (Flags | 4) : (Flags & ~4);
+            Flags = SrpB != null ? (Flags | 4) : (Flags & ~4);
+            Flags = SrpId != null ? (Flags | 4) : (Flags & ~4);
+            Flags = Hint != null ? (Flags | 8) : (Flags & ~8);
+            Flags = EmailUnconfirmedPattern != null ? (Flags | 16) : (Flags & ~16);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -77,6 +86,7 @@ namespace TgSharp.TL.Account
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             if ((Flags & 4) != 0)
                 ObjectUtils.SerializeObject(CurrentAlgo, bw);

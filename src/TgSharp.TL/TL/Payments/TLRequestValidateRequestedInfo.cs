@@ -28,7 +28,9 @@ namespace TgSharp.TL.Payments
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Save ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -42,6 +44,7 @@ namespace TgSharp.TL.Payments
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             bw.Write(MsgId);
             ObjectUtils.SerializeObject(Info, bw);

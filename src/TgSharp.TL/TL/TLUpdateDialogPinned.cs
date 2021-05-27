@@ -27,7 +27,10 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Pinned ? (Flags | 1) : (Flags & ~1);
+            Flags = FolderId != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -45,6 +48,7 @@ namespace TgSharp.TL
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             if ((Flags & 2) != 0)
                 bw.Write(FolderId.Value);

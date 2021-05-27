@@ -38,7 +38,22 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Join ? (Flags | 1) : (Flags & ~1);
+            Flags = Leave ? (Flags | 2) : (Flags & ~2);
+            Flags = Invite ? (Flags | 4) : (Flags & ~4);
+            Flags = Ban ? (Flags | 8) : (Flags & ~8);
+            Flags = Unban ? (Flags | 16) : (Flags & ~16);
+            Flags = Kick ? (Flags | 32) : (Flags & ~32);
+            Flags = Unkick ? (Flags | 64) : (Flags & ~64);
+            Flags = Promote ? (Flags | 128) : (Flags & ~128);
+            Flags = Demote ? (Flags | 256) : (Flags & ~256);
+            Flags = Info ? (Flags | 512) : (Flags & ~512);
+            Flags = Settings ? (Flags | 1024) : (Flags & ~1024);
+            Flags = Pinned ? (Flags | 2048) : (Flags & ~2048);
+            Flags = Edit ? (Flags | 4096) : (Flags & ~4096);
+            Flags = Delete ? (Flags | 8192) : (Flags & ~8192);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -63,6 +78,7 @@ namespace TgSharp.TL
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
         }
     }

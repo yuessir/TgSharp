@@ -29,7 +29,10 @@ namespace TgSharp.TL.Payments
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = RequestedInfoId != null ? (Flags | 1) : (Flags & ~1);
+            Flags = ShippingOptionId != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -52,6 +55,7 @@ namespace TgSharp.TL.Payments
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             bw.Write(MsgId);
             if ((Flags & 1) != 0)

@@ -56,7 +56,30 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = CanViewParticipants ? (Flags | 8) : (Flags & ~8);
+            Flags = CanSetUsername ? (Flags | 64) : (Flags & ~64);
+            Flags = CanSetStickers ? (Flags | 128) : (Flags & ~128);
+            Flags = HiddenPrehistory ? (Flags | 1024) : (Flags & ~1024);
+            Flags = CanViewStats ? (Flags | 4096) : (Flags & ~4096);
+            Flags = CanSetLocation ? (Flags | 65536) : (Flags & ~65536);
+            Flags = HasScheduled ? (Flags | 524288) : (Flags & ~524288);
+            Flags = ParticipantsCount != null ? (Flags | 1) : (Flags & ~1);
+            Flags = AdminsCount != null ? (Flags | 2) : (Flags & ~2);
+            Flags = KickedCount != null ? (Flags | 4) : (Flags & ~4);
+            Flags = BannedCount != null ? (Flags | 4) : (Flags & ~4);
+            Flags = OnlineCount != null ? (Flags | 8192) : (Flags & ~8192);
+            Flags = MigratedFromChatId != null ? (Flags | 16) : (Flags & ~16);
+            Flags = MigratedFromMaxId != null ? (Flags | 16) : (Flags & ~16);
+            Flags = PinnedMsgId != null ? (Flags | 32) : (Flags & ~32);
+            Flags = Stickerset != null ? (Flags | 256) : (Flags & ~256);
+            Flags = AvailableMinId != null ? (Flags | 512) : (Flags & ~512);
+            Flags = FolderId != null ? (Flags | 2048) : (Flags & ~2048);
+            Flags = LinkedChatId != null ? (Flags | 16384) : (Flags & ~16384);
+            Flags = Location != null ? (Flags | 32768) : (Flags & ~32768);
+            Flags = SlowmodeSeconds != null ? (Flags | 131072) : (Flags & ~131072);
+            Flags = SlowmodeNextSendDate != null ? (Flags | 262144) : (Flags & ~262144);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -159,6 +182,7 @@ namespace TgSharp.TL
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             bw.Write(Id);
             StringUtil.Serialize(About, bw);

@@ -29,7 +29,11 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = MessageTopColor != null ? (Flags | 1) : (Flags & ~1);
+            Flags = MessageBottomColor != null ? (Flags | 1) : (Flags & ~1);
+            Flags = Wallpaper != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -57,6 +61,7 @@ namespace TgSharp.TL
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             ObjectUtils.SerializeObject(BaseTheme, bw);
             bw.Write(AccentColor);

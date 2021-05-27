@@ -31,7 +31,12 @@ namespace TgSharp.TL.Channels
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Broadcast ? (Flags | 1) : (Flags & ~1);
+            Flags = Megagroup ? (Flags | 2) : (Flags & ~2);
+            Flags = GeoPoint != null ? (Flags | 4) : (Flags & ~4);
+            Flags = Address != null ? (Flags | 4) : (Flags & ~4);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -56,6 +61,7 @@ namespace TgSharp.TL.Channels
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             StringUtil.Serialize(Title, bw);
             StringUtil.Serialize(About, bw);

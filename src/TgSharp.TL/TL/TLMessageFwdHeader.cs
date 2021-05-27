@@ -32,7 +32,15 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = FromId != null ? (Flags | 1) : (Flags & ~1);
+            Flags = FromName != null ? (Flags | 32) : (Flags & ~32);
+            Flags = ChannelId != null ? (Flags | 2) : (Flags & ~2);
+            Flags = ChannelPost != null ? (Flags | 4) : (Flags & ~4);
+            Flags = PostAuthor != null ? (Flags | 8) : (Flags & ~8);
+            Flags = SavedFromPeer != null ? (Flags | 16) : (Flags & ~16);
+            Flags = SavedFromMsgId != null ? (Flags | 16) : (Flags & ~16);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -79,6 +87,7 @@ namespace TgSharp.TL
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             if ((Flags & 1) != 0)
                 bw.Write(FromId.Value);

@@ -32,7 +32,12 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = CanEdit ? (Flags | 1) : (Flags & ~1);
+            Flags = Self ? (Flags | 2) : (Flags & ~2);
+            Flags = InviterId != null ? (Flags | 2) : (Flags & ~2);
+            Flags = Rank != null ? (Flags | 4) : (Flags & ~4);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -59,6 +64,7 @@ namespace TgSharp.TL
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             bw.Write(UserId);
             if ((Flags & 2) != 0)

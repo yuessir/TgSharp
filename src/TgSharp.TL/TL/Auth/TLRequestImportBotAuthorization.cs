@@ -28,7 +28,8 @@ namespace TgSharp.TL.Auth
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -42,6 +43,7 @@ namespace TgSharp.TL.Auth
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             bw.Write(ApiId);
             StringUtil.Serialize(ApiHash, bw);

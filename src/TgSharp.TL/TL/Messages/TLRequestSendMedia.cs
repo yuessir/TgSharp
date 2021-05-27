@@ -36,7 +36,15 @@ namespace TgSharp.TL.Messages
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Silent ? (Flags | 32) : (Flags & ~32);
+            Flags = Background ? (Flags | 64) : (Flags & ~64);
+            Flags = ClearDraft ? (Flags | 128) : (Flags & ~128);
+            Flags = ReplyToMsgId != null ? (Flags | 1) : (Flags & ~1);
+            Flags = ReplyMarkup != null ? (Flags | 4) : (Flags & ~4);
+            Flags = Entities != null ? (Flags | 8) : (Flags & ~8);
+            Flags = ScheduleDate != null ? (Flags | 1024) : (Flags & ~1024);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -74,6 +82,7 @@ namespace TgSharp.TL.Messages
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             ObjectUtils.SerializeObject(Peer, bw);
             if ((Flags & 1) != 0)

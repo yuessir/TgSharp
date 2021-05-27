@@ -32,7 +32,15 @@ namespace TgSharp.TL.Account
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Contacts ? (Flags | 1) : (Flags & ~1);
+            Flags = MessageUsers ? (Flags | 2) : (Flags & ~2);
+            Flags = MessageChats ? (Flags | 4) : (Flags & ~4);
+            Flags = MessageMegagroups ? (Flags | 8) : (Flags & ~8);
+            Flags = MessageChannels ? (Flags | 16) : (Flags & ~16);
+            Flags = Files ? (Flags | 32) : (Flags & ~32);
+            Flags = FileMaxSize != null ? (Flags | 32) : (Flags & ~32);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -54,6 +62,7 @@ namespace TgSharp.TL.Account
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             if ((Flags & 32) != 0)
                 bw.Write(FileMaxSize.Value);

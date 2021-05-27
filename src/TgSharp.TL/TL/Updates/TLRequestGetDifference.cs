@@ -29,7 +29,9 @@ namespace TgSharp.TL.Updates
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = PtsTotalLimit != null ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -48,6 +50,7 @@ namespace TgSharp.TL.Updates
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             bw.Write(Pts);
             if ((Flags & 1) != 0)

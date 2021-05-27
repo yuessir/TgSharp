@@ -36,7 +36,16 @@ namespace TgSharp.TL.Contacts
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Correspondents ? (Flags | 1) : (Flags & ~1);
+            Flags = BotsPm ? (Flags | 2) : (Flags & ~2);
+            Flags = BotsInline ? (Flags | 4) : (Flags & ~4);
+            Flags = PhoneCalls ? (Flags | 8) : (Flags & ~8);
+            Flags = ForwardUsers ? (Flags | 16) : (Flags & ~16);
+            Flags = ForwardChats ? (Flags | 32) : (Flags & ~32);
+            Flags = Groups ? (Flags | 1024) : (Flags & ~1024);
+            Flags = Channels ? (Flags | 32768) : (Flags & ~32768);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -58,6 +67,7 @@ namespace TgSharp.TL.Contacts
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             bw.Write(Offset);
             bw.Write(Limit);

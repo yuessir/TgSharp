@@ -28,7 +28,10 @@ namespace TgSharp.TL.Auth
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = NextType != null ? (Flags | 2) : (Flags & ~2);
+            Flags = Timeout != null ? (Flags | 4) : (Flags & ~4);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -51,6 +54,7 @@ namespace TgSharp.TL.Auth
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             ObjectUtils.SerializeObject(Type, bw);
             StringUtil.Serialize(PhoneCodeHash, bw);

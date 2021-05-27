@@ -29,7 +29,10 @@ namespace TgSharp.TL.Account
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Document != null ? (Flags | 4) : (Flags & ~4);
+            Flags = Settings != null ? (Flags | 8) : (Flags & ~8);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -52,6 +55,7 @@ namespace TgSharp.TL.Account
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             StringUtil.Serialize(Slug, bw);
             StringUtil.Serialize(Title, bw);

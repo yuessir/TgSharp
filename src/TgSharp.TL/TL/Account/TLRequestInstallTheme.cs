@@ -28,7 +28,11 @@ namespace TgSharp.TL.Account
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Dark ? (Flags | 1) : (Flags & ~1);
+            Flags = Format != null ? (Flags | 2) : (Flags & ~2);
+            Flags = Theme != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -50,6 +54,7 @@ namespace TgSharp.TL.Account
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             if ((Flags & 2) != 0)
                 StringUtil.Serialize(Format, bw);

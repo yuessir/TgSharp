@@ -36,7 +36,16 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Out ? (Flags | 2) : (Flags & ~2);
+            Flags = Mentioned ? (Flags | 16) : (Flags & ~16);
+            Flags = MediaUnread ? (Flags | 32) : (Flags & ~32);
+            Flags = Silent ? (Flags | 8192) : (Flags & ~8192);
+            Flags = Post ? (Flags | 16384) : (Flags & ~16384);
+            Flags = Legacy ? (Flags | 524288) : (Flags & ~524288);
+            Flags = FromId != null ? (Flags | 256) : (Flags & ~256);
+            Flags = ReplyToMsgId != null ? (Flags | 8) : (Flags & ~8);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -67,6 +76,7 @@ namespace TgSharp.TL
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             bw.Write(Id);
             if ((Flags & 256) != 0)

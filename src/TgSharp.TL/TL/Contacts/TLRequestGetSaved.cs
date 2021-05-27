@@ -20,7 +20,6 @@ namespace TgSharp.TL.Contacts
             }
         }
 
-        // manual edit: SavedContact -> TLSavedPhoneContact
         public TLVector<TLSavedPhoneContact> Response { get; set; }
 
         public void ComputeFlags()
@@ -41,8 +40,7 @@ namespace TgSharp.TL.Contacts
 
         public override void DeserializeResponse(BinaryReader br)
         {
-            // manual edit: SavedContact -> TLSavedPhoneContact
-            Response = (TLVector<TLSavedPhoneContact>)ObjectUtils.DeserializeVector<TLSavedPhoneContact> (br);
+            Response = (TLVector<TLSavedPhoneContact>)ObjectUtils.DeserializeVector<TLSavedPhoneContact>(br);
         }
     }
 }

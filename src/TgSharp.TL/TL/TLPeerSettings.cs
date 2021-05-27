@@ -30,7 +30,14 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = ReportSpam ? (Flags | 1) : (Flags & ~1);
+            Flags = AddContact ? (Flags | 2) : (Flags & ~2);
+            Flags = BlockContact ? (Flags | 4) : (Flags & ~4);
+            Flags = ShareContact ? (Flags | 8) : (Flags & ~8);
+            Flags = NeedContactsException ? (Flags | 16) : (Flags & ~16);
+            Flags = ReportGeo ? (Flags | 32) : (Flags & ~32);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -47,6 +54,7 @@ namespace TgSharp.TL
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
         }
     }

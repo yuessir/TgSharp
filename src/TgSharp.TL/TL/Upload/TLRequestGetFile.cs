@@ -30,7 +30,10 @@ namespace TgSharp.TL.Upload
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Precise ? (Flags | 1) : (Flags & ~1);
+            Flags = CdnSupported ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -46,6 +49,7 @@ namespace TgSharp.TL.Upload
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             ObjectUtils.SerializeObject(Location, bw);
             bw.Write(Offset);

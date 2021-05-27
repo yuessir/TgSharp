@@ -48,7 +48,27 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = Creator ? (Flags | 1) : (Flags & ~1);
+            Flags = Left ? (Flags | 4) : (Flags & ~4);
+            Flags = Broadcast ? (Flags | 32) : (Flags & ~32);
+            Flags = Verified ? (Flags | 128) : (Flags & ~128);
+            Flags = Megagroup ? (Flags | 256) : (Flags & ~256);
+            Flags = Restricted ? (Flags | 512) : (Flags & ~512);
+            Flags = Signatures ? (Flags | 2048) : (Flags & ~2048);
+            Flags = Min ? (Flags | 4096) : (Flags & ~4096);
+            Flags = Scam ? (Flags | 524288) : (Flags & ~524288);
+            Flags = HasLink ? (Flags | 1048576) : (Flags & ~1048576);
+            Flags = HasGeo ? (Flags | 2097152) : (Flags & ~2097152);
+            Flags = SlowmodeEnabled ? (Flags | 4194304) : (Flags & ~4194304);
+            Flags = AccessHash != null ? (Flags | 8192) : (Flags & ~8192);
+            Flags = Username != null ? (Flags | 64) : (Flags & ~64);
+            Flags = RestrictionReason != null ? (Flags | 512) : (Flags & ~512);
+            Flags = AdminRights != null ? (Flags | 16384) : (Flags & ~16384);
+            Flags = BannedRights != null ? (Flags | 32768) : (Flags & ~32768);
+            Flags = DefaultBannedRights != null ? (Flags | 262144) : (Flags & ~262144);
+            Flags = ParticipantsCount != null ? (Flags | 131072) : (Flags & ~131072);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -111,6 +131,7 @@ namespace TgSharp.TL
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             bw.Write(Id);
             if ((Flags & 8192) != 0)

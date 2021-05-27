@@ -28,7 +28,11 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = NativeNames ? (Flags | 1) : (Flags & ~1);
+            Flags = SelfieRequired ? (Flags | 2) : (Flags & ~2);
+            Flags = TranslationRequired ? (Flags | 4) : (Flags & ~4);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -43,6 +47,7 @@ namespace TgSharp.TL
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             ObjectUtils.SerializeObject(Type, bw);
         }

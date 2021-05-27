@@ -37,7 +37,9 @@ namespace TgSharp.TL.Messages
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+            Flags = FromId != null ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -64,6 +66,7 @@ namespace TgSharp.TL.Messages
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
             bw.Write(Flags);
             ObjectUtils.SerializeObject(Peer, bw);
             StringUtil.Serialize(Q, bw);
