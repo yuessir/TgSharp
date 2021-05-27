@@ -47,7 +47,7 @@ namespace TgSharp.Core.Utils
 
             var U = new BigInteger(1, H(GAForHash, GBForHash));
 
-            
+
             var T = (GB.Subtract(KG_X)).Mod(Prime);
             var S = T.ModPow(U.Multiply(PrivateKey).Add(A), Prime);
             var K_A = H(PadBytesForHash(S.ToByteArrayUnsigned()));
@@ -64,6 +64,33 @@ namespace TgSharp.Core.Utils
                 A = GAForHash,
                 M1 = M1,
                 SrpId = passwordSettings.SrpId.Value
+            };
+        }
+
+
+        public static async Task<TLPasswordInputSettings> SetPassword(this TelegramClient client, string newPassword = null, string hint = null, CancellationToken token = default)
+        {
+            var passwordSettings = await client.SendRequestAsync<TLPassword>(new TLRequestGetPassword { }, token);
+
+            var algoSettings = passwordSettings.NewAlgo as TLPasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow;
+            if (algoSettings == null)
+                throw new NotImplementedException();
+
+            var passwordInBytes = Encoding.UTF8.GetBytes(newPassword);
+
+            algoSettings.Salt1 = algoSettings.Salt1.Concat(passwordSettings.SecureRandom.Take(32)).ToArray();
+
+            var x = new BigInteger(1, PH2(passwordInBytes, algoSettings.Salt1, algoSettings.Salt2));
+            var g = BigInteger.ValueOf(algoSettings.G);
+            var p = new BigInteger(1, algoSettings.P);
+
+            var v = g.ModPow(x, p);
+
+            return new TLPasswordInputSettings()
+            {
+                Hint = hint,
+                NewAlgo = algoSettings,
+                NewPasswordHash = PadBigNumForHash(v)
             };
         }
 
