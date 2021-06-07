@@ -62,7 +62,7 @@ namespace TgSharp.Core
 
             if (store == null)
             {
-                store = JsonFileSessionStore.DefaultSessionStore ();
+                store = JsonFileSessionStore.DefaultSessionStore();
             }
 
             this.store = store;
@@ -75,17 +75,17 @@ namespace TgSharp.Core
             this.sessionUserId = sessionUserId;
         }
 
-        public async Task ConnectAsync (int autoReconnectMaxAttempts = 0, CancellationToken token = default (CancellationToken))
+        public async Task ConnectAsync(int autoReconnectMaxAttempts = 0, CancellationToken token = default(CancellationToken))
         {
             await ConnectInternalAsync(false, autoReconnectMaxAttempts, token);
         }
 
-        private async Task ConnectInternalAsync (bool reconnect = false, int autoReconnectMaxAttempts = 0, CancellationToken token = default (CancellationToken))
+        private async Task ConnectInternalAsync(bool reconnect = false, int autoReconnectMaxAttempts = 0, CancellationToken token = default(CancellationToken))
         {
             token.ThrowIfCancellationRequested();
 
-            Session = SessionFactory.TryLoadOrCreateNew (store, sessionUserId);
-            transport = new TcpTransport (Session.DataCenter.Address, Session.DataCenter.Port, this.handler);
+            Session = SessionFactory.TryLoadOrCreateNew(store, sessionUserId);
+            transport = new TcpTransport(Session.DataCenter.Address, Session.DataCenter.Port, this.handler);
             this.autoReconnectMaxAttempts = autoReconnectMaxAttempts;
 
             if (Session.AuthKey == null || reconnect)
@@ -128,7 +128,7 @@ namespace TgSharp.Core
             if (Session.AuthenticatedSuccessfully)
             {
                 TLRequestExportAuthorization exportAuthorization = new TLRequestExportAuthorization() { DcId = dcId };
-                exported = await SendRequestAsync<TLExportedAuthorization>(exportAuthorization, token).ConfigureAwait(false);
+                exported = await SendRequestAsync<TLExportedAuthorization>(exportAuthorization, token: token).ConfigureAwait(false);
             }
 
             IEnumerable<TLDcOption> dcs;
@@ -139,7 +139,7 @@ namespace TgSharp.Core
             else
                 dcs = dcOptions.Where(d => d.Id == dcId); // any
 
-            dcs = dcs.Where (d => !d.MediaOnly);
+            dcs = dcs.Where(d => !d.MediaOnly);
 
             TLDcOption dc;
             if (dcIpVersion != DataCenterIPVersion.Default)
@@ -151,17 +151,17 @@ namespace TgSharp.Core
             }
             else
                 dc = dcs.First();
-            
-            var dataCenter = new DataCenter (dcId, dc.IpAddress, dc.Port);
+
+            var dataCenter = new DataCenter(dcId, dc.IpAddress, dc.Port);
             Session.DataCenter = dataCenter;
-            this.store.Save (Session);
+            this.store.Save(Session);
 
             await ConnectInternalAsync(true, autoReconnectMaxAttempts, token).ConfigureAwait(false);
 
             if (Session.AuthenticatedSuccessfully)
             {
                 TLRequestImportAuthorization importAuthorization = new TLRequestImportAuthorization() { Id = exported.Id, Bytes = exported.Bytes };
-                var imported = await SendRequestAsync<TLAuthorization>(importAuthorization, token).ConfigureAwait(false);
+                var imported = await SendRequestAsync<TLAuthorization>(importAuthorization, token: token).ConfigureAwait(false);
                 OnUserAuthenticated((TLUser)imported.User);
             }
         }
@@ -225,9 +225,20 @@ namespace TgSharp.Core
 
             var request = new TLRequestSendCode() { PhoneNumber = phoneNumber, ApiId = apiId, ApiHash = apiHash, Settings = new TLCodeSettings { } };
 
-            await RequestWithDcMigration(request, token).ConfigureAwait(false);
+            return await SendRequestAsync<TLSentCode>(request, token: token).ConfigureAwait(false);
+        }
 
-            return request.Response;
+        public async Task<TLSentCode> ResendCodeRequestAsync(string phoneNumber, string phoneCodeHash, CancellationToken token = default(CancellationToken))
+        {
+            if (String.IsNullOrWhiteSpace(phoneNumber))
+                throw new ArgumentNullException(nameof(phoneNumber));
+
+            if (String.IsNullOrWhiteSpace(phoneCodeHash))
+                throw new ArgumentNullException(nameof(phoneCodeHash));
+
+            var request = new TLRequestResendCode() { PhoneNumber = phoneNumber, PhoneCodeHash = phoneCodeHash };
+
+            return await SendRequestAsync<TLSentCode>(request, token: token).ConfigureAwait(false);
         }
 
         public async Task<TLUser> MakeAuthAsync(string phoneNumber, string phoneCodeHash, string code, string password = "", string firstName = "", string lastName = "", CancellationToken token = default(CancellationToken))
@@ -286,21 +297,40 @@ namespace TgSharp.Core
             }
         }
 
-        public async Task<T> SendRequestAsync<T>(TLMethod methodToExecute, CancellationToken token = default(CancellationToken))
+        /// <param name="retryOnFloodException">Whether to automatically wait and resend the request when a FloodException shorter than 60 seconds is thrown</param>
+        public async Task<T> SendRequestAsync<T>(TLMethod methodToExecute, bool retryOnFloodException = true, CancellationToken token = default(CancellationToken))
         {
-            await RequestWithDcMigration(methodToExecute, token).ConfigureAwait(false);
+            while (true)
+            {
+                try
+                {
+                    await RequestWithDcMigration(methodToExecute, token).ConfigureAwait(false);
+
+                    break;
+                }
+                catch (FloodException ex)
+                {
+                    if (!retryOnFloodException || ex.TimeToWait > TimeSpan.FromSeconds(60))
+                    {
+                        throw;
+                    }
+
+                    await Task.Delay(ex.TimeToWait.Add(TimeSpan.FromSeconds(1)), token);
+                }
+            }
 
             var result = methodToExecute.GetType().GetProperty("Response").GetValue(methodToExecute);
 
             return (T)result;
         }
 
-        public async Task<T> SendAuthenticatedRequestAsync<T>(TLMethod methodToExecute, CancellationToken token = default(CancellationToken))
+        /// <param name="retryOnFloodException">Whether to automatically wait and resend the request when a FloodException shorter than 60 seconds is thrown</param>
+        public async Task<T> SendAuthenticatedRequestAsync<T>(TLMethod methodToExecute, bool retryOnFloodException = true, CancellationToken token = default(CancellationToken))
         {
             if (!IsUserAuthorized())
                 throw new InvalidOperationException("Authorize user first!");
 
-            return await SendRequestAsync<T>(methodToExecute, token)
+            return await SendRequestAsync<T>(methodToExecute, retryOnFloodException, token)
                 .ConfigureAwait(false);
         }
 
@@ -308,7 +338,7 @@ namespace TgSharp.Core
         {
             var req = new TLRequestUpdateUsername { Username = username };
 
-            return await SendAuthenticatedRequestAsync<TLUser>(req, token)
+            return await SendAuthenticatedRequestAsync<TLUser>(req, token: token)
                 .ConfigureAwait(false);
         }
 
@@ -316,7 +346,7 @@ namespace TgSharp.Core
         {
             var req = new TLRequestCheckUsername { Username = username };
 
-            return await SendAuthenticatedRequestAsync<bool>(req, token)
+            return await SendAuthenticatedRequestAsync<bool>(req, token: token)
                 .ConfigureAwait(false);
         }
 
@@ -324,7 +354,7 @@ namespace TgSharp.Core
         {
             var req = new TLRequestImportContacts { Contacts = new TLVector<TLInputPhoneContact>(contacts) };
 
-            return await SendAuthenticatedRequestAsync<TLImportedContacts>(req, token)
+            return await SendAuthenticatedRequestAsync<TLImportedContacts>(req, token: token)
                 .ConfigureAwait(false);
         }
 
@@ -332,7 +362,7 @@ namespace TgSharp.Core
         {
             var req = new TLRequestDeleteContacts { Id = new TLVector<TLAbsInputUser>(users) };
 
-            return await SendAuthenticatedRequestAsync<bool>(req, token)
+            return await SendAuthenticatedRequestAsync<bool>(req, token: token)
                 .ConfigureAwait(false);
         }
 
@@ -340,7 +370,7 @@ namespace TgSharp.Core
         {
             var req = new TLRequestGetContacts() { Hash = 0 };
 
-            return await SendAuthenticatedRequestAsync<TLContacts>(req, token)
+            return await SendAuthenticatedRequestAsync<TLContacts>(req, token: token)
                 .ConfigureAwait(false);
         }
 
@@ -352,7 +382,7 @@ namespace TgSharp.Core
                         Peer = peer,
                         Message = message,
                         RandomId = Helpers.GenerateRandomLong()
-                    }, token)
+                    }, token: token)
                 .ConfigureAwait(false);
         }
 
@@ -363,7 +393,7 @@ namespace TgSharp.Core
                 Action = new TLSendMessageTypingAction(),
                 Peer = peer
             };
-            return await SendAuthenticatedRequestAsync<Boolean>(req, token)
+            return await SendAuthenticatedRequestAsync<Boolean>(req, token: token)
                 .ConfigureAwait(false);
         }
 
@@ -379,7 +409,7 @@ namespace TgSharp.Core
                 OffsetPeer = offsetPeer,
                 Limit = limit
             };
-            return await SendAuthenticatedRequestAsync<TLAbsDialogs>(req, token)
+            return await SendAuthenticatedRequestAsync<TLAbsDialogs>(req, token: token)
                 .ConfigureAwait(false);
         }
 
@@ -392,7 +422,7 @@ namespace TgSharp.Core
                 ClearDraft = false,
                 Media = new TLInputMediaUploadedPhoto() { File = file },
                 Peer = peer
-            }, token)
+            }, token: token)
                 .ConfigureAwait(false);
         }
 
@@ -411,7 +441,7 @@ namespace TgSharp.Core
                     Attributes = attributes
                 },
                 Peer = peer
-            }, token)
+            }, token: token)
                 .ConfigureAwait(false);
         }
 
@@ -422,7 +452,7 @@ namespace TgSharp.Core
                 Location = location,
                 Limit = filePartSize,
                 Offset = offset
-            }, token)
+            }, token: token)
                 .ConfigureAwait(false);
             return result;
         }
@@ -445,7 +475,7 @@ namespace TgSharp.Core
                 MaxId = maxId,
                 MinId = minId
             };
-            return await SendAuthenticatedRequestAsync<TLAbsMessages>(req, token)
+            return await SendAuthenticatedRequestAsync<TLAbsMessages>(req, token: token)
                 .ConfigureAwait(false);
         }
 
@@ -463,7 +493,7 @@ namespace TgSharp.Core
                 Limit = limit
             };
 
-            return await SendAuthenticatedRequestAsync<TLFound>(r, token)
+            return await SendAuthenticatedRequestAsync<TLFound>(r, token: token)
                 .ConfigureAwait(false);
         }
 
@@ -472,7 +502,7 @@ namespace TgSharp.Core
             Session.AuthenticatedSuccessfully = true;
             Session.SessionExpires = int.MaxValue;
 
-            this.store.Save (Session);
+            this.store.Save(Session);
         }
 
         public bool IsConnected

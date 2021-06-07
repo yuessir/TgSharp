@@ -16,7 +16,7 @@ namespace TgSharp.Core.Utils
     {
         public static async Task<TLInputCheckPasswordSRP> CheckPassword(this TelegramClient client, string password, CancellationToken token = default)
         {
-            var passwordSettings = await client.SendRequestAsync<TLPassword>(new TLRequestGetPassword(), token);
+            var passwordSettings = await client.SendRequestAsync<TLPassword>(new TLRequestGetPassword(), token: token);
 
             if (!(passwordSettings.CurrentAlgo is TLPasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow algoSettings))
                 throw new NotImplementedException();
@@ -69,7 +69,7 @@ namespace TgSharp.Core.Utils
 
         public static async Task<TLPasswordInputSettings> SetPassword(this TelegramClient client, string newPassword = null, string hint = null, CancellationToken token = default)
         {
-            var passwordSettings = await client.SendRequestAsync<TLPassword>(new TLRequestGetPassword(), token);
+            var passwordSettings = await client.SendRequestAsync<TLPassword>(new TLRequestGetPassword(), token: token);
 
             if (!(passwordSettings.NewAlgo is TLPasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow algoSettings))
                 throw new NotImplementedException();
