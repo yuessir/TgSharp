@@ -102,12 +102,12 @@ namespace TgSharp.Core
             var request = new TLRequestInitConnection()
             {
                 ApiId = apiId,
-                AppVersion = "2.7.1 x64",
-                DeviceModel = "PC 64bit",
-                LangCode = "en",
+                AppVersion = "7.8.4",
+                DeviceModel = "iPhone 11",
+                LangCode = "nl",
                 Query = config,
-                SystemVersion = "Windows 10",
-                SystemLangCode = "en",
+                SystemVersion = "iOS 14.4",
+                SystemLangCode = "nl",
                 LangPack = ""
             };
             var invokewithLayer = new TLRequestInvokeWithLayer() { Layer = 108, Query = request };
