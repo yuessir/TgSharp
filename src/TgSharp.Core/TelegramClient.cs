@@ -263,7 +263,7 @@ namespace TgSharp.Core
             }
             catch (CloudPasswordNeededException)
             {
-                if (password != "")
+                if (!string.IsNullOrEmpty(password))
                 {
                     requestCheckPassword = new TLRequestCheckPassword { Password = await this.CheckPassword(password, token) };
                     await RequestWithDcMigration(requestCheckPassword, token).ConfigureAwait(false);
