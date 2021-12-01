@@ -29,9 +29,9 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Video ? (Flags | 4) : (Flags & ~4);
-            Flags = Reason != null ? (Flags | 1) : (Flags & ~1);
-            Flags = Duration != null ? (Flags | 2) : (Flags & ~2);
+Flags = Video ? (Flags | 4) : (Flags & ~4);
+Flags = Reason != null ? (Flags | 1) : (Flags & ~1);
+Flags = Duration != null ? (Flags | 2) : (Flags & ~2);
 
         }
 

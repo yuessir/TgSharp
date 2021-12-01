@@ -29,8 +29,8 @@ namespace TgSharp.TL.Auth
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = NextType != null ? (Flags | 2) : (Flags & ~2);
-            Flags = Timeout != null ? (Flags | 4) : (Flags & ~4);
+Flags = NextType != null ? (Flags | 2) : (Flags & ~2);
+Flags = Timeout != null ? (Flags | 4) : (Flags & ~4);
 
         }
 

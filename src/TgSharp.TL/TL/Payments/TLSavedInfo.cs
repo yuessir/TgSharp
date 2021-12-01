@@ -27,8 +27,8 @@ namespace TgSharp.TL.Payments
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = HasSavedCredentials ? (Flags | 2) : (Flags & ~2);
-            Flags = SavedInfo != null ? (Flags | 1) : (Flags & ~1);
+Flags = HasSavedCredentials ? (Flags | 2) : (Flags & ~2);
+Flags = SavedInfo != null ? (Flags | 1) : (Flags & ~1);
 
         }
 

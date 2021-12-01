@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-923939298)]
+    [TLObject(978610270)]
     public class TLMessagesSlice : TLAbsMessages
     {
         public override int Constructor
         {
             get
             {
-                return -923939298;
+                return 978610270;
             }
         }
 
@@ -24,6 +24,7 @@ namespace TgSharp.TL.Messages
         public bool Inexact { get; set; }
         public int Count { get; set; }
         public int? NextRate { get; set; }
+        public int? OffsetIdOffset { get; set; }
         public TLVector<TLAbsMessage> Messages { get; set; }
         public TLVector<TLAbsChat> Chats { get; set; }
         public TLVector<TLAbsUser> Users { get; set; }
@@ -31,8 +32,9 @@ namespace TgSharp.TL.Messages
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Inexact ? (Flags | 2) : (Flags & ~2);
-            Flags = NextRate != null ? (Flags | 1) : (Flags & ~1);
+Flags = Inexact ? (Flags | 2) : (Flags & ~2);
+Flags = NextRate != null ? (Flags | 1) : (Flags & ~1);
+Flags = OffsetIdOffset != null ? (Flags | 4) : (Flags & ~4);
 
         }
 
@@ -45,6 +47,11 @@ namespace TgSharp.TL.Messages
                 NextRate = br.ReadInt32();
             else
                 NextRate = null;
+
+            if ((Flags & 4) != 0)
+                OffsetIdOffset = br.ReadInt32();
+            else
+                OffsetIdOffset = null;
 
             Messages = (TLVector<TLAbsMessage>)ObjectUtils.DeserializeVector<TLAbsMessage>(br);
             Chats = (TLVector<TLAbsChat>)ObjectUtils.DeserializeVector<TLAbsChat>(br);
@@ -59,6 +66,8 @@ namespace TgSharp.TL.Messages
             bw.Write(Count);
             if ((Flags & 1) != 0)
                 bw.Write(NextRate.Value);
+            if ((Flags & 4) != 0)
+                bw.Write(OffsetIdOffset.Value);
             ObjectUtils.SerializeObject(Messages, bw);
             ObjectUtils.SerializeObject(Chats, bw);
             ObjectUtils.SerializeObject(Users, bw);

@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(1004149726)]
+    [TLObject(1103884886)]
     public class TLChat : TLAbsChat
     {
         public override int Constructor
         {
             get
             {
-                return 1004149726;
+                return 1103884886;
             }
         }
 
@@ -25,7 +25,10 @@ namespace TgSharp.TL
         public bool Kicked { get; set; }
         public bool Left { get; set; }
         public bool Deactivated { get; set; }
-        public int Id { get; set; }
+        public bool CallActive { get; set; }
+        public bool CallNotEmpty { get; set; }
+        public bool Noforwards { get; set; }
+        public long Id { get; set; }
         public string Title { get; set; }
         public TLAbsChatPhoto Photo { get; set; }
         public int ParticipantsCount { get; set; }
@@ -38,13 +41,16 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Creator ? (Flags | 1) : (Flags & ~1);
-            Flags = Kicked ? (Flags | 2) : (Flags & ~2);
-            Flags = Left ? (Flags | 4) : (Flags & ~4);
-            Flags = Deactivated ? (Flags | 32) : (Flags & ~32);
-            Flags = MigratedTo != null ? (Flags | 64) : (Flags & ~64);
-            Flags = AdminRights != null ? (Flags | 16384) : (Flags & ~16384);
-            Flags = DefaultBannedRights != null ? (Flags | 262144) : (Flags & ~262144);
+Flags = Creator ? (Flags | 1) : (Flags & ~1);
+Flags = Kicked ? (Flags | 2) : (Flags & ~2);
+Flags = Left ? (Flags | 4) : (Flags & ~4);
+Flags = Deactivated ? (Flags | 32) : (Flags & ~32);
+Flags = CallActive ? (Flags | 8388608) : (Flags & ~8388608);
+Flags = CallNotEmpty ? (Flags | 16777216) : (Flags & ~16777216);
+Flags = Noforwards ? (Flags | 33554432) : (Flags & ~33554432);
+Flags = MigratedTo != null ? (Flags | 64) : (Flags & ~64);
+Flags = AdminRights != null ? (Flags | 16384) : (Flags & ~16384);
+Flags = DefaultBannedRights != null ? (Flags | 262144) : (Flags & ~262144);
 
         }
 
@@ -55,7 +61,10 @@ namespace TgSharp.TL
             Kicked = (Flags & 2) != 0;
             Left = (Flags & 4) != 0;
             Deactivated = (Flags & 32) != 0;
-            Id = br.ReadInt32();
+            CallActive = (Flags & 8388608) != 0;
+            CallNotEmpty = (Flags & 16777216) != 0;
+            Noforwards = (Flags & 33554432) != 0;
+            Id = br.ReadInt64();
             Title = StringUtil.Deserialize(br);
             Photo = (TLAbsChatPhoto)ObjectUtils.DeserializeObject(br);
             ParticipantsCount = br.ReadInt32();

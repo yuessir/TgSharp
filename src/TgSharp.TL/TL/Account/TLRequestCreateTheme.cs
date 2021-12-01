@@ -30,8 +30,8 @@ namespace TgSharp.TL.Account
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Document != null ? (Flags | 4) : (Flags & ~4);
-            Flags = Settings != null ? (Flags | 8) : (Flags & ~8);
+Flags = Document != null ? (Flags | 4) : (Flags & ~4);
+Flags = Settings != null ? (Flags | 8) : (Flags & ~8);
 
         }
 

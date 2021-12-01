@@ -9,26 +9,26 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(1587647177)]
+    [TLObject(-1649852357)]
     public class TLRequestGetRecentStickers : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return 1587647177;
+                return -1649852357;
             }
         }
 
         public int Flags { get; set; }
         public bool Attached { get; set; }
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public Messages.TLAbsRecentStickers Response { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Attached ? (Flags | 1) : (Flags & ~1);
+Flags = Attached ? (Flags | 1) : (Flags & ~1);
 
         }
 
@@ -36,7 +36,7 @@ namespace TgSharp.TL.Messages
         {
             Flags = br.ReadInt32();
             Attached = (Flags & 1) != 0;
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

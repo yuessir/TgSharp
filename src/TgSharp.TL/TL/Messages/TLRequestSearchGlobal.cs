@@ -9,20 +9,23 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-1083038300)]
+    [TLObject(1271290010)]
     public class TLRequestSearchGlobal : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -1083038300;
+                return 1271290010;
             }
         }
 
         public int Flags { get; set; }
         public int? FolderId { get; set; }
         public string Q { get; set; }
+        public TLAbsMessagesFilter Filter { get; set; }
+        public int MinDate { get; set; }
+        public int MaxDate { get; set; }
         public int OffsetRate { get; set; }
         public TLAbsInputPeer OffsetPeer { get; set; }
         public int OffsetId { get; set; }
@@ -32,7 +35,7 @@ namespace TgSharp.TL.Messages
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = FolderId != null ? (Flags | 1) : (Flags & ~1);
+Flags = FolderId != null ? (Flags | 1) : (Flags & ~1);
 
         }
 
@@ -45,6 +48,9 @@ namespace TgSharp.TL.Messages
                 FolderId = null;
 
             Q = StringUtil.Deserialize(br);
+            Filter = (TLAbsMessagesFilter)ObjectUtils.DeserializeObject(br);
+            MinDate = br.ReadInt32();
+            MaxDate = br.ReadInt32();
             OffsetRate = br.ReadInt32();
             OffsetPeer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
             OffsetId = br.ReadInt32();
@@ -59,6 +65,9 @@ namespace TgSharp.TL.Messages
             if ((Flags & 1) != 0)
                 bw.Write(FolderId.Value);
             StringUtil.Serialize(Q, bw);
+            ObjectUtils.SerializeObject(Filter, bw);
+            bw.Write(MinDate);
+            bw.Write(MaxDate);
             bw.Write(OffsetRate);
             ObjectUtils.SerializeObject(OffsetPeer, bw);
             bw.Write(OffsetId);

@@ -9,20 +9,20 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Account
 {
-    [TLObject(813089983)]
+    [TLObject(1779249670)]
     public class TLRequestUnregisterDevice : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return 813089983;
+                return 1779249670;
             }
         }
 
         public int TokenType { get; set; }
         public string Token { get; set; }
-        public TLVector<int> OtherUids { get; set; }
+        public TLVector<long> OtherUids { get; set; }
         public bool Response { get; set; }
 
         public void ComputeFlags()
@@ -34,7 +34,7 @@ namespace TgSharp.TL.Account
         {
             TokenType = br.ReadInt32();
             Token = StringUtil.Deserialize(br);
-            OtherUids = (TLVector<int>)ObjectUtils.DeserializeVector<int>(br);
+            OtherUids = (TLVector<long>)ObjectUtils.DeserializeVector<long>(br);
         }
 
         public override void SerializeBody(BinaryWriter bw)

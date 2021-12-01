@@ -29,10 +29,10 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = ShowPreviews != null ? (Flags | 1) : (Flags & ~1);
-            Flags = Silent != null ? (Flags | 2) : (Flags & ~2);
-            Flags = MuteUntil != null ? (Flags | 4) : (Flags & ~4);
-            Flags = Sound != null ? (Flags | 8) : (Flags & ~8);
+Flags = ShowPreviews != null ? (Flags | 1) : (Flags & ~1);
+Flags = Silent != null ? (Flags | 2) : (Flags & ~2);
+Flags = MuteUntil != null ? (Flags | 4) : (Flags & ~4);
+Flags = Sound != null ? (Flags | 8) : (Flags & ~8);
 
         }
 

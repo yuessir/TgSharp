@@ -9,20 +9,20 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Auth
 {
-    [TLObject(-1313598185)]
+    [TLObject(-1210022402)]
     public class TLRequestExportLoginToken : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -1313598185;
+                return -1210022402;
             }
         }
 
         public int ApiId { get; set; }
         public string ApiHash { get; set; }
-        public TLVector<int> ExceptIds { get; set; }
+        public TLVector<long> ExceptIds { get; set; }
         public Auth.TLAbsLoginToken Response { get; set; }
 
         public void ComputeFlags()
@@ -34,7 +34,7 @@ namespace TgSharp.TL.Auth
         {
             ApiId = br.ReadInt32();
             ApiHash = StringUtil.Deserialize(br);
-            ExceptIds = (TLVector<int>)ObjectUtils.DeserializeVector<int>(br);
+            ExceptIds = (TLVector<long>)ObjectUtils.DeserializeVector<long>(br);
         }
 
         public override void SerializeBody(BinaryWriter bw)

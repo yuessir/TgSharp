@@ -31,9 +31,9 @@ namespace TgSharp.TL.Messages
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = NoWebpage ? (Flags | 2) : (Flags & ~2);
-            Flags = ReplyToMsgId != null ? (Flags | 1) : (Flags & ~1);
-            Flags = Entities != null ? (Flags | 8) : (Flags & ~8);
+Flags = NoWebpage ? (Flags | 2) : (Flags & ~2);
+Flags = ReplyToMsgId != null ? (Flags | 1) : (Flags & ~1);
+Flags = Entities != null ? (Flags | 8) : (Flags & ~8);
 
         }
 

@@ -26,7 +26,7 @@ namespace TgSharp.TL.Auth
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = TermsOfService != null ? (Flags | 1) : (Flags & ~1);
+Flags = TermsOfService != null ? (Flags | 1) : (Flags & ~1);
 
         }
 

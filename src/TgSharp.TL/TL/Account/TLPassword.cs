@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Account
 {
-    [TLObject(-1390001672)]
+    [TLObject(408623183)]
     public class TLPassword : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return -1390001672;
+                return 408623183;
             }
         }
 
@@ -32,18 +32,20 @@ namespace TgSharp.TL.Account
         public TLAbsPasswordKdfAlgo NewAlgo { get; set; }
         public TLAbsSecurePasswordKdfAlgo NewSecureAlgo { get; set; }
         public byte[] SecureRandom { get; set; }
+        public int? PendingResetDate { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = HasRecovery ? (Flags | 1) : (Flags & ~1);
-            Flags = HasSecureValues ? (Flags | 2) : (Flags & ~2);
-            Flags = HasPassword ? (Flags | 4) : (Flags & ~4);
-            Flags = CurrentAlgo != null ? (Flags | 4) : (Flags & ~4);
-            Flags = SrpB != null ? (Flags | 4) : (Flags & ~4);
-            Flags = SrpId != null ? (Flags | 4) : (Flags & ~4);
-            Flags = Hint != null ? (Flags | 8) : (Flags & ~8);
-            Flags = EmailUnconfirmedPattern != null ? (Flags | 16) : (Flags & ~16);
+Flags = HasRecovery ? (Flags | 1) : (Flags & ~1);
+Flags = HasSecureValues ? (Flags | 2) : (Flags & ~2);
+Flags = HasPassword ? (Flags | 4) : (Flags & ~4);
+Flags = CurrentAlgo != null ? (Flags | 4) : (Flags & ~4);
+Flags = SrpB != null ? (Flags | 4) : (Flags & ~4);
+Flags = SrpId != null ? (Flags | 4) : (Flags & ~4);
+Flags = Hint != null ? (Flags | 8) : (Flags & ~8);
+Flags = EmailUnconfirmedPattern != null ? (Flags | 16) : (Flags & ~16);
+Flags = PendingResetDate != null ? (Flags | 32) : (Flags & ~32);
 
         }
 
@@ -81,6 +83,11 @@ namespace TgSharp.TL.Account
             NewAlgo = (TLAbsPasswordKdfAlgo)ObjectUtils.DeserializeObject(br);
             NewSecureAlgo = (TLAbsSecurePasswordKdfAlgo)ObjectUtils.DeserializeObject(br);
             SecureRandom = BytesUtil.Deserialize(br);
+            if ((Flags & 32) != 0)
+                PendingResetDate = br.ReadInt32();
+            else
+                PendingResetDate = null;
+
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -101,6 +108,8 @@ namespace TgSharp.TL.Account
             ObjectUtils.SerializeObject(NewAlgo, bw);
             ObjectUtils.SerializeObject(NewSecureAlgo, bw);
             BytesUtil.Serialize(SecureRandom, bw);
+            if ((Flags & 32) != 0)
+                bw.Write(PendingResetDate.Value);
         }
     }
 }

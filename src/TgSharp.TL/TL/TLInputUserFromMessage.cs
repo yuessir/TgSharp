@@ -9,20 +9,20 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(756118935)]
+    [TLObject(497305826)]
     public class TLInputUserFromMessage : TLAbsInputUser
     {
         public override int Constructor
         {
             get
             {
-                return 756118935;
+                return 497305826;
             }
         }
 
         public TLAbsInputPeer Peer { get; set; }
         public int MsgId { get; set; }
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
         public void ComputeFlags()
         {
@@ -33,7 +33,7 @@ namespace TgSharp.TL
         {
             Peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
             MsgId = br.ReadInt32();
-            UserId = br.ReadInt32();
+            UserId = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

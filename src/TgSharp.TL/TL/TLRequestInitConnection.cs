@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(2018609336)]
+    [TLObject(-1043505495)]
     public class TLRequestInitConnection : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return 2018609336;
+                return -1043505495;
             }
         }
 
@@ -36,8 +36,8 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Proxy != null ? (Flags | 1) : (Flags & ~1);
-            Flags = Params != null ? (Flags | 2) : (Flags & ~2);
+Flags = Proxy != null ? (Flags | 1) : (Flags & ~1);
+Flags = Params != null ? (Flags | 2) : (Flags & ~2);
 
         }
 

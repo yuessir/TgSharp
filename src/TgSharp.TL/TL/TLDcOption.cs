@@ -34,12 +34,12 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Ipv6 ? (Flags | 1) : (Flags & ~1);
-            Flags = MediaOnly ? (Flags | 2) : (Flags & ~2);
-            Flags = TcpoOnly ? (Flags | 4) : (Flags & ~4);
-            Flags = Cdn ? (Flags | 8) : (Flags & ~8);
-            Flags = Static ? (Flags | 16) : (Flags & ~16);
-            Flags = Secret != null ? (Flags | 1024) : (Flags & ~1024);
+Flags = Ipv6 ? (Flags | 1) : (Flags & ~1);
+Flags = MediaOnly ? (Flags | 2) : (Flags & ~2);
+Flags = TcpoOnly ? (Flags | 4) : (Flags & ~4);
+Flags = Cdn ? (Flags | 8) : (Flags & ~8);
+Flags = Static ? (Flags | 16) : (Flags & ~16);
+Flags = Secret != null ? (Flags | 1024) : (Flags & ~1024);
 
         }
 

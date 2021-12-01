@@ -9,19 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-374917894)]
+    [TLObject(35527382)]
     public class TLPhotoCachedSize : TLAbsPhotoSize
     {
         public override int Constructor
         {
             get
             {
-                return -374917894;
+                return 35527382;
             }
         }
 
         public string Type { get; set; }
-        public TLFileLocationToBeDeprecated Location { get; set; }
         public int W { get; set; }
         public int H { get; set; }
         public byte[] Bytes { get; set; }
@@ -34,7 +33,6 @@ namespace TgSharp.TL
         public override void DeserializeBody(BinaryReader br)
         {
             Type = StringUtil.Deserialize(br);
-            Location = (TLFileLocationToBeDeprecated)ObjectUtils.DeserializeObject(br);
             W = br.ReadInt32();
             H = br.ReadInt32();
             Bytes = BytesUtil.Deserialize(br);
@@ -44,7 +42,6 @@ namespace TgSharp.TL
         {
             bw.Write(Constructor);
             StringUtil.Serialize(Type, bw);
-            ObjectUtils.SerializeObject(Location, bw);
             bw.Write(W);
             bw.Write(H);
             BytesUtil.Serialize(Bytes, bw);

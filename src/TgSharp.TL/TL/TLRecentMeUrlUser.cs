@@ -9,19 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-1917045962)]
+    [TLObject(-1188296222)]
     public class TLRecentMeUrlUser : TLAbsRecentMeUrl
     {
         public override int Constructor
         {
             get
             {
-                return -1917045962;
+                return -1188296222;
             }
         }
 
         public string Url { get; set; }
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
         public void ComputeFlags()
         {
@@ -31,7 +31,7 @@ namespace TgSharp.TL
         public override void DeserializeBody(BinaryReader br)
         {
             Url = StringUtil.Deserialize(br);
-            UserId = br.ReadInt32();
+            UserId = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

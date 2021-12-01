@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(1217033015)]
+    [TLObject(365886720)]
     public class TLMessageActionChatAddUser : TLAbsMessageAction
     {
         public override int Constructor
         {
             get
             {
-                return 1217033015;
+                return 365886720;
             }
         }
 
-        public TLVector<int> Users { get; set; }
+        public TLVector<long> Users { get; set; }
 
         public void ComputeFlags()
         {
@@ -29,7 +29,7 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Users = (TLVector<int>)ObjectUtils.DeserializeVector<int>(br);
+            Users = (TLVector<long>)ObjectUtils.DeserializeVector<long>(br);
         }
 
         public override void SerializeBody(BinaryWriter bw)

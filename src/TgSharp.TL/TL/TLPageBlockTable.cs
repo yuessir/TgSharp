@@ -29,8 +29,8 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Bordered ? (Flags | 1) : (Flags & ~1);
-            Flags = Striped ? (Flags | 2) : (Flags & ~2);
+Flags = Bordered ? (Flags | 1) : (Flags & ~1);
+Flags = Striped ? (Flags | 2) : (Flags & ~2);
 
         }
 

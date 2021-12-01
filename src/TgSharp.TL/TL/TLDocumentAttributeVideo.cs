@@ -30,8 +30,8 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = RoundMessage ? (Flags | 1) : (Flags & ~1);
-            Flags = SupportsStreaming ? (Flags | 2) : (Flags & ~2);
+Flags = RoundMessage ? (Flags | 1) : (Flags & ~1);
+Flags = SupportsStreaming ? (Flags | 2) : (Flags & ~2);
 
         }
 

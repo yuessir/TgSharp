@@ -29,8 +29,8 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Chosen ? (Flags | 1) : (Flags & ~1);
-            Flags = Correct ? (Flags | 2) : (Flags & ~2);
+Flags = Chosen ? (Flags | 1) : (Flags & ~1);
+Flags = Correct ? (Flags | 2) : (Flags & ~2);
 
         }
 

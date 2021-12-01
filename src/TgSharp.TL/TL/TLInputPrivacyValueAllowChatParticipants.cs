@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(1283572154)]
+    [TLObject(-2079962673)]
     public class TLInputPrivacyValueAllowChatParticipants : TLAbsInputPrivacyRule
     {
         public override int Constructor
         {
             get
             {
-                return 1283572154;
+                return -2079962673;
             }
         }
 
-        public TLVector<int> Chats { get; set; }
+        public TLVector<long> Chats { get; set; }
 
         public void ComputeFlags()
         {
@@ -29,7 +29,7 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Chats = (TLVector<int>)ObjectUtils.DeserializeVector<int>(br);
+            Chats = (TLVector<long>)ObjectUtils.DeserializeVector<long>(br);
         }
 
         public override void SerializeBody(BinaryWriter bw)

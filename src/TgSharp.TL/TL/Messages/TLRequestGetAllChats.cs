@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-341307408)]
+    [TLObject(-2023787330)]
     public class TLRequestGetAllChats : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -341307408;
+                return -2023787330;
             }
         }
 
-        public TLVector<int> ExceptIds { get; set; }
+        public TLVector<long> ExceptIds { get; set; }
         public Messages.TLAbsChats Response { get; set; }
 
         public void ComputeFlags()
@@ -30,7 +30,7 @@ namespace TgSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ExceptIds = (TLVector<int>)ObjectUtils.DeserializeVector<int>(br);
+            ExceptIds = (TLVector<long>)ObjectUtils.DeserializeVector<long>(br);
         }
 
         public override void SerializeBody(BinaryWriter bw)

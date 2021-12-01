@@ -9,21 +9,22 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-2045448344)]
+    [TLObject(-1593989278)]
     public class TLRequestSearch : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -2045448344;
+                return -1593989278;
             }
         }
 
         public int Flags { get; set; }
         public TLAbsInputPeer Peer { get; set; }
         public string Q { get; set; }
-        public TLAbsInputUser FromId { get; set; }
+        public TLAbsInputPeer FromId { get; set; }
+        public int? TopMsgId { get; set; }
         public TLAbsMessagesFilter Filter { get; set; }
         public int MinDate { get; set; }
         public int MaxDate { get; set; }
@@ -32,13 +33,14 @@ namespace TgSharp.TL.Messages
         public int Limit { get; set; }
         public int MaxId { get; set; }
         public int MinId { get; set; }
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public Messages.TLAbsMessages Response { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = FromId != null ? (Flags | 1) : (Flags & ~1);
+Flags = FromId != null ? (Flags | 1) : (Flags & ~1);
+Flags = TopMsgId != null ? (Flags | 2) : (Flags & ~2);
 
         }
 
@@ -48,9 +50,14 @@ namespace TgSharp.TL.Messages
             Peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
             Q = StringUtil.Deserialize(br);
             if ((Flags & 1) != 0)
-                FromId = (TLAbsInputUser)ObjectUtils.DeserializeObject(br);
+                FromId = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
             else
                 FromId = null;
+
+            if ((Flags & 2) != 0)
+                TopMsgId = br.ReadInt32();
+            else
+                TopMsgId = null;
 
             Filter = (TLAbsMessagesFilter)ObjectUtils.DeserializeObject(br);
             MinDate = br.ReadInt32();
@@ -60,7 +67,7 @@ namespace TgSharp.TL.Messages
             Limit = br.ReadInt32();
             MaxId = br.ReadInt32();
             MinId = br.ReadInt32();
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -72,6 +79,8 @@ namespace TgSharp.TL.Messages
             StringUtil.Serialize(Q, bw);
             if ((Flags & 1) != 0)
                 ObjectUtils.SerializeObject(FromId, bw);
+            if ((Flags & 2) != 0)
+                bw.Write(TopMsgId.Value);
             ObjectUtils.SerializeObject(Filter, bw);
             bw.Write(MinDate);
             bw.Write(MaxDate);

@@ -9,19 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-523384512)]
+    [TLObject(-1246823043)]
     public class TLUpdateBotShippingQuery : TLAbsUpdate
     {
         public override int Constructor
         {
             get
             {
-                return -523384512;
+                return -1246823043;
             }
         }
 
         public long QueryId { get; set; }
-        public int UserId { get; set; }
+        public long UserId { get; set; }
         public byte[] Payload { get; set; }
         public TLPostAddress ShippingAddress { get; set; }
 
@@ -33,7 +33,7 @@ namespace TgSharp.TL
         public override void DeserializeBody(BinaryReader br)
         {
             QueryId = br.ReadInt64();
-            UserId = br.ReadInt32();
+            UserId = br.ReadInt64();
             Payload = BytesUtil.Deserialize(br);
             ShippingAddress = (TLPostAddress)ObjectUtils.DeserializeObject(br);
         }

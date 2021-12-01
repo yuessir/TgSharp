@@ -6,17 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 using TgSharp.TL;
+using TgSharp.TL.Messages;
 
 namespace TgSharp.TL
 {
-    [TLObject(763976820)]
+    [TLObject(-374179305)]
     public class TLChannelFull : TLAbsChatFull
     {
         public override int Constructor
         {
             get
             {
-                return 763976820;
+                return -374179305;
             }
         }
 
@@ -25,10 +26,11 @@ namespace TgSharp.TL
         public bool CanSetUsername { get; set; }
         public bool CanSetStickers { get; set; }
         public bool HiddenPrehistory { get; set; }
-        public bool CanViewStats { get; set; }
         public bool CanSetLocation { get; set; }
         public bool HasScheduled { get; set; }
-        public int Id { get; set; }
+        public bool CanViewStats { get; set; }
+        public bool Blocked { get; set; }
+        public long Id { get; set; }
         public string About { get; set; }
         public int? ParticipantsCount { get; set; }
         public int? AdminsCount { get; set; }
@@ -42,43 +44,57 @@ namespace TgSharp.TL
         public TLPeerNotifySettings NotifySettings { get; set; }
         public TLAbsExportedChatInvite ExportedInvite { get; set; }
         public TLVector<TLBotInfo> BotInfo { get; set; }
-        public int? MigratedFromChatId { get; set; }
+        public long? MigratedFromChatId { get; set; }
         public int? MigratedFromMaxId { get; set; }
         public int? PinnedMsgId { get; set; }
         public TLStickerSet Stickerset { get; set; }
         public int? AvailableMinId { get; set; }
         public int? FolderId { get; set; }
-        public int? LinkedChatId { get; set; }
+        public long? LinkedChatId { get; set; }
         public TLAbsChannelLocation Location { get; set; }
         public int? SlowmodeSeconds { get; set; }
         public int? SlowmodeNextSendDate { get; set; }
+        public int? StatsDc { get; set; }
         public int Pts { get; set; }
+        public TLInputGroupCall Call { get; set; }
+        public int? TtlPeriod { get; set; }
+        public TLVector<string> PendingSuggestions { get; set; }
+        public TLAbsPeer GroupcallDefaultJoinAs { get; set; }
+        public string ThemeEmoticon { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = CanViewParticipants ? (Flags | 8) : (Flags & ~8);
-            Flags = CanSetUsername ? (Flags | 64) : (Flags & ~64);
-            Flags = CanSetStickers ? (Flags | 128) : (Flags & ~128);
-            Flags = HiddenPrehistory ? (Flags | 1024) : (Flags & ~1024);
-            Flags = CanViewStats ? (Flags | 4096) : (Flags & ~4096);
-            Flags = CanSetLocation ? (Flags | 65536) : (Flags & ~65536);
-            Flags = HasScheduled ? (Flags | 524288) : (Flags & ~524288);
-            Flags = ParticipantsCount != null ? (Flags | 1) : (Flags & ~1);
-            Flags = AdminsCount != null ? (Flags | 2) : (Flags & ~2);
-            Flags = KickedCount != null ? (Flags | 4) : (Flags & ~4);
-            Flags = BannedCount != null ? (Flags | 4) : (Flags & ~4);
-            Flags = OnlineCount != null ? (Flags | 8192) : (Flags & ~8192);
-            Flags = MigratedFromChatId != null ? (Flags | 16) : (Flags & ~16);
-            Flags = MigratedFromMaxId != null ? (Flags | 16) : (Flags & ~16);
-            Flags = PinnedMsgId != null ? (Flags | 32) : (Flags & ~32);
-            Flags = Stickerset != null ? (Flags | 256) : (Flags & ~256);
-            Flags = AvailableMinId != null ? (Flags | 512) : (Flags & ~512);
-            Flags = FolderId != null ? (Flags | 2048) : (Flags & ~2048);
-            Flags = LinkedChatId != null ? (Flags | 16384) : (Flags & ~16384);
-            Flags = Location != null ? (Flags | 32768) : (Flags & ~32768);
-            Flags = SlowmodeSeconds != null ? (Flags | 131072) : (Flags & ~131072);
-            Flags = SlowmodeNextSendDate != null ? (Flags | 262144) : (Flags & ~262144);
+Flags = CanViewParticipants ? (Flags | 8) : (Flags & ~8);
+Flags = CanSetUsername ? (Flags | 64) : (Flags & ~64);
+Flags = CanSetStickers ? (Flags | 128) : (Flags & ~128);
+Flags = HiddenPrehistory ? (Flags | 1024) : (Flags & ~1024);
+Flags = CanSetLocation ? (Flags | 65536) : (Flags & ~65536);
+Flags = HasScheduled ? (Flags | 524288) : (Flags & ~524288);
+Flags = CanViewStats ? (Flags | 1048576) : (Flags & ~1048576);
+Flags = Blocked ? (Flags | 4194304) : (Flags & ~4194304);
+Flags = ParticipantsCount != null ? (Flags | 1) : (Flags & ~1);
+Flags = AdminsCount != null ? (Flags | 2) : (Flags & ~2);
+Flags = KickedCount != null ? (Flags | 4) : (Flags & ~4);
+Flags = BannedCount != null ? (Flags | 4) : (Flags & ~4);
+Flags = OnlineCount != null ? (Flags | 8192) : (Flags & ~8192);
+Flags = ExportedInvite != null ? (Flags | 8388608) : (Flags & ~8388608);
+Flags = MigratedFromChatId != null ? (Flags | 16) : (Flags & ~16);
+Flags = MigratedFromMaxId != null ? (Flags | 16) : (Flags & ~16);
+Flags = PinnedMsgId != null ? (Flags | 32) : (Flags & ~32);
+Flags = Stickerset != null ? (Flags | 256) : (Flags & ~256);
+Flags = AvailableMinId != null ? (Flags | 512) : (Flags & ~512);
+Flags = FolderId != null ? (Flags | 2048) : (Flags & ~2048);
+Flags = LinkedChatId != null ? (Flags | 16384) : (Flags & ~16384);
+Flags = Location != null ? (Flags | 32768) : (Flags & ~32768);
+Flags = SlowmodeSeconds != null ? (Flags | 131072) : (Flags & ~131072);
+Flags = SlowmodeNextSendDate != null ? (Flags | 262144) : (Flags & ~262144);
+Flags = StatsDc != null ? (Flags | 4096) : (Flags & ~4096);
+Flags = Call != null ? (Flags | 2097152) : (Flags & ~2097152);
+Flags = TtlPeriod != null ? (Flags | 16777216) : (Flags & ~16777216);
+Flags = PendingSuggestions != null ? (Flags | 33554432) : (Flags & ~33554432);
+Flags = GroupcallDefaultJoinAs != null ? (Flags | 67108864) : (Flags & ~67108864);
+Flags = ThemeEmoticon != null ? (Flags | 134217728) : (Flags & ~134217728);
 
         }
 
@@ -89,10 +105,11 @@ namespace TgSharp.TL
             CanSetUsername = (Flags & 64) != 0;
             CanSetStickers = (Flags & 128) != 0;
             HiddenPrehistory = (Flags & 1024) != 0;
-            CanViewStats = (Flags & 4096) != 0;
             CanSetLocation = (Flags & 65536) != 0;
             HasScheduled = (Flags & 524288) != 0;
-            Id = br.ReadInt32();
+            CanViewStats = (Flags & 1048576) != 0;
+            Blocked = (Flags & 4194304) != 0;
+            Id = br.ReadInt64();
             About = StringUtil.Deserialize(br);
             if ((Flags & 1) != 0)
                 ParticipantsCount = br.ReadInt32();
@@ -124,10 +141,14 @@ namespace TgSharp.TL
             UnreadCount = br.ReadInt32();
             ChatPhoto = (TLAbsPhoto)ObjectUtils.DeserializeObject(br);
             NotifySettings = (TLPeerNotifySettings)ObjectUtils.DeserializeObject(br);
-            ExportedInvite = (TLAbsExportedChatInvite)ObjectUtils.DeserializeObject(br);
+            if ((Flags & 8388608) != 0)
+                ExportedInvite = (TLAbsExportedChatInvite)ObjectUtils.DeserializeObject(br);
+            else
+                ExportedInvite = null;
+
             BotInfo = (TLVector<TLBotInfo>)ObjectUtils.DeserializeVector<TLBotInfo>(br);
             if ((Flags & 16) != 0)
-                MigratedFromChatId = br.ReadInt32();
+                MigratedFromChatId = br.ReadInt64();
             else
                 MigratedFromChatId = null;
 
@@ -157,7 +178,7 @@ namespace TgSharp.TL
                 FolderId = null;
 
             if ((Flags & 16384) != 0)
-                LinkedChatId = br.ReadInt32();
+                LinkedChatId = br.ReadInt64();
             else
                 LinkedChatId = null;
 
@@ -176,7 +197,37 @@ namespace TgSharp.TL
             else
                 SlowmodeNextSendDate = null;
 
+            if ((Flags & 4096) != 0)
+                StatsDc = br.ReadInt32();
+            else
+                StatsDc = null;
+
             Pts = br.ReadInt32();
+            if ((Flags & 2097152) != 0)
+                Call = (TLInputGroupCall)ObjectUtils.DeserializeObject(br);
+            else
+                Call = null;
+
+            if ((Flags & 16777216) != 0)
+                TtlPeriod = br.ReadInt32();
+            else
+                TtlPeriod = null;
+
+            if ((Flags & 33554432) != 0)
+                PendingSuggestions = (TLVector<string>)ObjectUtils.DeserializeVector<string>(br);
+            else
+                PendingSuggestions = null;
+
+            if ((Flags & 67108864) != 0)
+                GroupcallDefaultJoinAs = (TLAbsPeer)ObjectUtils.DeserializeObject(br);
+            else
+                GroupcallDefaultJoinAs = null;
+
+            if ((Flags & 134217728) != 0)
+                ThemeEmoticon = StringUtil.Deserialize(br);
+            else
+                ThemeEmoticon = null;
+
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -201,7 +252,8 @@ namespace TgSharp.TL
             bw.Write(UnreadCount);
             ObjectUtils.SerializeObject(ChatPhoto, bw);
             ObjectUtils.SerializeObject(NotifySettings, bw);
-            ObjectUtils.SerializeObject(ExportedInvite, bw);
+            if ((Flags & 8388608) != 0)
+                ObjectUtils.SerializeObject(ExportedInvite, bw);
             ObjectUtils.SerializeObject(BotInfo, bw);
             if ((Flags & 16) != 0)
                 bw.Write(MigratedFromChatId.Value);
@@ -223,7 +275,19 @@ namespace TgSharp.TL
                 bw.Write(SlowmodeSeconds.Value);
             if ((Flags & 262144) != 0)
                 bw.Write(SlowmodeNextSendDate.Value);
+            if ((Flags & 4096) != 0)
+                bw.Write(StatsDc.Value);
             bw.Write(Pts);
+            if ((Flags & 2097152) != 0)
+                ObjectUtils.SerializeObject(Call, bw);
+            if ((Flags & 16777216) != 0)
+                bw.Write(TtlPeriod.Value);
+            if ((Flags & 33554432) != 0)
+                ObjectUtils.SerializeObject(PendingSuggestions, bw);
+            if ((Flags & 67108864) != 0)
+                ObjectUtils.SerializeObject(GroupcallDefaultJoinAs, bw);
+            if ((Flags & 134217728) != 0)
+                StringUtil.Serialize(ThemeEmoticon, bw);
         }
     }
 }

@@ -9,21 +9,21 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(681420594)]
+    [TLObject(399807445)]
     public class TLChannelForbidden : TLAbsChat
     {
         public override int Constructor
         {
             get
             {
-                return 681420594;
+                return 399807445;
             }
         }
 
         public int Flags { get; set; }
         public bool Broadcast { get; set; }
         public bool Megagroup { get; set; }
-        public int Id { get; set; }
+        public long Id { get; set; }
         public long AccessHash { get; set; }
         public string Title { get; set; }
         public int? UntilDate { get; set; }
@@ -31,9 +31,9 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Broadcast ? (Flags | 32) : (Flags & ~32);
-            Flags = Megagroup ? (Flags | 256) : (Flags & ~256);
-            Flags = UntilDate != null ? (Flags | 65536) : (Flags & ~65536);
+Flags = Broadcast ? (Flags | 32) : (Flags & ~32);
+Flags = Megagroup ? (Flags | 256) : (Flags & ~256);
+Flags = UntilDate != null ? (Flags | 65536) : (Flags & ~65536);
 
         }
 
@@ -42,7 +42,7 @@ namespace TgSharp.TL
             Flags = br.ReadInt32();
             Broadcast = (Flags & 32) != 0;
             Megagroup = (Flags & 256) != 0;
-            Id = br.ReadInt32();
+            Id = br.ReadInt64();
             AccessHash = br.ReadInt64();
             Title = StringUtil.Deserialize(br);
             if ((Flags & 65536) != 0)

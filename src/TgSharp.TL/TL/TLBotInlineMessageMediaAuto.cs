@@ -28,8 +28,8 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Entities != null ? (Flags | 2) : (Flags & ~2);
-            Flags = ReplyMarkup != null ? (Flags | 4) : (Flags & ~4);
+Flags = Entities != null ? (Flags | 2) : (Flags & ~2);
+Flags = ReplyMarkup != null ? (Flags | 4) : (Flags & ~4);
 
         }
 

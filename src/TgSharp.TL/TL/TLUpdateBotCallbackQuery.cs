@@ -9,20 +9,20 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-415938591)]
+    [TLObject(-1177566067)]
     public class TLUpdateBotCallbackQuery : TLAbsUpdate
     {
         public override int Constructor
         {
             get
             {
-                return -415938591;
+                return -1177566067;
             }
         }
 
         public int Flags { get; set; }
         public long QueryId { get; set; }
-        public int UserId { get; set; }
+        public long UserId { get; set; }
         public TLAbsPeer Peer { get; set; }
         public int MsgId { get; set; }
         public long ChatInstance { get; set; }
@@ -32,8 +32,8 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Data != null ? (Flags | 1) : (Flags & ~1);
-            Flags = GameShortName != null ? (Flags | 2) : (Flags & ~2);
+Flags = Data != null ? (Flags | 1) : (Flags & ~1);
+Flags = GameShortName != null ? (Flags | 2) : (Flags & ~2);
 
         }
 
@@ -41,7 +41,7 @@ namespace TgSharp.TL
         {
             Flags = br.ReadInt32();
             QueryId = br.ReadInt64();
-            UserId = br.ReadInt32();
+            UserId = br.ReadInt64();
             Peer = (TLAbsPeer)ObjectUtils.DeserializeObject(br);
             MsgId = br.ReadInt32();
             ChatInstance = br.ReadInt64();

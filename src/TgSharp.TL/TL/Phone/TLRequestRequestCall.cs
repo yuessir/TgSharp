@@ -31,7 +31,7 @@ namespace TgSharp.TL.Phone
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Video ? (Flags | 1) : (Flags & ~1);
+Flags = Video ? (Flags | 1) : (Flags & ~1);
 
         }
 

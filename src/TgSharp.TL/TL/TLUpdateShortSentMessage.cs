@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(301019932)]
+    [TLObject(-1877614335)]
     public class TLUpdateShortSentMessage : TLAbsUpdates
     {
         public override int Constructor
         {
             get
             {
-                return 301019932;
+                return -1877614335;
             }
         }
 
@@ -28,13 +28,15 @@ namespace TgSharp.TL
         public int Date { get; set; }
         public TLAbsMessageMedia Media { get; set; }
         public TLVector<TLAbsMessageEntity> Entities { get; set; }
+        public int? TtlPeriod { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Out ? (Flags | 2) : (Flags & ~2);
-            Flags = Media != null ? (Flags | 512) : (Flags & ~512);
-            Flags = Entities != null ? (Flags | 128) : (Flags & ~128);
+Flags = Out ? (Flags | 2) : (Flags & ~2);
+Flags = Media != null ? (Flags | 512) : (Flags & ~512);
+Flags = Entities != null ? (Flags | 128) : (Flags & ~128);
+Flags = TtlPeriod != null ? (Flags | 33554432) : (Flags & ~33554432);
 
         }
 
@@ -56,6 +58,11 @@ namespace TgSharp.TL
             else
                 Entities = null;
 
+            if ((Flags & 33554432) != 0)
+                TtlPeriod = br.ReadInt32();
+            else
+                TtlPeriod = null;
+
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -71,6 +78,8 @@ namespace TgSharp.TL
                 ObjectUtils.SerializeObject(Media, bw);
             if ((Flags & 128) != 0)
                 ObjectUtils.SerializeObject(Entities, bw);
+            if ((Flags & 33554432) != 0)
+                bw.Write(TtlPeriod.Value);
         }
     }
 }

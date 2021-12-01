@@ -31,7 +31,7 @@ namespace TgSharp.TL.Contacts
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = AddPhonePrivacyException ? (Flags | 1) : (Flags & ~1);
+Flags = AddPhonePrivacyException ? (Flags | 1) : (Flags & ~1);
 
         }
 

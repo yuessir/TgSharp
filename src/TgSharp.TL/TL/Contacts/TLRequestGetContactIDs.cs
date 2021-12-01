@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Contacts
 {
-    [TLObject(749357634)]
+    [TLObject(2061264541)]
     public class TLRequestGetContactIDs : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return 749357634;
+                return 2061264541;
             }
         }
 
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public TLVector<int> Response { get; set; }
 
         public void ComputeFlags()
@@ -30,7 +30,7 @@ namespace TgSharp.TL.Contacts
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

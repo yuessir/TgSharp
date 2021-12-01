@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Account
 {
-    [TLObject(1754754159)]
+    [TLObject(-326762118)]
     public class TLRequestRegisterDevice : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return 1754754159;
+                return -326762118;
             }
         }
 
@@ -26,13 +26,13 @@ namespace TgSharp.TL.Account
         public string Token { get; set; }
         public bool AppSandbox { get; set; }
         public byte[] Secret { get; set; }
-        public TLVector<int> OtherUids { get; set; }
+        public TLVector<long> OtherUids { get; set; }
         public bool Response { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = NoMuted ? (Flags | 1) : (Flags & ~1);
+Flags = NoMuted ? (Flags | 1) : (Flags & ~1);
 
         }
 
@@ -44,7 +44,7 @@ namespace TgSharp.TL.Account
             Token = StringUtil.Deserialize(br);
             AppSandbox = BoolUtil.Deserialize(br);
             Secret = BytesUtil.Deserialize(br);
-            OtherUids = (TLVector<int>)ObjectUtils.DeserializeVector<int>(br);
+            OtherUids = (TLVector<long>)ObjectUtils.DeserializeVector<long>(br);
         }
 
         public override void SerializeBody(BinaryWriter bw)

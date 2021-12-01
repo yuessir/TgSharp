@@ -9,19 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Channels
 {
-    [TLObject(1920559378)]
+    [TLObject(-1763259007)]
     public class TLRequestEditBanned : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return 1920559378;
+                return -1763259007;
             }
         }
 
         public TLAbsInputChannel Channel { get; set; }
-        public TLAbsInputUser UserId { get; set; }
+        public TLAbsInputPeer Participant { get; set; }
         public TLChatBannedRights BannedRights { get; set; }
         public TLAbsUpdates Response { get; set; }
 
@@ -33,7 +33,7 @@ namespace TgSharp.TL.Channels
         public override void DeserializeBody(BinaryReader br)
         {
             Channel = (TLAbsInputChannel)ObjectUtils.DeserializeObject(br);
-            UserId = (TLAbsInputUser)ObjectUtils.DeserializeObject(br);
+            Participant = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
             BannedRights = (TLChatBannedRights)ObjectUtils.DeserializeObject(br);
         }
 
@@ -41,7 +41,7 @@ namespace TgSharp.TL.Channels
         {
             bw.Write(Constructor);
             ObjectUtils.SerializeObject(Channel, bw);
-            ObjectUtils.SerializeObject(UserId, bw);
+            ObjectUtils.SerializeObject(Participant, bw);
             ObjectUtils.SerializeObject(BannedRights, bw);
         }
 

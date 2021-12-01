@@ -30,11 +30,11 @@ namespace TgSharp.TL.Account
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = NewAlgo != null ? (Flags | 1) : (Flags & ~1);
-            Flags = NewPasswordHash != null ? (Flags | 1) : (Flags & ~1);
-            Flags = Hint != null ? (Flags | 1) : (Flags & ~1);
-            Flags = Email != null ? (Flags | 2) : (Flags & ~2);
-            Flags = NewSecureSettings != null ? (Flags | 4) : (Flags & ~4);
+Flags = NewAlgo != null ? (Flags | 1) : (Flags & ~1);
+Flags = NewPasswordHash != null ? (Flags | 1) : (Flags & ~1);
+Flags = Hint != null ? (Flags | 1) : (Flags & ~1);
+Flags = Email != null ? (Flags | 2) : (Flags & ~2);
+Flags = NewSecureSettings != null ? (Flags | 4) : (Flags & ~4);
 
         }
 

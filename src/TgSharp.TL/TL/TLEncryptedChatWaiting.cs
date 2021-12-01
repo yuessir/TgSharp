@@ -9,22 +9,22 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(1006044124)]
+    [TLObject(1722964307)]
     public class TLEncryptedChatWaiting : TLAbsEncryptedChat
     {
         public override int Constructor
         {
             get
             {
-                return 1006044124;
+                return 1722964307;
             }
         }
 
         public int Id { get; set; }
         public long AccessHash { get; set; }
         public int Date { get; set; }
-        public int AdminId { get; set; }
-        public int ParticipantId { get; set; }
+        public long AdminId { get; set; }
+        public long ParticipantId { get; set; }
 
         public void ComputeFlags()
         {
@@ -36,8 +36,8 @@ namespace TgSharp.TL
             Id = br.ReadInt32();
             AccessHash = br.ReadInt64();
             Date = br.ReadInt32();
-            AdminId = br.ReadInt32();
-            ParticipantId = br.ReadInt32();
+            AdminId = br.ReadInt64();
+            ParticipantId = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

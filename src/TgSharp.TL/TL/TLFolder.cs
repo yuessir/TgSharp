@@ -31,10 +31,10 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = AutofillNewBroadcasts ? (Flags | 1) : (Flags & ~1);
-            Flags = AutofillPublicGroups ? (Flags | 2) : (Flags & ~2);
-            Flags = AutofillNewCorrespondents ? (Flags | 4) : (Flags & ~4);
-            Flags = Photo != null ? (Flags | 8) : (Flags & ~8);
+Flags = AutofillNewBroadcasts ? (Flags | 1) : (Flags & ~1);
+Flags = AutofillPublicGroups ? (Flags | 2) : (Flags & ~2);
+Flags = AutofillNewCorrespondents ? (Flags | 4) : (Flags & ~4);
+Flags = Photo != null ? (Flags | 8) : (Flags & ~8);
 
         }
 

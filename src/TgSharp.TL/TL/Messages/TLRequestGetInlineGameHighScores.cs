@@ -20,7 +20,7 @@ namespace TgSharp.TL.Messages
             }
         }
 
-        public TLInputBotInlineMessageID Id { get; set; }
+        public TLAbsInputBotInlineMessageID Id { get; set; }
         public TLAbsInputUser UserId { get; set; }
         public Messages.TLHighScores Response { get; set; }
 
@@ -31,7 +31,7 @@ namespace TgSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Id = (TLInputBotInlineMessageID)ObjectUtils.DeserializeObject(br);
+            Id = (TLAbsInputBotInlineMessageID)ObjectUtils.DeserializeObject(br);
             UserId = (TLAbsInputUser)ObjectUtils.DeserializeObject(br);
         }
 

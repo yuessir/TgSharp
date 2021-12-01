@@ -9,25 +9,27 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(598418386)]
+    [TLObject(860303448)]
     public class TLInputMediaDocument : TLAbsInputMedia
     {
         public override int Constructor
         {
             get
             {
-                return 598418386;
+                return 860303448;
             }
         }
 
         public int Flags { get; set; }
         public TLAbsInputDocument Id { get; set; }
         public int? TtlSeconds { get; set; }
+        public string Query { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = TtlSeconds != null ? (Flags | 1) : (Flags & ~1);
+Flags = TtlSeconds != null ? (Flags | 1) : (Flags & ~1);
+Flags = Query != null ? (Flags | 2) : (Flags & ~2);
 
         }
 
@@ -40,6 +42,11 @@ namespace TgSharp.TL
             else
                 TtlSeconds = null;
 
+            if ((Flags & 2) != 0)
+                Query = StringUtil.Deserialize(br);
+            else
+                Query = null;
+
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -50,6 +57,8 @@ namespace TgSharp.TL
             ObjectUtils.SerializeObject(Id, bw);
             if ((Flags & 1) != 0)
                 bw.Write(TtlSeconds.Value);
+            if ((Flags & 2) != 0)
+                StringUtil.Serialize(Query, bw);
         }
     }
 }

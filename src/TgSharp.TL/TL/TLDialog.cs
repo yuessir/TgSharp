@@ -37,11 +37,11 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Pinned ? (Flags | 4) : (Flags & ~4);
-            Flags = UnreadMark ? (Flags | 8) : (Flags & ~8);
-            Flags = Pts != null ? (Flags | 1) : (Flags & ~1);
-            Flags = Draft != null ? (Flags | 2) : (Flags & ~2);
-            Flags = FolderId != null ? (Flags | 16) : (Flags & ~16);
+Flags = Pinned ? (Flags | 4) : (Flags & ~4);
+Flags = UnreadMark ? (Flags | 8) : (Flags & ~8);
+Flags = Pts != null ? (Flags | 1) : (Flags & ~1);
+Flags = Draft != null ? (Flags | 2) : (Flags & ~2);
+Flags = FolderId != null ? (Flags | 16) : (Flags & ~16);
 
         }
 

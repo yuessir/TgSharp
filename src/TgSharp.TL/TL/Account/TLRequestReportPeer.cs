@@ -9,19 +9,20 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Account
 {
-    [TLObject(-1374118561)]
+    [TLObject(-977650298)]
     public class TLRequestReportPeer : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -1374118561;
+                return -977650298;
             }
         }
 
         public TLAbsInputPeer Peer { get; set; }
         public TLAbsReportReason Reason { get; set; }
+        public string Message { get; set; }
         public bool Response { get; set; }
 
         public void ComputeFlags()
@@ -33,6 +34,7 @@ namespace TgSharp.TL.Account
         {
             Peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
             Reason = (TLAbsReportReason)ObjectUtils.DeserializeObject(br);
+            Message = StringUtil.Deserialize(br);
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -40,6 +42,7 @@ namespace TgSharp.TL.Account
             bw.Write(Constructor);
             ObjectUtils.SerializeObject(Peer, bw);
             ObjectUtils.SerializeObject(Reason, bw);
+            StringUtil.Serialize(Message, bw);
         }
 
         public override void DeserializeResponse(BinaryReader br)

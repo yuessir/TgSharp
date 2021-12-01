@@ -28,7 +28,7 @@ namespace TgSharp.TL.Messages
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Entities != null ? (Flags | 8) : (Flags & ~8);
+Flags = Entities != null ? (Flags | 8) : (Flags & ~8);
 
         }
 

@@ -29,9 +29,9 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = NoWebpage ? (Flags | 1) : (Flags & ~1);
-            Flags = Entities != null ? (Flags | 2) : (Flags & ~2);
-            Flags = ReplyMarkup != null ? (Flags | 4) : (Flags & ~4);
+Flags = NoWebpage ? (Flags | 1) : (Flags & ~1);
+Flags = Entities != null ? (Flags | 2) : (Flags & ~2);
+Flags = ReplyMarkup != null ? (Flags | 4) : (Flags & ~4);
 
         }
 

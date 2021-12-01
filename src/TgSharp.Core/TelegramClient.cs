@@ -112,7 +112,7 @@ namespace TgSharp.Core
                 LangPack = ""
             };
             request.Query = new TLRequestGetConfig();
-            var invokewithLayer = new TLRequestInvokeWithLayer() { Layer = 108, Query = request };
+            var invokewithLayer = new TLRequestInvokeWithLayer() { Layer = 133, Query = request };
             await sender.Send(invokewithLayer, token).ConfigureAwait(false);
             await sender.Receive(invokewithLayer, token).ConfigureAwait(false);
 
@@ -289,8 +289,8 @@ namespace TgSharp.Core
                 {
                     var signUpRequest = new TLRequestSignUp() { PhoneNumber = phoneNumber, PhoneCodeHash = phoneCodeHash, FirstName = firstName, LastName = lastName };
                     await RequestWithDcMigration(signUpRequest, token).ConfigureAwait(false);
-                    OnUserAuthenticated((TLUser)signUpRequest.Response.User);
-                    return (TLUser)signUpRequest.Response.User;
+                    OnUserAuthenticated((TLUser)(signUpRequest.Response as TLAuthorization).User);
+                    return (TLUser)(signUpRequest.Response as TLAuthorization).User;
                 }
                 catch (FloodException ex)
                 {

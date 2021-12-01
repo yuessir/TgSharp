@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(1081547008)]
+    [TLObject(791390623)]
     public class TLUpdateChannelWebPage : TLAbsUpdate
     {
         public override int Constructor
         {
             get
             {
-                return 1081547008;
+                return 791390623;
             }
         }
 
-        public int ChannelId { get; set; }
+        public long ChannelId { get; set; }
         public TLAbsWebPage Webpage { get; set; }
         public int Pts { get; set; }
         public int PtsCount { get; set; }
@@ -32,7 +32,7 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChannelId = br.ReadInt32();
+            ChannelId = br.ReadInt64();
             Webpage = (TLAbsWebPage)ObjectUtils.DeserializeObject(br);
             Pts = br.ReadInt32();
             PtsCount = br.ReadInt32();

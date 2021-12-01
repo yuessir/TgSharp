@@ -9,47 +9,50 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-1676371894)]
+    [TLObject(-94849324)]
     public class TLThemeSettings : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return -1676371894;
+                return -94849324;
             }
         }
 
         public int Flags { get; set; }
+        public bool MessageColorsAnimated { get; set; }
         public TLAbsBaseTheme BaseTheme { get; set; }
         public int AccentColor { get; set; }
-        public int? MessageTopColor { get; set; }
-        public int? MessageBottomColor { get; set; }
+        public int? OutboxAccentColor { get; set; }
+        public TLVector<int> MessageColors { get; set; }
         public TLAbsWallPaper Wallpaper { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = MessageTopColor != null ? (Flags | 1) : (Flags & ~1);
-            Flags = MessageBottomColor != null ? (Flags | 1) : (Flags & ~1);
-            Flags = Wallpaper != null ? (Flags | 2) : (Flags & ~2);
+Flags = MessageColorsAnimated ? (Flags | 4) : (Flags & ~4);
+Flags = OutboxAccentColor != null ? (Flags | 8) : (Flags & ~8);
+Flags = MessageColors != null ? (Flags | 1) : (Flags & ~1);
+Flags = Wallpaper != null ? (Flags | 2) : (Flags & ~2);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
             Flags = br.ReadInt32();
+            MessageColorsAnimated = (Flags & 4) != 0;
             BaseTheme = (TLAbsBaseTheme)ObjectUtils.DeserializeObject(br);
             AccentColor = br.ReadInt32();
-            if ((Flags & 1) != 0)
-                MessageTopColor = br.ReadInt32();
+            if ((Flags & 8) != 0)
+                OutboxAccentColor = br.ReadInt32();
             else
-                MessageTopColor = null;
+                OutboxAccentColor = null;
 
             if ((Flags & 1) != 0)
-                MessageBottomColor = br.ReadInt32();
+                MessageColors = (TLVector<int>)ObjectUtils.DeserializeVector<int>(br);
             else
-                MessageBottomColor = null;
+                MessageColors = null;
 
             if ((Flags & 2) != 0)
                 Wallpaper = (TLAbsWallPaper)ObjectUtils.DeserializeObject(br);
@@ -65,10 +68,10 @@ namespace TgSharp.TL
             bw.Write(Flags);
             ObjectUtils.SerializeObject(BaseTheme, bw);
             bw.Write(AccentColor);
+            if ((Flags & 8) != 0)
+                bw.Write(OutboxAccentColor.Value);
             if ((Flags & 1) != 0)
-                bw.Write(MessageTopColor.Value);
-            if ((Flags & 1) != 0)
-                bw.Write(MessageBottomColor.Value);
+                ObjectUtils.SerializeObject(MessageColors, bw);
             if ((Flags & 2) != 0)
                 ObjectUtils.SerializeObject(Wallpaper, bw);
         }

@@ -26,7 +26,7 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Selective ? (Flags | 4) : (Flags & ~4);
+Flags = Selective ? (Flags | 4) : (Flags & ~4);
 
         }
 

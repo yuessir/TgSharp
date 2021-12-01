@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-1594999949)]
+    [TLObject(-1594569905)]
     public class TLRequestGetDialogs : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -1594999949;
+                return -1594569905;
             }
         }
 
@@ -27,14 +27,14 @@ namespace TgSharp.TL.Messages
         public int OffsetId { get; set; }
         public TLAbsInputPeer OffsetPeer { get; set; }
         public int Limit { get; set; }
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public Messages.TLAbsDialogs Response { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = ExcludePinned ? (Flags | 1) : (Flags & ~1);
-            Flags = FolderId != null ? (Flags | 2) : (Flags & ~2);
+Flags = ExcludePinned ? (Flags | 1) : (Flags & ~1);
+Flags = FolderId != null ? (Flags | 2) : (Flags & ~2);
 
         }
 
@@ -51,7 +51,7 @@ namespace TgSharp.TL.Messages
             OffsetId = br.ReadInt32();
             OffsetPeer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
             Limit = br.ReadInt32();
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

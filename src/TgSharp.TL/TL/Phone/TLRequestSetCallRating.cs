@@ -30,7 +30,7 @@ namespace TgSharp.TL.Phone
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = UserInitiative ? (Flags | 1) : (Flags & ~1);
+Flags = UserInitiative ? (Flags | 1) : (Flags & ~1);
 
         }
 

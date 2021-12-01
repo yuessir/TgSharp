@@ -33,11 +33,11 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Title != null ? (Flags | 2) : (Flags & ~2);
-            Flags = Description != null ? (Flags | 4) : (Flags & ~4);
-            Flags = Url != null ? (Flags | 8) : (Flags & ~8);
-            Flags = Thumb != null ? (Flags | 16) : (Flags & ~16);
-            Flags = Content != null ? (Flags | 32) : (Flags & ~32);
+Flags = Title != null ? (Flags | 2) : (Flags & ~2);
+Flags = Description != null ? (Flags | 4) : (Flags & ~4);
+Flags = Url != null ? (Flags | 8) : (Flags & ~8);
+Flags = Thumb != null ? (Flags | 16) : (Flags & ~16);
+Flags = Content != null ? (Flags | 32) : (Flags & ~32);
 
         }
 

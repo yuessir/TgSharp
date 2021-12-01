@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-186607933)]
+    [TLObject(-646342540)]
     public class TLInputMediaInvoice : TLAbsInputMedia
     {
         public override int Constructor
         {
             get
             {
-                return -186607933;
+                return -646342540;
             }
         }
 
@@ -33,7 +33,8 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Photo != null ? (Flags | 1) : (Flags & ~1);
+Flags = Photo != null ? (Flags | 1) : (Flags & ~1);
+Flags = StartParam != null ? (Flags | 2) : (Flags & ~2);
 
         }
 
@@ -51,7 +52,11 @@ namespace TgSharp.TL
             Payload = BytesUtil.Deserialize(br);
             Provider = StringUtil.Deserialize(br);
             ProviderData = (TLDataJSON)ObjectUtils.DeserializeObject(br);
-            StartParam = StringUtil.Deserialize(br);
+            if ((Flags & 2) != 0)
+                StartParam = StringUtil.Deserialize(br);
+            else
+                StartParam = null;
+
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -67,7 +72,8 @@ namespace TgSharp.TL
             BytesUtil.Serialize(Payload, bw);
             StringUtil.Serialize(Provider, bw);
             ObjectUtils.SerializeObject(ProviderData, bw);
-            StringUtil.Serialize(StartParam, bw);
+            if ((Flags & 2) != 0)
+                StringUtil.Serialize(StartParam, bw);
         }
     }
 }

@@ -37,14 +37,14 @@ namespace TgSharp.TL.Messages
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = NoWebpage ? (Flags | 2) : (Flags & ~2);
-            Flags = Silent ? (Flags | 32) : (Flags & ~32);
-            Flags = Background ? (Flags | 64) : (Flags & ~64);
-            Flags = ClearDraft ? (Flags | 128) : (Flags & ~128);
-            Flags = ReplyToMsgId != null ? (Flags | 1) : (Flags & ~1);
-            Flags = ReplyMarkup != null ? (Flags | 4) : (Flags & ~4);
-            Flags = Entities != null ? (Flags | 8) : (Flags & ~8);
-            Flags = ScheduleDate != null ? (Flags | 1024) : (Flags & ~1024);
+Flags = NoWebpage ? (Flags | 2) : (Flags & ~2);
+Flags = Silent ? (Flags | 32) : (Flags & ~32);
+Flags = Background ? (Flags | 64) : (Flags & ~64);
+Flags = ClearDraft ? (Flags | 128) : (Flags & ~128);
+Flags = ReplyToMsgId != null ? (Flags | 1) : (Flags & ~1);
+Flags = ReplyMarkup != null ? (Flags | 4) : (Flags & ~4);
+Flags = Entities != null ? (Flags | 8) : (Flags & ~8);
+Flags = ScheduleDate != null ? (Flags | 1024) : (Flags & ~1024);
 
         }
 

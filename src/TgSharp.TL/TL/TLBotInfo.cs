@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-1729618630)]
+    [TLObject(460632885)]
     public class TLBotInfo : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return -1729618630;
+                return 460632885;
             }
         }
 
-        public int UserId { get; set; }
+        public long UserId { get; set; }
         public string Description { get; set; }
         public TLVector<TLBotCommand> Commands { get; set; }
 
@@ -31,7 +31,7 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            UserId = br.ReadInt32();
+            UserId = br.ReadInt64();
             Description = StringUtil.Deserialize(br);
             Commands = (TLVector<TLBotCommand>)ObjectUtils.DeserializeVector<TLBotCommand>(br);
         }

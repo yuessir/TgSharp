@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-290164953)]
+    [TLObject(-673242758)]
     public class TLStickerSet : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return -290164953;
+                return -673242758;
             }
         }
 
@@ -30,21 +30,23 @@ namespace TgSharp.TL
         public long AccessHash { get; set; }
         public string Title { get; set; }
         public string ShortName { get; set; }
-        public TLAbsPhotoSize Thumb { get; set; }
+        public TLVector<TLAbsPhotoSize> Thumbs { get; set; }
         public int? ThumbDcId { get; set; }
+        public int? ThumbVersion { get; set; }
         public int Count { get; set; }
         public int Hash { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Archived ? (Flags | 2) : (Flags & ~2);
-            Flags = Official ? (Flags | 4) : (Flags & ~4);
-            Flags = Masks ? (Flags | 8) : (Flags & ~8);
-            Flags = Animated ? (Flags | 32) : (Flags & ~32);
-            Flags = InstalledDate != null ? (Flags | 1) : (Flags & ~1);
-            Flags = Thumb != null ? (Flags | 16) : (Flags & ~16);
-            Flags = ThumbDcId != null ? (Flags | 16) : (Flags & ~16);
+Flags = Archived ? (Flags | 2) : (Flags & ~2);
+Flags = Official ? (Flags | 4) : (Flags & ~4);
+Flags = Masks ? (Flags | 8) : (Flags & ~8);
+Flags = Animated ? (Flags | 32) : (Flags & ~32);
+Flags = InstalledDate != null ? (Flags | 1) : (Flags & ~1);
+Flags = Thumbs != null ? (Flags | 16) : (Flags & ~16);
+Flags = ThumbDcId != null ? (Flags | 16) : (Flags & ~16);
+Flags = ThumbVersion != null ? (Flags | 16) : (Flags & ~16);
 
         }
 
@@ -65,14 +67,19 @@ namespace TgSharp.TL
             Title = StringUtil.Deserialize(br);
             ShortName = StringUtil.Deserialize(br);
             if ((Flags & 16) != 0)
-                Thumb = (TLAbsPhotoSize)ObjectUtils.DeserializeObject(br);
+                Thumbs = (TLVector<TLAbsPhotoSize>)ObjectUtils.DeserializeVector<TLAbsPhotoSize>(br);
             else
-                Thumb = null;
+                Thumbs = null;
 
             if ((Flags & 16) != 0)
                 ThumbDcId = br.ReadInt32();
             else
                 ThumbDcId = null;
+
+            if ((Flags & 16) != 0)
+                ThumbVersion = br.ReadInt32();
+            else
+                ThumbVersion = null;
 
             Count = br.ReadInt32();
             Hash = br.ReadInt32();
@@ -90,9 +97,11 @@ namespace TgSharp.TL
             StringUtil.Serialize(Title, bw);
             StringUtil.Serialize(ShortName, bw);
             if ((Flags & 16) != 0)
-                ObjectUtils.SerializeObject(Thumb, bw);
+                ObjectUtils.SerializeObject(Thumbs, bw);
             if ((Flags & 16) != 0)
                 bw.Write(ThumbDcId.Value);
+            if ((Flags & 16) != 0)
+                bw.Write(ThumbVersion.Value);
             bw.Write(Count);
             bw.Write(Hash);
         }

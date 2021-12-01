@@ -30,7 +30,7 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = ReplyMarkup != null ? (Flags | 4) : (Flags & ~4);
+Flags = ReplyMarkup != null ? (Flags | 4) : (Flags & ~4);
 
         }
 

@@ -34,10 +34,10 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = ShippingAddressRequested ? (Flags | 2) : (Flags & ~2);
-            Flags = Test ? (Flags | 8) : (Flags & ~8);
-            Flags = Photo != null ? (Flags | 1) : (Flags & ~1);
-            Flags = ReceiptMsgId != null ? (Flags | 4) : (Flags & ~4);
+Flags = ShippingAddressRequested ? (Flags | 2) : (Flags & ~2);
+Flags = Test ? (Flags | 8) : (Flags & ~8);
+Flags = Photo != null ? (Flags | 1) : (Flags & ~1);
+Flags = ReceiptMsgId != null ? (Flags | 4) : (Flags & ~4);
 
         }
 

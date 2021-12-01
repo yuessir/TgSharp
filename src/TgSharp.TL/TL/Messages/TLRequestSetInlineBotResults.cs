@@ -33,10 +33,10 @@ namespace TgSharp.TL.Messages
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Gallery ? (Flags | 1) : (Flags & ~1);
-            Flags = Private ? (Flags | 2) : (Flags & ~2);
-            Flags = NextOffset != null ? (Flags | 4) : (Flags & ~4);
-            Flags = SwitchPm != null ? (Flags | 8) : (Flags & ~8);
+Flags = Gallery ? (Flags | 1) : (Flags & ~1);
+Flags = Private ? (Flags | 2) : (Flags & ~2);
+Flags = NextOffset != null ? (Flags | 4) : (Flags & ~4);
+Flags = SwitchPm != null ? (Flags | 8) : (Flags & ~8);
 
         }
 

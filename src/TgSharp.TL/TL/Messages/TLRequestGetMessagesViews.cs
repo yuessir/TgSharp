@@ -9,21 +9,21 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-993483427)]
+    [TLObject(1468322785)]
     public class TLRequestGetMessagesViews : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -993483427;
+                return 1468322785;
             }
         }
 
         public TLAbsInputPeer Peer { get; set; }
         public TLVector<int> Id { get; set; }
         public bool Increment { get; set; }
-        public TLVector<int> Response { get; set; }
+        public Messages.TLMessageViews Response { get; set; }
 
         public void ComputeFlags()
         {
@@ -47,7 +47,7 @@ namespace TgSharp.TL.Messages
 
         public override void DeserializeResponse(BinaryReader br)
         {
-            Response = (TLVector<int>)ObjectUtils.DeserializeVector<int>(br);
+            Response = (Messages.TLMessageViews)ObjectUtils.DeserializeObject(br);
         }
     }
 }

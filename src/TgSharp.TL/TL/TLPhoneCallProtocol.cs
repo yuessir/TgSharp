@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-1564789301)]
+    [TLObject(-58224696)]
     public class TLPhoneCallProtocol : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return -1564789301;
+                return -58224696;
             }
         }
 
@@ -25,12 +25,13 @@ namespace TgSharp.TL
         public bool UdpReflector { get; set; }
         public int MinLayer { get; set; }
         public int MaxLayer { get; set; }
+        public TLVector<string> LibraryVersions { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = UdpP2p ? (Flags | 1) : (Flags & ~1);
-            Flags = UdpReflector ? (Flags | 2) : (Flags & ~2);
+Flags = UdpP2p ? (Flags | 1) : (Flags & ~1);
+Flags = UdpReflector ? (Flags | 2) : (Flags & ~2);
 
         }
 
@@ -41,6 +42,7 @@ namespace TgSharp.TL
             UdpReflector = (Flags & 2) != 0;
             MinLayer = br.ReadInt32();
             MaxLayer = br.ReadInt32();
+            LibraryVersions = (TLVector<string>)ObjectUtils.DeserializeVector<string>(br);
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -50,6 +52,7 @@ namespace TgSharp.TL
             bw.Write(Flags);
             bw.Write(MinLayer);
             bw.Write(MaxLayer);
+            ObjectUtils.SerializeObject(LibraryVersions, bw);
         }
     }
 }

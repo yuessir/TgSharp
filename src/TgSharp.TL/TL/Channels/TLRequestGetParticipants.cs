@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Channels
 {
-    [TLObject(306054633)]
+    [TLObject(2010044880)]
     public class TLRequestGetParticipants : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return 306054633;
+                return 2010044880;
             }
         }
 
@@ -24,7 +24,7 @@ namespace TgSharp.TL.Channels
         public TLAbsChannelParticipantsFilter Filter { get; set; }
         public int Offset { get; set; }
         public int Limit { get; set; }
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public Channels.TLAbsChannelParticipants Response { get; set; }
 
         public void ComputeFlags()
@@ -38,7 +38,7 @@ namespace TgSharp.TL.Channels
             Filter = (TLAbsChannelParticipantsFilter)ObjectUtils.DeserializeObject(br);
             Offset = br.ReadInt32();
             Limit = br.ReadInt32();
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

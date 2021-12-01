@@ -31,7 +31,7 @@ namespace TgSharp.TL.Messages
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = GeoPoint != null ? (Flags | 1) : (Flags & ~1);
+Flags = GeoPoint != null ? (Flags | 1) : (Flags & ~1);
 
         }
 

@@ -9,20 +9,20 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-1144759543)]
+    [TLObject(1881817312)]
     public class TLRequestGetRecentLocations : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -1144759543;
+                return 1881817312;
             }
         }
 
         public TLAbsInputPeer Peer { get; set; }
         public int Limit { get; set; }
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public Messages.TLAbsMessages Response { get; set; }
 
         public void ComputeFlags()
@@ -34,7 +34,7 @@ namespace TgSharp.TL.Messages
         {
             Peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
             Limit = br.ReadInt32();
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

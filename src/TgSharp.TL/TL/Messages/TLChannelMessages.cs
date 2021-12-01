@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-1725551049)]
+    [TLObject(1682413576)]
     public class TLChannelMessages : TLAbsMessages
     {
         public override int Constructor
         {
             get
             {
-                return -1725551049;
+                return 1682413576;
             }
         }
 
@@ -24,6 +24,7 @@ namespace TgSharp.TL.Messages
         public bool Inexact { get; set; }
         public int Pts { get; set; }
         public int Count { get; set; }
+        public int? OffsetIdOffset { get; set; }
         public TLVector<TLAbsMessage> Messages { get; set; }
         public TLVector<TLAbsChat> Chats { get; set; }
         public TLVector<TLAbsUser> Users { get; set; }
@@ -31,7 +32,8 @@ namespace TgSharp.TL.Messages
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Inexact ? (Flags | 2) : (Flags & ~2);
+Flags = Inexact ? (Flags | 2) : (Flags & ~2);
+Flags = OffsetIdOffset != null ? (Flags | 4) : (Flags & ~4);
 
         }
 
@@ -41,6 +43,11 @@ namespace TgSharp.TL.Messages
             Inexact = (Flags & 2) != 0;
             Pts = br.ReadInt32();
             Count = br.ReadInt32();
+            if ((Flags & 4) != 0)
+                OffsetIdOffset = br.ReadInt32();
+            else
+                OffsetIdOffset = null;
+
             Messages = (TLVector<TLAbsMessage>)ObjectUtils.DeserializeVector<TLAbsMessage>(br);
             Chats = (TLVector<TLAbsChat>)ObjectUtils.DeserializeVector<TLAbsChat>(br);
             Users = (TLVector<TLAbsUser>)ObjectUtils.DeserializeVector<TLAbsUser>(br);
@@ -53,6 +60,8 @@ namespace TgSharp.TL.Messages
             bw.Write(Flags);
             bw.Write(Pts);
             bw.Write(Count);
+            if ((Flags & 4) != 0)
+                bw.Write(OffsetIdOffset.Value);
             ObjectUtils.SerializeObject(Messages, bw);
             ObjectUtils.SerializeObject(Chats, bw);
             ObjectUtils.SerializeObject(Users, bw);

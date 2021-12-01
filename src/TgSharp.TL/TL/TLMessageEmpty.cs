@@ -9,33 +9,47 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-2082087340)]
+    [TLObject(-1868117372)]
     public class TLMessageEmpty : TLAbsMessage
     {
         public override int Constructor
         {
             get
             {
-                return -2082087340;
+                return -1868117372;
             }
         }
 
+        public int Flags { get; set; }
         public int Id { get; set; }
+        public TLAbsPeer PeerId { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = PeerId != null ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
+            Flags = br.ReadInt32();
             Id = br.ReadInt32();
+            if ((Flags & 1) != 0)
+                PeerId = (TLAbsPeer)ObjectUtils.DeserializeObject(br);
+            else
+                PeerId = null;
+
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
+            bw.Write(Flags);
             bw.Write(Id);
+            if ((Flags & 1) != 0)
+                ObjectUtils.SerializeObject(PeerId, bw);
         }
     }
 }

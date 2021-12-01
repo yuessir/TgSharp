@@ -28,7 +28,7 @@ namespace TgSharp.TL.Messages
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Inexact ? (Flags | 2) : (Flags & ~2);
+Flags = Inexact ? (Flags | 2) : (Flags & ~2);
 
         }
 

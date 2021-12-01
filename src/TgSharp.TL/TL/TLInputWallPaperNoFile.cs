@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-2077770836)]
+    [TLObject(-1770371538)]
     public class TLInputWallPaperNoFile : TLAbsInputWallPaper
     {
         public override int Constructor
         {
             get
             {
-                return -2077770836;
+                return -1770371538;
             }
         }
 
-        // no fields
+        public long Id { get; set; }
 
         public void ComputeFlags()
         {
@@ -29,13 +29,13 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            // do nothing
+            Id = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            // do nothing
+            bw.Write(Id);
         }
     }
 }

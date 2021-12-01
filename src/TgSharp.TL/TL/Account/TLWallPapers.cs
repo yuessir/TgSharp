@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Account
 {
-    [TLObject(1881892265)]
+    [TLObject(-842824308)]
     public class TLWallPapers : TLAbsWallPapers
     {
         public override int Constructor
         {
             get
             {
-                return 1881892265;
+                return -842824308;
             }
         }
 
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public TLVector<TLAbsWallPaper> Wallpapers { get; set; }
 
         public void ComputeFlags()
@@ -30,7 +30,7 @@ namespace TgSharp.TL.Account
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
             Wallpapers = (TLVector<TLAbsWallPaper>)ObjectUtils.DeserializeVector<TLAbsWallPaper>(br);
         }
 

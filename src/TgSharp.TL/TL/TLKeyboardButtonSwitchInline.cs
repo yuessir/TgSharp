@@ -28,7 +28,7 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = SamePeer ? (Flags | 1) : (Flags & ~1);
+Flags = SamePeer ? (Flags | 1) : (Flags & ~1);
 
         }
 

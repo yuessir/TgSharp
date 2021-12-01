@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(363051235)]
+    [TLObject(-1568189671)]
     public class TLRequestMigrateChat : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return 363051235;
+                return -1568189671;
             }
         }
 
-        public int ChatId { get; set; }
+        public long ChatId { get; set; }
         public TLAbsUpdates Response { get; set; }
 
         public void ComputeFlags()
@@ -30,7 +30,7 @@ namespace TgSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChatId = br.ReadInt32();
+            ChatId = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

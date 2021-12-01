@@ -33,8 +33,8 @@ namespace TgSharp.TL.Channels
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = EventsFilter != null ? (Flags | 1) : (Flags & ~1);
-            Flags = Admins != null ? (Flags | 2) : (Flags & ~2);
+Flags = EventsFilter != null ? (Flags | 1) : (Flags & ~1);
+Flags = Admins != null ? (Flags | 2) : (Flags & ~2);
 
         }
 

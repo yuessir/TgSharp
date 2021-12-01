@@ -33,14 +33,14 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Header ? (Flags | 1) : (Flags & ~1);
-            Flags = AlignCenter ? (Flags | 8) : (Flags & ~8);
-            Flags = AlignRight ? (Flags | 16) : (Flags & ~16);
-            Flags = ValignMiddle ? (Flags | 32) : (Flags & ~32);
-            Flags = ValignBottom ? (Flags | 64) : (Flags & ~64);
-            Flags = Text != null ? (Flags | 128) : (Flags & ~128);
-            Flags = Colspan != null ? (Flags | 2) : (Flags & ~2);
-            Flags = Rowspan != null ? (Flags | 4) : (Flags & ~4);
+Flags = Header ? (Flags | 1) : (Flags & ~1);
+Flags = AlignCenter ? (Flags | 8) : (Flags & ~8);
+Flags = AlignRight ? (Flags | 16) : (Flags & ~16);
+Flags = ValignMiddle ? (Flags | 32) : (Flags & ~32);
+Flags = ValignBottom ? (Flags | 64) : (Flags & ~64);
+Flags = Text != null ? (Flags | 128) : (Flags & ~128);
+Flags = Colspan != null ? (Flags | 2) : (Flags & ~2);
+Flags = Rowspan != null ? (Flags | 4) : (Flags & ~4);
 
         }
 

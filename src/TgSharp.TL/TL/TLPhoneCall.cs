@@ -9,34 +9,36 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-2025673089)]
+    [TLObject(-1770029977)]
     public class TLPhoneCall : TLAbsPhoneCall
     {
         public override int Constructor
         {
             get
             {
-                return -2025673089;
+                return -1770029977;
             }
         }
 
         public int Flags { get; set; }
         public bool P2pAllowed { get; set; }
+        public bool Video { get; set; }
         public long Id { get; set; }
         public long AccessHash { get; set; }
         public int Date { get; set; }
-        public int AdminId { get; set; }
-        public int ParticipantId { get; set; }
+        public long AdminId { get; set; }
+        public long ParticipantId { get; set; }
         public byte[] GAOrB { get; set; }
         public long KeyFingerprint { get; set; }
         public TLPhoneCallProtocol Protocol { get; set; }
-        public TLVector<TLPhoneConnection> Connections { get; set; }
+        public TLVector<TLAbsPhoneConnection> Connections { get; set; }
         public int StartDate { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = P2pAllowed ? (Flags | 32) : (Flags & ~32);
+Flags = P2pAllowed ? (Flags | 32) : (Flags & ~32);
+Flags = Video ? (Flags | 64) : (Flags & ~64);
 
         }
 
@@ -44,15 +46,16 @@ namespace TgSharp.TL
         {
             Flags = br.ReadInt32();
             P2pAllowed = (Flags & 32) != 0;
+            Video = (Flags & 64) != 0;
             Id = br.ReadInt64();
             AccessHash = br.ReadInt64();
             Date = br.ReadInt32();
-            AdminId = br.ReadInt32();
-            ParticipantId = br.ReadInt32();
+            AdminId = br.ReadInt64();
+            ParticipantId = br.ReadInt64();
             GAOrB = BytesUtil.Deserialize(br);
             KeyFingerprint = br.ReadInt64();
             Protocol = (TLPhoneCallProtocol)ObjectUtils.DeserializeObject(br);
-            Connections = (TLVector<TLPhoneConnection>)ObjectUtils.DeserializeVector<TLPhoneConnection>(br);
+            Connections = (TLVector<TLAbsPhoneConnection>)ObjectUtils.DeserializeVector<TLAbsPhoneConnection>(br);
             StartDate = br.ReadInt32();
         }
 

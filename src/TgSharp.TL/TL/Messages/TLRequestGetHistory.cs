@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-591691168)]
+    [TLObject(1143203525)]
     public class TLRequestGetHistory : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -591691168;
+                return 1143203525;
             }
         }
 
@@ -27,7 +27,7 @@ namespace TgSharp.TL.Messages
         public int Limit { get; set; }
         public int MaxId { get; set; }
         public int MinId { get; set; }
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public Messages.TLAbsMessages Response { get; set; }
 
         public void ComputeFlags()
@@ -44,7 +44,7 @@ namespace TgSharp.TL.Messages
             Limit = br.ReadInt32();
             MaxId = br.ReadInt32();
             MinId = br.ReadInt32();
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

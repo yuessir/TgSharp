@@ -9,19 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(71126828)]
+    [TLObject(-710552671)]
     public class TLRequestGetStickers : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return 71126828;
+                return -710552671;
             }
         }
 
         public string Emoticon { get; set; }
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public Messages.TLAbsStickers Response { get; set; }
 
         public void ComputeFlags()
@@ -32,7 +32,7 @@ namespace TgSharp.TL.Messages
         public override void DeserializeBody(BinaryReader br)
         {
             Emoticon = StringUtil.Deserialize(br);
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

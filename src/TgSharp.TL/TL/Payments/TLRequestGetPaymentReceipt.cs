@@ -9,17 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Payments
 {
-    [TLObject(-1601001088)]
+    [TLObject(611897804)]
     public class TLRequestGetPaymentReceipt : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -1601001088;
+                return 611897804;
             }
         }
 
+        public TLAbsInputPeer Peer { get; set; }
         public int MsgId { get; set; }
         public Payments.TLPaymentReceipt Response { get; set; }
 
@@ -30,12 +31,14 @@ namespace TgSharp.TL.Payments
 
         public override void DeserializeBody(BinaryReader br)
         {
+            Peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
             MsgId = br.ReadInt32();
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ObjectUtils.SerializeObject(Peer, bw);
             bw.Write(MsgId);
         }
 

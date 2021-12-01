@@ -32,11 +32,11 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = ZeroValue != null ? (Flags | 1) : (Flags & ~1);
-            Flags = OneValue != null ? (Flags | 2) : (Flags & ~2);
-            Flags = TwoValue != null ? (Flags | 4) : (Flags & ~4);
-            Flags = FewValue != null ? (Flags | 8) : (Flags & ~8);
-            Flags = ManyValue != null ? (Flags | 16) : (Flags & ~16);
+Flags = ZeroValue != null ? (Flags | 1) : (Flags & ~1);
+Flags = OneValue != null ? (Flags | 2) : (Flags & ~2);
+Flags = TwoValue != null ? (Flags | 4) : (Flags & ~4);
+Flags = FewValue != null ? (Flags | 8) : (Flags & ~8);
+Flags = ManyValue != null ? (Flags | 16) : (Flags & ~16);
 
         }
 

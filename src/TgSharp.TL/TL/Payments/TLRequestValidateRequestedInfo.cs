@@ -9,19 +9,20 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Payments
 {
-    [TLObject(1997180532)]
+    [TLObject(-619695760)]
     public class TLRequestValidateRequestedInfo : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return 1997180532;
+                return -619695760;
             }
         }
 
         public int Flags { get; set; }
         public bool Save { get; set; }
+        public TLAbsInputPeer Peer { get; set; }
         public int MsgId { get; set; }
         public TLPaymentRequestedInfo Info { get; set; }
         public Payments.TLValidatedRequestedInfo Response { get; set; }
@@ -29,7 +30,7 @@ namespace TgSharp.TL.Payments
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Save ? (Flags | 1) : (Flags & ~1);
+Flags = Save ? (Flags | 1) : (Flags & ~1);
 
         }
 
@@ -37,6 +38,7 @@ namespace TgSharp.TL.Payments
         {
             Flags = br.ReadInt32();
             Save = (Flags & 1) != 0;
+            Peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
             MsgId = br.ReadInt32();
             Info = (TLPaymentRequestedInfo)ObjectUtils.DeserializeObject(br);
         }
@@ -46,6 +48,7 @@ namespace TgSharp.TL.Payments
             bw.Write(Constructor);
             ComputeFlags();
             bw.Write(Flags);
+            ObjectUtils.SerializeObject(Peer, bw);
             bw.Write(MsgId);
             ObjectUtils.SerializeObject(Info, bw);
         }

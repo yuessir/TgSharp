@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(367766557)]
+    [TLObject(-1072953408)]
     public class TLChannelParticipant : TLAbsChannelParticipant
     {
         public override int Constructor
         {
             get
             {
-                return 367766557;
+                return -1072953408;
             }
         }
 
-        public int UserId { get; set; }
+        public long UserId { get; set; }
         public int Date { get; set; }
 
         public void ComputeFlags()
@@ -30,7 +30,7 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            UserId = br.ReadInt32();
+            UserId = br.ReadInt64();
             Date = br.ReadInt32();
         }
 
