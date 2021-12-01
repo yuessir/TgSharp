@@ -31,8 +31,8 @@ namespace TgSharp.TL.Upload
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Precise ? (Flags | 1) : (Flags & ~1);
-            Flags = CdnSupported ? (Flags | 2) : (Flags & ~2);
+Flags = Precise ? (Flags | 1) : (Flags & ~1);
+Flags = CdnSupported ? (Flags | 2) : (Flags & ~2);
 
         }
 

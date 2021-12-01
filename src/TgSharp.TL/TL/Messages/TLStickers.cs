@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-463889475)]
+    [TLObject(816245886)]
     public class TLStickers : TLAbsStickers
     {
         public override int Constructor
         {
             get
             {
-                return -463889475;
+                return 816245886;
             }
         }
 
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public TLVector<TLAbsDocument> Stickers { get; set; }
 
         public void ComputeFlags()
@@ -30,7 +30,7 @@ namespace TgSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
             Stickers = (TLVector<TLAbsDocument>)ObjectUtils.DeserializeVector<TLAbsDocument>(br);
         }
 

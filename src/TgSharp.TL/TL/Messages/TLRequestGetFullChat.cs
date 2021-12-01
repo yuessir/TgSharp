@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(998448230)]
+    [TLObject(-1364194508)]
     public class TLRequestGetFullChat : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return 998448230;
+                return -1364194508;
             }
         }
 
-        public int ChatId { get; set; }
+        public long ChatId { get; set; }
         public Messages.TLChatFull Response { get; set; }
 
         public void ComputeFlags()
@@ -30,7 +30,7 @@ namespace TgSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChatId = br.ReadInt32();
+            ChatId = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

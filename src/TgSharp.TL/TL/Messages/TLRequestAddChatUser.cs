@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-106911223)]
+    [TLObject(-230206493)]
     public class TLRequestAddChatUser : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -106911223;
+                return -230206493;
             }
         }
 
-        public int ChatId { get; set; }
+        public long ChatId { get; set; }
         public TLAbsInputUser UserId { get; set; }
         public int FwdLimit { get; set; }
         public TLAbsUpdates Response { get; set; }
@@ -32,7 +32,7 @@ namespace TgSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChatId = br.ReadInt32();
+            ChatId = br.ReadInt64();
             UserId = (TLAbsInputUser)ObjectUtils.DeserializeObject(br);
             FwdLimit = br.ReadInt32();
         }

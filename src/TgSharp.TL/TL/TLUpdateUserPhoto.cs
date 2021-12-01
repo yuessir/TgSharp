@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-1791935732)]
+    [TLObject(-232290676)]
     public class TLUpdateUserPhoto : TLAbsUpdate
     {
         public override int Constructor
         {
             get
             {
-                return -1791935732;
+                return -232290676;
             }
         }
 
-        public int UserId { get; set; }
+        public long UserId { get; set; }
         public int Date { get; set; }
         public TLAbsUserProfilePhoto Photo { get; set; }
         public bool Previous { get; set; }
@@ -32,7 +32,7 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            UserId = br.ReadInt32();
+            UserId = br.ReadInt64();
             Date = br.ReadInt32();
             Photo = (TLAbsUserProfilePhoto)ObjectUtils.DeserializeObject(br);
             Previous = BoolUtil.Deserialize(br);

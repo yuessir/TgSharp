@@ -9,23 +9,24 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Payments
 {
-    [TLObject(1062645411)]
+    [TLObject(378828315)]
     public class TLPaymentForm : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return 1062645411;
+                return 378828315;
             }
         }
 
         public int Flags { get; set; }
         public bool CanSaveCredentials { get; set; }
         public bool PasswordMissing { get; set; }
-        public int BotId { get; set; }
+        public long FormId { get; set; }
+        public long BotId { get; set; }
         public TLInvoice Invoice { get; set; }
-        public int ProviderId { get; set; }
+        public long ProviderId { get; set; }
         public string Url { get; set; }
         public string NativeProvider { get; set; }
         public TLDataJSON NativeParams { get; set; }
@@ -36,12 +37,12 @@ namespace TgSharp.TL.Payments
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = CanSaveCredentials ? (Flags | 4) : (Flags & ~4);
-            Flags = PasswordMissing ? (Flags | 8) : (Flags & ~8);
-            Flags = NativeProvider != null ? (Flags | 16) : (Flags & ~16);
-            Flags = NativeParams != null ? (Flags | 16) : (Flags & ~16);
-            Flags = SavedInfo != null ? (Flags | 1) : (Flags & ~1);
-            Flags = SavedCredentials != null ? (Flags | 2) : (Flags & ~2);
+Flags = CanSaveCredentials ? (Flags | 4) : (Flags & ~4);
+Flags = PasswordMissing ? (Flags | 8) : (Flags & ~8);
+Flags = NativeProvider != null ? (Flags | 16) : (Flags & ~16);
+Flags = NativeParams != null ? (Flags | 16) : (Flags & ~16);
+Flags = SavedInfo != null ? (Flags | 1) : (Flags & ~1);
+Flags = SavedCredentials != null ? (Flags | 2) : (Flags & ~2);
 
         }
 
@@ -50,9 +51,10 @@ namespace TgSharp.TL.Payments
             Flags = br.ReadInt32();
             CanSaveCredentials = (Flags & 4) != 0;
             PasswordMissing = (Flags & 8) != 0;
-            BotId = br.ReadInt32();
+            FormId = br.ReadInt64();
+            BotId = br.ReadInt64();
             Invoice = (TLInvoice)ObjectUtils.DeserializeObject(br);
-            ProviderId = br.ReadInt32();
+            ProviderId = br.ReadInt64();
             Url = StringUtil.Deserialize(br);
             if ((Flags & 16) != 0)
                 NativeProvider = StringUtil.Deserialize(br);
@@ -82,6 +84,7 @@ namespace TgSharp.TL.Payments
             bw.Write(Constructor);
             ComputeFlags();
             bw.Write(Flags);
+            bw.Write(FormId);
             bw.Write(BotId);
             ObjectUtils.SerializeObject(Invoice, bw);
             bw.Write(ProviderId);

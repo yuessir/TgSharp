@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(1548249383)]
+    [TLObject(-1071741569)]
     public class TLUpdateUserTyping : TLAbsUpdate
     {
         public override int Constructor
         {
             get
             {
-                return 1548249383;
+                return -1071741569;
             }
         }
 
-        public int UserId { get; set; }
+        public long UserId { get; set; }
         public TLAbsSendMessageAction Action { get; set; }
 
         public void ComputeFlags()
@@ -30,7 +30,7 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            UserId = br.ReadInt32();
+            UserId = br.ReadInt64();
             Action = (TLAbsSendMessageAction)ObjectUtils.DeserializeObject(br);
         }
 

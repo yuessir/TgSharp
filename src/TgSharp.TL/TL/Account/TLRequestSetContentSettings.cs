@@ -27,7 +27,7 @@ namespace TgSharp.TL.Account
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = SensitiveEnabled ? (Flags | 1) : (Flags & ~1);
+Flags = SensitiveEnabled ? (Flags | 1) : (Flags & ~1);
 
         }
 

@@ -9,19 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(218777796)]
+    [TLObject(-468934396)]
     public class TLRequestGetCommonChats : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return 218777796;
+                return -468934396;
             }
         }
 
         public TLAbsInputUser UserId { get; set; }
-        public int MaxId { get; set; }
+        public long MaxId { get; set; }
         public int Limit { get; set; }
         public Messages.TLAbsChats Response { get; set; }
 
@@ -33,7 +33,7 @@ namespace TgSharp.TL.Messages
         public override void DeserializeBody(BinaryReader br)
         {
             UserId = (TLAbsInputUser)ObjectUtils.DeserializeObject(br);
-            MaxId = br.ReadInt32();
+            MaxId = br.ReadInt64();
             Limit = br.ReadInt32();
         }
 

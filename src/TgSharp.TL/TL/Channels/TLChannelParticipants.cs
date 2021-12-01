@@ -9,19 +9,20 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Channels
 {
-    [TLObject(-177282392)]
+    [TLObject(-1699676497)]
     public class TLChannelParticipants : TLAbsChannelParticipants
     {
         public override int Constructor
         {
             get
             {
-                return -177282392;
+                return -1699676497;
             }
         }
 
         public int Count { get; set; }
         public TLVector<TLAbsChannelParticipant> Participants { get; set; }
+        public TLVector<TLAbsChat> Chats { get; set; }
         public TLVector<TLAbsUser> Users { get; set; }
 
         public void ComputeFlags()
@@ -33,6 +34,7 @@ namespace TgSharp.TL.Channels
         {
             Count = br.ReadInt32();
             Participants = (TLVector<TLAbsChannelParticipant>)ObjectUtils.DeserializeVector<TLAbsChannelParticipant>(br);
+            Chats = (TLVector<TLAbsChat>)ObjectUtils.DeserializeVector<TLAbsChat>(br);
             Users = (TLVector<TLAbsUser>)ObjectUtils.DeserializeVector<TLAbsUser>(br);
         }
 
@@ -41,6 +43,7 @@ namespace TgSharp.TL.Channels
             bw.Write(Constructor);
             bw.Write(Count);
             ObjectUtils.SerializeObject(Participants, bw);
+            ObjectUtils.SerializeObject(Chats, bw);
             ObjectUtils.SerializeObject(Users, bw);
         }
     }

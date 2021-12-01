@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-599447467)]
+    [TLObject(1937260541)]
     public class TLRequestEditChatTitle : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -599447467;
+                return 1937260541;
             }
         }
 
-        public int ChatId { get; set; }
+        public long ChatId { get; set; }
         public string Title { get; set; }
         public TLAbsUpdates Response { get; set; }
 
@@ -31,7 +31,7 @@ namespace TgSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChatId = br.ReadInt32();
+            ChatId = br.ReadInt64();
             Title = StringUtil.Deserialize(br);
         }
 

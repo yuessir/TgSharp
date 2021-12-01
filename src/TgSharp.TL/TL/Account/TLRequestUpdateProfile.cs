@@ -29,9 +29,9 @@ namespace TgSharp.TL.Account
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = FirstName != null ? (Flags | 1) : (Flags & ~1);
-            Flags = LastName != null ? (Flags | 2) : (Flags & ~2);
-            Flags = About != null ? (Flags | 4) : (Flags & ~4);
+Flags = FirstName != null ? (Flags | 1) : (Flags & ~1);
+Flags = LastName != null ? (Flags | 2) : (Flags & ~2);
+Flags = About != null ? (Flags | 4) : (Flags & ~4);
 
         }
 

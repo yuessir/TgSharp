@@ -27,7 +27,7 @@ namespace TgSharp.TL.Messages
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Attached ? (Flags | 1) : (Flags & ~1);
+Flags = Attached ? (Flags | 1) : (Flags & ~1);
 
         }
 

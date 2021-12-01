@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-512463606)]
+    [TLObject(-1041980751)]
     public class TLInputReportReasonOther : TLAbsReportReason
     {
         public override int Constructor
         {
             get
             {
-                return -512463606;
+                return -1041980751;
             }
         }
 
-        public string Text { get; set; }
+        // no fields
 
         public void ComputeFlags()
         {
@@ -29,13 +29,13 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Text = StringUtil.Deserialize(br);
+            // do nothing
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            StringUtil.Serialize(Text, bw);
+            // do nothing
         }
     }
 }

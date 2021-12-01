@@ -24,6 +24,8 @@ namespace TgSharp.TL
         public bool Current { get; set; }
         public bool OfficialApp { get; set; }
         public bool PasswordPending { get; set; }
+        public bool EncryptedRequestsDisabled { get; set; }
+        public bool CallRequestsDisabled { get; set; }
         public long Hash { get; set; }
         public string DeviceModel { get; set; }
         public string Platform { get; set; }
@@ -40,9 +42,11 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Current ? (Flags | 1) : (Flags & ~1);
-            Flags = OfficialApp ? (Flags | 2) : (Flags & ~2);
-            Flags = PasswordPending ? (Flags | 4) : (Flags & ~4);
+Flags = Current ? (Flags | 1) : (Flags & ~1);
+Flags = OfficialApp ? (Flags | 2) : (Flags & ~2);
+Flags = PasswordPending ? (Flags | 4) : (Flags & ~4);
+Flags = EncryptedRequestsDisabled ? (Flags | 8) : (Flags & ~8);
+Flags = CallRequestsDisabled ? (Flags | 16) : (Flags & ~16);
 
         }
 
@@ -52,6 +56,8 @@ namespace TgSharp.TL
             Current = (Flags & 1) != 0;
             OfficialApp = (Flags & 2) != 0;
             PasswordPending = (Flags & 4) != 0;
+            EncryptedRequestsDisabled = (Flags & 8) != 0;
+            CallRequestsDisabled = (Flags & 16) != 0;
             Hash = br.ReadInt64();
             DeviceModel = StringUtil.Deserialize(br);
             Platform = StringUtil.Deserialize(br);

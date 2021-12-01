@@ -26,7 +26,7 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Missed ? (Flags | 1) : (Flags & ~1);
+Flags = Missed ? (Flags | 1) : (Flags & ~1);
 
         }
 

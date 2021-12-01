@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Auth
 {
-    [TLObject(-543777747)]
+    [TLObject(-1271602504)]
     public class TLExportedAuthorization : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return -543777747;
+                return -1271602504;
             }
         }
 
-        public int Id { get; set; }
+        public long Id { get; set; }
         public byte[] Bytes { get; set; }
 
         public void ComputeFlags()
@@ -30,7 +30,7 @@ namespace TgSharp.TL.Auth
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Id = br.ReadInt32();
+            Id = br.ReadInt64();
             Bytes = BytesUtil.Deserialize(br);
         }
 

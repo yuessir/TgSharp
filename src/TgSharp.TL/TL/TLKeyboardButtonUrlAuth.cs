@@ -29,7 +29,7 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = FwdText != null ? (Flags | 1) : (Flags & ~1);
+Flags = FwdText != null ? (Flags | 1) : (Flags & ~1);
 
         }
 

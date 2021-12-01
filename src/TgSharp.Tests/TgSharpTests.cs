@@ -137,7 +137,7 @@ namespace TgSharp.Tests
             TLUser user = null;
             try
             {
-                user = await client.MakeAuthAsync(NumberToAuthenticate, hash, code);
+                user = await client.MakeAuthAsync(NumberToAuthenticate, hash.PhoneCodeHash, code);
             }
             catch (InvalidPhoneCodeException ex)
             {
@@ -147,7 +147,7 @@ namespace TgSharp.Tests
             catch (CloudPasswordNeededException ex)
             {
                 if (!string.IsNullOrEmpty(PasswordToAuthenticate))
-                    user = await client.MakeAuthAsync(NumberToAuthenticate, hash, code, PasswordToAuthenticate);
+                    user = await client.MakeAuthAsync(NumberToAuthenticate, hash.PhoneCodeHash, code, PasswordToAuthenticate);
                 else
                     throw ex;
             }
@@ -287,13 +287,11 @@ namespace TgSharp.Tests
                 .FirstOrDefault(x => x.Id == 5880094);
 
             var photo = ((TLUserProfilePhoto)user.Photo);
-            var photoLocation = (TLFileLocationToBeDeprecated)photo.PhotoBig;
 
             var resFile = await client.GetFile(new TLInputPeerPhotoFileLocation()
             {
                 Big = true,
-                LocalId = photoLocation.LocalId,
-                VolumeId = photoLocation.VolumeId,
+                PhotoId = photo.PhotoId,
                 Peer = new TLInputPeerUser { UserId = user.Id, AccessHash = user.AccessHash.Value }
             }, 1024);
 
@@ -310,7 +308,7 @@ namespace TgSharp.Tests
             var hash = await client.SendCodeRequestAsync(NotRegisteredNumberToSignUp);
             var code = "";
 
-            var registeredUser = await client.MakeAuthAsync(NotRegisteredNumberToSignUp, hash, code, "TgSharp", "User");
+            var registeredUser = await client.MakeAuthAsync(NotRegisteredNumberToSignUp, hash.PhoneCodeHash, code, "TgSharp", "User");
             Assert.IsNotNull(registeredUser);
             Assert.IsTrue(client.IsUserAuthorized());
         }

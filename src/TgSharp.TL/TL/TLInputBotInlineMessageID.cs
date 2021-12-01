@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL
 {
     [TLObject(-1995686519)]
-    public class TLInputBotInlineMessageID : TLObject
+    public class TLInputBotInlineMessageID : TLAbsInputBotInlineMessageID
     {
         public override int Constructor
         {

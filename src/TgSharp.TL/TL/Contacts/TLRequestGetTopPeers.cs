@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Contacts
 {
-    [TLObject(-728224331)]
+    [TLObject(-1758168906)]
     public class TLRequestGetTopPeers : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -728224331;
+                return -1758168906;
             }
         }
 
@@ -31,20 +31,20 @@ namespace TgSharp.TL.Contacts
         public bool Channels { get; set; }
         public int Offset { get; set; }
         public int Limit { get; set; }
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public Contacts.TLAbsTopPeers Response { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Correspondents ? (Flags | 1) : (Flags & ~1);
-            Flags = BotsPm ? (Flags | 2) : (Flags & ~2);
-            Flags = BotsInline ? (Flags | 4) : (Flags & ~4);
-            Flags = PhoneCalls ? (Flags | 8) : (Flags & ~8);
-            Flags = ForwardUsers ? (Flags | 16) : (Flags & ~16);
-            Flags = ForwardChats ? (Flags | 32) : (Flags & ~32);
-            Flags = Groups ? (Flags | 1024) : (Flags & ~1024);
-            Flags = Channels ? (Flags | 32768) : (Flags & ~32768);
+Flags = Correspondents ? (Flags | 1) : (Flags & ~1);
+Flags = BotsPm ? (Flags | 2) : (Flags & ~2);
+Flags = BotsInline ? (Flags | 4) : (Flags & ~4);
+Flags = PhoneCalls ? (Flags | 8) : (Flags & ~8);
+Flags = ForwardUsers ? (Flags | 16) : (Flags & ~16);
+Flags = ForwardChats ? (Flags | 32) : (Flags & ~32);
+Flags = Groups ? (Flags | 1024) : (Flags & ~1024);
+Flags = Channels ? (Flags | 32768) : (Flags & ~32768);
 
         }
 
@@ -61,7 +61,7 @@ namespace TgSharp.TL.Contacts
             Channels = (Flags & 32768) != 0;
             Offset = br.ReadInt32();
             Limit = br.ReadInt32();
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

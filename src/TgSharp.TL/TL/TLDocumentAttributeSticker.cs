@@ -29,8 +29,8 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Mask ? (Flags | 2) : (Flags & ~2);
-            Flags = MaskCoords != null ? (Flags | 1) : (Flags & ~1);
+Flags = Mask ? (Flags | 2) : (Flags & ~2);
+Flags = MaskCoords != null ? (Flags | 1) : (Flags & ~1);
 
         }
 

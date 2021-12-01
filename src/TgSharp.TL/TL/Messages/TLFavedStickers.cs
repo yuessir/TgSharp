@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-209768682)]
+    [TLObject(750063767)]
     public class TLFavedStickers : TLAbsFavedStickers
     {
         public override int Constructor
         {
             get
             {
-                return -209768682;
+                return 750063767;
             }
         }
 
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public TLVector<TLStickerPack> Packs { get; set; }
         public TLVector<TLAbsDocument> Stickers { get; set; }
 
@@ -31,7 +31,7 @@ namespace TgSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
             Packs = (TLVector<TLStickerPack>)ObjectUtils.DeserializeVector<TLStickerPack>(br);
             Stickers = (TLVector<TLAbsDocument>)ObjectUtils.DeserializeVector<TLAbsDocument>(br);
         }

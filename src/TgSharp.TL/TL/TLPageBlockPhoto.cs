@@ -29,8 +29,8 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Url != null ? (Flags | 1) : (Flags & ~1);
-            Flags = WebpageId != null ? (Flags | 1) : (Flags & ~1);
+Flags = Url != null ? (Flags | 1) : (Flags & ~1);
+Flags = WebpageId != null ? (Flags | 1) : (Flags & ~1);
 
         }
 

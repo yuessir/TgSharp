@@ -9,18 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Channels
 {
-    [TLObject(-791039645)]
+    [TLObject(-541588713)]
     public class TLChannelParticipant : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return -791039645;
+                return -541588713;
             }
         }
 
         public TLAbsChannelParticipant Participant { get; set; }
+        public TLVector<TLAbsChat> Chats { get; set; }
         public TLVector<TLAbsUser> Users { get; set; }
 
         public void ComputeFlags()
@@ -31,6 +32,7 @@ namespace TgSharp.TL.Channels
         public override void DeserializeBody(BinaryReader br)
         {
             Participant = (TLAbsChannelParticipant)ObjectUtils.DeserializeObject(br);
+            Chats = (TLVector<TLAbsChat>)ObjectUtils.DeserializeVector<TLAbsChat>(br);
             Users = (TLVector<TLAbsUser>)ObjectUtils.DeserializeVector<TLAbsUser>(br);
         }
 
@@ -38,6 +40,7 @@ namespace TgSharp.TL.Channels
         {
             bw.Write(Constructor);
             ObjectUtils.SerializeObject(Participant, bw);
+            ObjectUtils.SerializeObject(Chats, bw);
             ObjectUtils.SerializeObject(Users, bw);
         }
     }

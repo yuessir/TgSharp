@@ -9,38 +9,52 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(1197267925)]
+    [TLObject(476978193)]
     public class TLChatPhoto : TLAbsChatPhoto
     {
         public override int Constructor
         {
             get
             {
-                return 1197267925;
+                return 476978193;
             }
         }
 
-        public TLFileLocationToBeDeprecated PhotoSmall { get; set; }
-        public TLFileLocationToBeDeprecated PhotoBig { get; set; }
+        public int Flags { get; set; }
+        public bool HasVideo { get; set; }
+        public long PhotoId { get; set; }
+        public byte[] StrippedThumb { get; set; }
         public int DcId { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = HasVideo ? (Flags | 1) : (Flags & ~1);
+Flags = StrippedThumb != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            PhotoSmall = (TLFileLocationToBeDeprecated)ObjectUtils.DeserializeObject(br);
-            PhotoBig = (TLFileLocationToBeDeprecated)ObjectUtils.DeserializeObject(br);
+            Flags = br.ReadInt32();
+            HasVideo = (Flags & 1) != 0;
+            PhotoId = br.ReadInt64();
+            if ((Flags & 2) != 0)
+                StrippedThumb = BytesUtil.Deserialize(br);
+            else
+                StrippedThumb = null;
+
             DcId = br.ReadInt32();
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(PhotoSmall, bw);
-            ObjectUtils.SerializeObject(PhotoBig, bw);
+            ComputeFlags();
+            bw.Write(Flags);
+            bw.Write(PhotoId);
+            if ((Flags & 2) != 0)
+                BytesUtil.Serialize(StrippedThumb, bw);
             bw.Write(DcId);
         }
     }

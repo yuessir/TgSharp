@@ -9,20 +9,20 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-364179876)]
+    [TLObject(1037718609)]
     public class TLUpdateChatParticipantAdd : TLAbsUpdate
     {
         public override int Constructor
         {
             get
             {
-                return -364179876;
+                return 1037718609;
             }
         }
 
-        public int ChatId { get; set; }
-        public int UserId { get; set; }
-        public int InviterId { get; set; }
+        public long ChatId { get; set; }
+        public long UserId { get; set; }
+        public long InviterId { get; set; }
         public int Date { get; set; }
         public int Version { get; set; }
 
@@ -33,9 +33,9 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChatId = br.ReadInt32();
-            UserId = br.ReadInt32();
-            InviterId = br.ReadInt32();
+            ChatId = br.ReadInt64();
+            UserId = br.ReadInt64();
+            InviterId = br.ReadInt64();
             Date = br.ReadInt32();
             Version = br.ReadInt32();
         }

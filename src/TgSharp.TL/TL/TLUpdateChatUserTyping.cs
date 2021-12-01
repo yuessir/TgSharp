@@ -9,19 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-1704596961)]
+    [TLObject(-2092401936)]
     public class TLUpdateChatUserTyping : TLAbsUpdate
     {
         public override int Constructor
         {
             get
             {
-                return -1704596961;
+                return -2092401936;
             }
         }
 
-        public int ChatId { get; set; }
-        public int UserId { get; set; }
+        public long ChatId { get; set; }
+        public TLAbsPeer FromId { get; set; }
         public TLAbsSendMessageAction Action { get; set; }
 
         public void ComputeFlags()
@@ -31,8 +31,8 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChatId = br.ReadInt32();
-            UserId = br.ReadInt32();
+            ChatId = br.ReadInt64();
+            FromId = (TLAbsPeer)ObjectUtils.DeserializeObject(br);
             Action = (TLAbsSendMessageAction)ObjectUtils.DeserializeObject(br);
         }
 
@@ -40,7 +40,7 @@ namespace TgSharp.TL
         {
             bw.Write(Constructor);
             bw.Write(ChatId);
-            bw.Write(UserId);
+            ObjectUtils.SerializeObject(FromId, bw);
             ObjectUtils.SerializeObject(Action, bw);
         }
     }

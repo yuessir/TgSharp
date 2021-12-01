@@ -9,35 +9,43 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-530505962)]
+    [TLObject(-1575461717)]
     public class TLRequestDeleteChatUser : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -530505962;
+                return -1575461717;
             }
         }
 
-        public int ChatId { get; set; }
+        public int Flags { get; set; }
+        public bool RevokeHistory { get; set; }
+        public long ChatId { get; set; }
         public TLAbsInputUser UserId { get; set; }
         public TLAbsUpdates Response { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = RevokeHistory ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChatId = br.ReadInt32();
+            Flags = br.ReadInt32();
+            RevokeHistory = (Flags & 1) != 0;
+            ChatId = br.ReadInt64();
             UserId = (TLAbsInputUser)ObjectUtils.DeserializeObject(br);
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
+            bw.Write(Flags);
             bw.Write(ChatId);
             ObjectUtils.SerializeObject(UserId, bw);
         }

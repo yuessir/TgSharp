@@ -28,9 +28,9 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = AllowFlashcall ? (Flags | 1) : (Flags & ~1);
-            Flags = CurrentNumber ? (Flags | 2) : (Flags & ~2);
-            Flags = AllowAppHash ? (Flags | 16) : (Flags & ~16);
+Flags = AllowFlashcall ? (Flags | 1) : (Flags & ~1);
+Flags = CurrentNumber ? (Flags | 2) : (Flags & ~2);
+Flags = AllowAppHash ? (Flags | 16) : (Flags & ~16);
 
         }
 

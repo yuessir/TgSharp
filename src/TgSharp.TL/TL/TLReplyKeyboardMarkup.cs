@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(889353612)]
+    [TLObject(-2049074735)]
     public class TLReplyKeyboardMarkup : TLAbsReplyMarkup
     {
         public override int Constructor
         {
             get
             {
-                return 889353612;
+                return -2049074735;
             }
         }
 
@@ -25,13 +25,15 @@ namespace TgSharp.TL
         public bool SingleUse { get; set; }
         public bool Selective { get; set; }
         public TLVector<TLKeyboardButtonRow> Rows { get; set; }
+        public string Placeholder { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Resize ? (Flags | 1) : (Flags & ~1);
-            Flags = SingleUse ? (Flags | 2) : (Flags & ~2);
-            Flags = Selective ? (Flags | 4) : (Flags & ~4);
+Flags = Resize ? (Flags | 1) : (Flags & ~1);
+Flags = SingleUse ? (Flags | 2) : (Flags & ~2);
+Flags = Selective ? (Flags | 4) : (Flags & ~4);
+Flags = Placeholder != null ? (Flags | 8) : (Flags & ~8);
 
         }
 
@@ -42,6 +44,11 @@ namespace TgSharp.TL
             SingleUse = (Flags & 2) != 0;
             Selective = (Flags & 4) != 0;
             Rows = (TLVector<TLKeyboardButtonRow>)ObjectUtils.DeserializeVector<TLKeyboardButtonRow>(br);
+            if ((Flags & 8) != 0)
+                Placeholder = StringUtil.Deserialize(br);
+            else
+                Placeholder = null;
+
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -50,6 +57,8 @@ namespace TgSharp.TL
             ComputeFlags();
             bw.Write(Flags);
             ObjectUtils.SerializeObject(Rows, bw);
+            if ((Flags & 8) != 0)
+                StringUtil.Serialize(Placeholder, bw);
         }
     }
 }

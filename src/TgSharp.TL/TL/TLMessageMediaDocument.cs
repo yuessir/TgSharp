@@ -27,8 +27,8 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Document != null ? (Flags | 1) : (Flags & ~1);
-            Flags = TtlSeconds != null ? (Flags | 4) : (Flags & ~4);
+Flags = Document != null ? (Flags | 1) : (Flags & ~1);
+Flags = TtlSeconds != null ? (Flags | 4) : (Flags & ~4);
 
         }
 

@@ -33,11 +33,11 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Channel ? (Flags | 1) : (Flags & ~1);
-            Flags = Broadcast ? (Flags | 2) : (Flags & ~2);
-            Flags = Public ? (Flags | 4) : (Flags & ~4);
-            Flags = Megagroup ? (Flags | 8) : (Flags & ~8);
-            Flags = Participants != null ? (Flags | 16) : (Flags & ~16);
+Flags = Channel ? (Flags | 1) : (Flags & ~1);
+Flags = Broadcast ? (Flags | 2) : (Flags & ~2);
+Flags = Public ? (Flags | 4) : (Flags & ~4);
+Flags = Megagroup ? (Flags | 8) : (Flags & ~8);
+Flags = Participants != null ? (Flags | 16) : (Flags & ~16);
 
         }
 

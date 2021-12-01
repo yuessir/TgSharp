@@ -30,7 +30,7 @@ namespace TgSharp.TL.Account
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Thumb != null ? (Flags | 1) : (Flags & ~1);
+Flags = Thumb != null ? (Flags | 1) : (Flags & ~1);
 
         }
 

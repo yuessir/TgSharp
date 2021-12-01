@@ -29,8 +29,8 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Autoplay ? (Flags | 1) : (Flags & ~1);
-            Flags = Loop ? (Flags | 2) : (Flags & ~2);
+Flags = Autoplay ? (Flags | 1) : (Flags & ~1);
+Flags = Loop ? (Flags | 2) : (Flags & ~2);
 
         }
 

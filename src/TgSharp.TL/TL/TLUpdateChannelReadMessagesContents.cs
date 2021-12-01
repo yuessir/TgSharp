@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-1987495099)]
+    [TLObject(1153291573)]
     public class TLUpdateChannelReadMessagesContents : TLAbsUpdate
     {
         public override int Constructor
         {
             get
             {
-                return -1987495099;
+                return 1153291573;
             }
         }
 
-        public int ChannelId { get; set; }
+        public long ChannelId { get; set; }
         public TLVector<int> Messages { get; set; }
 
         public void ComputeFlags()
@@ -30,7 +30,7 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChannelId = br.ReadInt32();
+            ChannelId = br.ReadInt64();
             Messages = (TLVector<int>)ObjectUtils.DeserializeVector<int>(br);
         }
 

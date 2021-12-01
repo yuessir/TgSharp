@@ -31,8 +31,8 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Popup ? (Flags | 1) : (Flags & ~1);
-            Flags = InboxDate != null ? (Flags | 2) : (Flags & ~2);
+Flags = Popup ? (Flags | 1) : (Flags & ~1);
+Flags = InboxDate != null ? (Flags | 2) : (Flags & ~2);
 
         }
 

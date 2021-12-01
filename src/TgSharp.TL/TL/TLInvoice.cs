@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-1022713000)]
+    [TLObject(215516896)]
     public class TLInvoice : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return -1022713000;
+                return 215516896;
             }
         }
 
@@ -31,18 +31,22 @@ namespace TgSharp.TL
         public bool EmailToProvider { get; set; }
         public string Currency { get; set; }
         public TLVector<TLLabeledPrice> Prices { get; set; }
+        public long? MaxTipAmount { get; set; }
+        public TLVector<long> SuggestedTipAmounts { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Test ? (Flags | 1) : (Flags & ~1);
-            Flags = NameRequested ? (Flags | 2) : (Flags & ~2);
-            Flags = PhoneRequested ? (Flags | 4) : (Flags & ~4);
-            Flags = EmailRequested ? (Flags | 8) : (Flags & ~8);
-            Flags = ShippingAddressRequested ? (Flags | 16) : (Flags & ~16);
-            Flags = Flexible ? (Flags | 32) : (Flags & ~32);
-            Flags = PhoneToProvider ? (Flags | 64) : (Flags & ~64);
-            Flags = EmailToProvider ? (Flags | 128) : (Flags & ~128);
+Flags = Test ? (Flags | 1) : (Flags & ~1);
+Flags = NameRequested ? (Flags | 2) : (Flags & ~2);
+Flags = PhoneRequested ? (Flags | 4) : (Flags & ~4);
+Flags = EmailRequested ? (Flags | 8) : (Flags & ~8);
+Flags = ShippingAddressRequested ? (Flags | 16) : (Flags & ~16);
+Flags = Flexible ? (Flags | 32) : (Flags & ~32);
+Flags = PhoneToProvider ? (Flags | 64) : (Flags & ~64);
+Flags = EmailToProvider ? (Flags | 128) : (Flags & ~128);
+Flags = MaxTipAmount != null ? (Flags | 256) : (Flags & ~256);
+Flags = SuggestedTipAmounts != null ? (Flags | 256) : (Flags & ~256);
 
         }
 
@@ -59,6 +63,16 @@ namespace TgSharp.TL
             EmailToProvider = (Flags & 128) != 0;
             Currency = StringUtil.Deserialize(br);
             Prices = (TLVector<TLLabeledPrice>)ObjectUtils.DeserializeVector<TLLabeledPrice>(br);
+            if ((Flags & 256) != 0)
+                MaxTipAmount = br.ReadInt64();
+            else
+                MaxTipAmount = null;
+
+            if ((Flags & 256) != 0)
+                SuggestedTipAmounts = (TLVector<long>)ObjectUtils.DeserializeVector<long>(br);
+            else
+                SuggestedTipAmounts = null;
+
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -68,6 +82,10 @@ namespace TgSharp.TL
             bw.Write(Flags);
             StringUtil.Serialize(Currency, bw);
             ObjectUtils.SerializeObject(Prices, bw);
+            if ((Flags & 256) != 0)
+                bw.Write(MaxTipAmount.Value);
+            if ((Flags & 256) != 0)
+                ObjectUtils.SerializeObject(SuggestedTipAmounts, bw);
         }
     }
 }

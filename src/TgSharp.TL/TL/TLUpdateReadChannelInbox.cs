@@ -9,20 +9,20 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(856380452)]
+    [TLObject(-1842450928)]
     public class TLUpdateReadChannelInbox : TLAbsUpdate
     {
         public override int Constructor
         {
             get
             {
-                return 856380452;
+                return -1842450928;
             }
         }
 
         public int Flags { get; set; }
         public int? FolderId { get; set; }
-        public int ChannelId { get; set; }
+        public long ChannelId { get; set; }
         public int MaxId { get; set; }
         public int StillUnreadCount { get; set; }
         public int Pts { get; set; }
@@ -30,7 +30,7 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = FolderId != null ? (Flags | 1) : (Flags & ~1);
+Flags = FolderId != null ? (Flags | 1) : (Flags & ~1);
 
         }
 
@@ -42,7 +42,7 @@ namespace TgSharp.TL
             else
                 FolderId = null;
 
-            ChannelId = br.ReadInt32();
+            ChannelId = br.ReadInt64();
             MaxId = br.ReadInt32();
             StillUnreadCount = br.ReadInt32();
             Pts = br.ReadInt32();

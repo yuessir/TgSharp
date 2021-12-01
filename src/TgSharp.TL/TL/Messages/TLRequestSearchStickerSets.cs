@@ -9,27 +9,27 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-1028140917)]
+    [TLObject(896555914)]
     public class TLRequestSearchStickerSets : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -1028140917;
+                return 896555914;
             }
         }
 
         public int Flags { get; set; }
         public bool ExcludeFeatured { get; set; }
         public string Q { get; set; }
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public Messages.TLAbsFoundStickerSets Response { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = ExcludeFeatured ? (Flags | 1) : (Flags & ~1);
+Flags = ExcludeFeatured ? (Flags | 1) : (Flags & ~1);
 
         }
 
@@ -38,7 +38,7 @@ namespace TgSharp.TL.Messages
             Flags = br.ReadInt32();
             ExcludeFeatured = (Flags & 1) != 0;
             Q = StringUtil.Deserialize(br);
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

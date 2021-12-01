@@ -29,8 +29,8 @@ namespace TgSharp.TL.Messages
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Success ? (Flags | 2) : (Flags & ~2);
-            Flags = Error != null ? (Flags | 1) : (Flags & ~1);
+Flags = Success ? (Flags | 2) : (Flags & ~2);
+Flags = Error != null ? (Flags | 1) : (Flags & ~1);
 
         }
 

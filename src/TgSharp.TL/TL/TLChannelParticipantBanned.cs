@@ -9,28 +9,28 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(470789295)]
+    [TLObject(1844969806)]
     public class TLChannelParticipantBanned : TLAbsChannelParticipant
     {
         public override int Constructor
         {
             get
             {
-                return 470789295;
+                return 1844969806;
             }
         }
 
         public int Flags { get; set; }
         public bool Left { get; set; }
-        public int UserId { get; set; }
-        public int KickedBy { get; set; }
+        public TLAbsPeer Peer { get; set; }
+        public long KickedBy { get; set; }
         public int Date { get; set; }
         public TLChatBannedRights BannedRights { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Left ? (Flags | 1) : (Flags & ~1);
+Flags = Left ? (Flags | 1) : (Flags & ~1);
 
         }
 
@@ -38,8 +38,8 @@ namespace TgSharp.TL
         {
             Flags = br.ReadInt32();
             Left = (Flags & 1) != 0;
-            UserId = br.ReadInt32();
-            KickedBy = br.ReadInt32();
+            Peer = (TLAbsPeer)ObjectUtils.DeserializeObject(br);
+            KickedBy = br.ReadInt64();
             Date = br.ReadInt32();
             BannedRights = (TLChatBannedRights)ObjectUtils.DeserializeObject(br);
         }
@@ -49,7 +49,7 @@ namespace TgSharp.TL
             bw.Write(Constructor);
             ComputeFlags();
             bw.Write(Flags);
-            bw.Write(UserId);
+            ObjectUtils.SerializeObject(Peer, bw);
             bw.Write(KickedBy);
             bw.Write(Date);
             ObjectUtils.SerializeObject(BannedRights, bw);

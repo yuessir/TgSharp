@@ -9,23 +9,23 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-859915345)]
+    [TLObject(885242707)]
     public class TLChannelParticipantAdmin : TLAbsChannelParticipant
     {
         public override int Constructor
         {
             get
             {
-                return -859915345;
+                return 885242707;
             }
         }
 
         public int Flags { get; set; }
         public bool CanEdit { get; set; }
         public bool Self { get; set; }
-        public int UserId { get; set; }
-        public int? InviterId { get; set; }
-        public int PromotedBy { get; set; }
+        public long UserId { get; set; }
+        public long? InviterId { get; set; }
+        public long PromotedBy { get; set; }
         public int Date { get; set; }
         public TLChatAdminRights AdminRights { get; set; }
         public string Rank { get; set; }
@@ -33,10 +33,10 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = CanEdit ? (Flags | 1) : (Flags & ~1);
-            Flags = Self ? (Flags | 2) : (Flags & ~2);
-            Flags = InviterId != null ? (Flags | 2) : (Flags & ~2);
-            Flags = Rank != null ? (Flags | 4) : (Flags & ~4);
+Flags = CanEdit ? (Flags | 1) : (Flags & ~1);
+Flags = Self ? (Flags | 2) : (Flags & ~2);
+Flags = InviterId != null ? (Flags | 2) : (Flags & ~2);
+Flags = Rank != null ? (Flags | 4) : (Flags & ~4);
 
         }
 
@@ -45,13 +45,13 @@ namespace TgSharp.TL
             Flags = br.ReadInt32();
             CanEdit = (Flags & 1) != 0;
             Self = (Flags & 2) != 0;
-            UserId = br.ReadInt32();
+            UserId = br.ReadInt64();
             if ((Flags & 2) != 0)
-                InviterId = br.ReadInt32();
+                InviterId = br.ReadInt64();
             else
                 InviterId = null;
 
-            PromotedBy = br.ReadInt32();
+            PromotedBy = br.ReadInt64();
             Date = br.ReadInt32();
             AdminRights = (TLChatAdminRights)ObjectUtils.DeserializeObject(br);
             if ((Flags & 4) != 0)

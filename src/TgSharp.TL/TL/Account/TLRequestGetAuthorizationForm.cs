@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Account
 {
-    [TLObject(-1200903967)]
+    [TLObject(-1456907910)]
     public class TLRequestGetAuthorizationForm : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -1200903967;
+                return -1456907910;
             }
         }
 
-        public int BotId { get; set; }
+        public long BotId { get; set; }
         public string Scope { get; set; }
         public string PublicKey { get; set; }
         public Account.TLAuthorizationForm Response { get; set; }
@@ -32,7 +32,7 @@ namespace TgSharp.TL.Account
 
         public override void DeserializeBody(BinaryReader br)
         {
-            BotId = br.ReadInt32();
+            BotId = br.ReadInt64();
             Scope = StringUtil.Deserialize(br);
             PublicKey = StringUtil.Deserialize(br);
         }

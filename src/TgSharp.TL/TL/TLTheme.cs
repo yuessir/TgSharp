@@ -9,35 +9,38 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(42930452)]
+    [TLObject(-402474788)]
     public class TLTheme : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return 42930452;
+                return -402474788;
             }
         }
 
         public int Flags { get; set; }
         public bool Creator { get; set; }
         public bool Default { get; set; }
+        public bool ForChat { get; set; }
         public long Id { get; set; }
         public long AccessHash { get; set; }
         public string Slug { get; set; }
         public string Title { get; set; }
         public TLAbsDocument Document { get; set; }
         public TLThemeSettings Settings { get; set; }
-        public int InstallsCount { get; set; }
+        public int? InstallsCount { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Creator ? (Flags | 1) : (Flags & ~1);
-            Flags = Default ? (Flags | 2) : (Flags & ~2);
-            Flags = Document != null ? (Flags | 4) : (Flags & ~4);
-            Flags = Settings != null ? (Flags | 8) : (Flags & ~8);
+Flags = Creator ? (Flags | 1) : (Flags & ~1);
+Flags = Default ? (Flags | 2) : (Flags & ~2);
+Flags = ForChat ? (Flags | 32) : (Flags & ~32);
+Flags = Document != null ? (Flags | 4) : (Flags & ~4);
+Flags = Settings != null ? (Flags | 8) : (Flags & ~8);
+Flags = InstallsCount != null ? (Flags | 16) : (Flags & ~16);
 
         }
 
@@ -46,6 +49,7 @@ namespace TgSharp.TL
             Flags = br.ReadInt32();
             Creator = (Flags & 1) != 0;
             Default = (Flags & 2) != 0;
+            ForChat = (Flags & 32) != 0;
             Id = br.ReadInt64();
             AccessHash = br.ReadInt64();
             Slug = StringUtil.Deserialize(br);
@@ -60,7 +64,11 @@ namespace TgSharp.TL
             else
                 Settings = null;
 
-            InstallsCount = br.ReadInt32();
+            if ((Flags & 16) != 0)
+                InstallsCount = br.ReadInt32();
+            else
+                InstallsCount = null;
+
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -76,7 +84,8 @@ namespace TgSharp.TL
                 ObjectUtils.SerializeObject(Document, bw);
             if ((Flags & 8) != 0)
                 ObjectUtils.SerializeObject(Settings, bw);
-            bw.Write(InstallsCount);
+            if ((Flags & 16) != 0)
+                bw.Write(InstallsCount.Value);
         }
     }
 }

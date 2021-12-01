@@ -9,32 +9,32 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-352032773)]
+    [TLObject(277713951)]
     public class TLUpdateChannelTooLong : TLAbsUpdate
     {
         public override int Constructor
         {
             get
             {
-                return -352032773;
+                return 277713951;
             }
         }
 
         public int Flags { get; set; }
-        public int ChannelId { get; set; }
+        public long ChannelId { get; set; }
         public int? Pts { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Pts != null ? (Flags | 1) : (Flags & ~1);
+Flags = Pts != null ? (Flags | 1) : (Flags & ~1);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
             Flags = br.ReadInt32();
-            ChannelId = br.ReadInt32();
+            ChannelId = br.ReadInt64();
             if ((Flags & 1) != 0)
                 Pts = br.ReadInt32();
             else

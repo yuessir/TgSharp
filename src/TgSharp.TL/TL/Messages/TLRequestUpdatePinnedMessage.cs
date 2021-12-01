@@ -22,6 +22,8 @@ namespace TgSharp.TL.Messages
 
         public int Flags { get; set; }
         public bool Silent { get; set; }
+        public bool Unpin { get; set; }
+        public bool PmOneside { get; set; }
         public TLAbsInputPeer Peer { get; set; }
         public int Id { get; set; }
         public TLAbsUpdates Response { get; set; }
@@ -29,7 +31,9 @@ namespace TgSharp.TL.Messages
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Silent ? (Flags | 1) : (Flags & ~1);
+Flags = Silent ? (Flags | 1) : (Flags & ~1);
+Flags = Unpin ? (Flags | 2) : (Flags & ~2);
+Flags = PmOneside ? (Flags | 4) : (Flags & ~4);
 
         }
 
@@ -37,6 +41,8 @@ namespace TgSharp.TL.Messages
         {
             Flags = br.ReadInt32();
             Silent = (Flags & 1) != 0;
+            Unpin = (Flags & 2) != 0;
+            PmOneside = (Flags & 4) != 0;
             Peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
             Id = br.ReadInt32();
         }

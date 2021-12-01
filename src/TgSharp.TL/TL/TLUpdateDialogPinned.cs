@@ -28,8 +28,8 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Pinned ? (Flags | 1) : (Flags & ~1);
-            Flags = FolderId != null ? (Flags | 2) : (Flags & ~2);
+Flags = Pinned ? (Flags | 1) : (Flags & ~1);
+Flags = FolderId != null ? (Flags | 2) : (Flags & ~2);
 
         }
 

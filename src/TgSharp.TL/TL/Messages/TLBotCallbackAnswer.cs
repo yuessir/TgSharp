@@ -31,11 +31,11 @@ namespace TgSharp.TL.Messages
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Alert ? (Flags | 2) : (Flags & ~2);
-            Flags = HasUrl ? (Flags | 8) : (Flags & ~8);
-            Flags = NativeUi ? (Flags | 16) : (Flags & ~16);
-            Flags = Message != null ? (Flags | 1) : (Flags & ~1);
-            Flags = Url != null ? (Flags | 4) : (Flags & ~4);
+Flags = Alert ? (Flags | 2) : (Flags & ~2);
+Flags = HasUrl ? (Flags | 8) : (Flags & ~8);
+Flags = NativeUi ? (Flags | 16) : (Flags & ~16);
+Flags = Message != null ? (Flags | 1) : (Flags & ~1);
+Flags = Url != null ? (Flags | 4) : (Flags & ~4);
 
         }
 

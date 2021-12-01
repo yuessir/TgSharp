@@ -28,8 +28,8 @@ namespace TgSharp.TL.Payments
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Credentials ? (Flags | 1) : (Flags & ~1);
-            Flags = Info ? (Flags | 2) : (Flags & ~2);
+Flags = Credentials ? (Flags | 1) : (Flags & ~1);
+Flags = Info ? (Flags | 2) : (Flags & ~2);
 
         }
 

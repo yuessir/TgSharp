@@ -9,27 +9,26 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(668375447)]
+    [TLObject(925204121)]
     public class TLInputPeerPhotoFileLocation : TLAbsInputFileLocation
     {
         public override int Constructor
         {
             get
             {
-                return 668375447;
+                return 925204121;
             }
         }
 
         public int Flags { get; set; }
         public bool Big { get; set; }
         public TLAbsInputPeer Peer { get; set; }
-        public long VolumeId { get; set; }
-        public int LocalId { get; set; }
+        public long PhotoId { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Big ? (Flags | 1) : (Flags & ~1);
+Flags = Big ? (Flags | 1) : (Flags & ~1);
 
         }
 
@@ -38,8 +37,7 @@ namespace TgSharp.TL
             Flags = br.ReadInt32();
             Big = (Flags & 1) != 0;
             Peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
-            VolumeId = br.ReadInt64();
-            LocalId = br.ReadInt32();
+            PhotoId = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -48,8 +46,7 @@ namespace TgSharp.TL
             ComputeFlags();
             bw.Write(Flags);
             ObjectUtils.SerializeObject(Peer, bw);
-            bw.Write(VolumeId);
-            bw.Write(LocalId);
+            bw.Write(PhotoId);
         }
     }
 }

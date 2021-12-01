@@ -28,8 +28,8 @@ namespace TgSharp.TL.Channels
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = ByLocation ? (Flags | 1) : (Flags & ~1);
-            Flags = CheckLimit ? (Flags | 2) : (Flags & ~2);
+Flags = ByLocation ? (Flags | 1) : (Flags & ~1);
+Flags = CheckLimit ? (Flags | 2) : (Flags & ~2);
 
         }
 

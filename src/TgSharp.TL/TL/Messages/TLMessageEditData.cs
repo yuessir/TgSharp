@@ -26,7 +26,7 @@ namespace TgSharp.TL.Messages
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Caption ? (Flags | 1) : (Flags & ~1);
+Flags = Caption ? (Flags | 1) : (Flags & ~1);
 
         }
 

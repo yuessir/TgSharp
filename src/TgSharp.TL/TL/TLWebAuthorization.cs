@@ -9,19 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-892779534)]
+    [TLObject(-1493633966)]
     public class TLWebAuthorization : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return -892779534;
+                return -1493633966;
             }
         }
 
         public long Hash { get; set; }
-        public int BotId { get; set; }
+        public long BotId { get; set; }
         public string Domain { get; set; }
         public string Browser { get; set; }
         public string Platform { get; set; }
@@ -38,7 +38,7 @@ namespace TgSharp.TL
         public override void DeserializeBody(BinaryReader br)
         {
             Hash = br.ReadInt64();
-            BotId = br.ReadInt32();
+            BotId = br.ReadInt64();
             Domain = StringUtil.Deserialize(br);
             Browser = StringUtil.Deserialize(br);
             Platform = StringUtil.Deserialize(br);

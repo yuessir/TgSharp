@@ -9,33 +9,41 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-304536635)]
+    [TLObject(-208425312)]
     public class TLRequestDiscardEncryption : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -304536635;
+                return -208425312;
             }
         }
 
+        public int Flags { get; set; }
+        public bool DeleteHistory { get; set; }
         public int ChatId { get; set; }
         public bool Response { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = DeleteHistory ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
+            Flags = br.ReadInt32();
+            DeleteHistory = (Flags & 1) != 0;
             ChatId = br.ReadInt32();
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            ComputeFlags();
+            bw.Write(Flags);
             bw.Write(ChatId);
         }
 

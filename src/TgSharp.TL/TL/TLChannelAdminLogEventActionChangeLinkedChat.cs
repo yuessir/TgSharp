@@ -9,19 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-1569748965)]
+    [TLObject(84703944)]
     public class TLChannelAdminLogEventActionChangeLinkedChat : TLAbsChannelAdminLogEventAction
     {
         public override int Constructor
         {
             get
             {
-                return -1569748965;
+                return 84703944;
             }
         }
 
-        public int PrevValue { get; set; }
-        public int NewValue { get; set; }
+        public long PrevValue { get; set; }
+        public long NewValue { get; set; }
 
         public void ComputeFlags()
         {
@@ -30,8 +30,8 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            PrevValue = br.ReadInt32();
-            NewValue = br.ReadInt32();
+            PrevValue = br.ReadInt64();
+            NewValue = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

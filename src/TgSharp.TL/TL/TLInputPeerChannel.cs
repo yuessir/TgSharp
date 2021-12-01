@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(548253432)]
+    [TLObject(666680316)]
     public class TLInputPeerChannel : TLAbsInputPeer
     {
         public override int Constructor
         {
             get
             {
-                return 548253432;
+                return 666680316;
             }
         }
 
-        public int ChannelId { get; set; }
+        public long ChannelId { get; set; }
         public long AccessHash { get; set; }
 
         public void ComputeFlags()
@@ -30,7 +30,7 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChannelId = br.ReadInt32();
+            ChannelId = br.ReadInt64();
             AccessHash = br.ReadInt64();
         }
 

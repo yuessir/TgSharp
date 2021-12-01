@@ -23,6 +23,7 @@ namespace TgSharp.TL.Channels
         public int Flags { get; set; }
         public bool Broadcast { get; set; }
         public bool Megagroup { get; set; }
+        public bool ForImport { get; set; }
         public string Title { get; set; }
         public string About { get; set; }
         public TLAbsInputGeoPoint GeoPoint { get; set; }
@@ -32,10 +33,11 @@ namespace TgSharp.TL.Channels
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Broadcast ? (Flags | 1) : (Flags & ~1);
-            Flags = Megagroup ? (Flags | 2) : (Flags & ~2);
-            Flags = GeoPoint != null ? (Flags | 4) : (Flags & ~4);
-            Flags = Address != null ? (Flags | 4) : (Flags & ~4);
+Flags = Broadcast ? (Flags | 1) : (Flags & ~1);
+Flags = Megagroup ? (Flags | 2) : (Flags & ~2);
+Flags = ForImport ? (Flags | 8) : (Flags & ~8);
+Flags = GeoPoint != null ? (Flags | 4) : (Flags & ~4);
+Flags = Address != null ? (Flags | 4) : (Flags & ~4);
 
         }
 
@@ -44,6 +46,7 @@ namespace TgSharp.TL.Channels
             Flags = br.ReadInt32();
             Broadcast = (Flags & 1) != 0;
             Megagroup = (Flags & 2) != 0;
+            ForImport = (Flags & 8) != 0;
             Title = StringUtil.Deserialize(br);
             About = StringUtil.Deserialize(br);
             if ((Flags & 4) != 0)

@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Account
 {
-    [TLObject(-1430579357)]
+    [TLObject(127302966)]
     public class TLRequestGetWallPapers : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -1430579357;
+                return 127302966;
             }
         }
 
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public Account.TLAbsWallPapers Response { get; set; }
 
         public void ComputeFlags()
@@ -30,7 +30,7 @@ namespace TgSharp.TL.Account
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

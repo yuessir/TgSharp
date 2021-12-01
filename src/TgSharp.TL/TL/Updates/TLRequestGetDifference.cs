@@ -30,7 +30,7 @@ namespace TgSharp.TL.Updates
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = PtsTotalLimit != null ? (Flags | 1) : (Flags & ~1);
+Flags = PtsTotalLimit != null ? (Flags | 1) : (Flags & ~1);
 
         }
 

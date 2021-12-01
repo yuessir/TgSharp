@@ -9,19 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-490575781)]
+    [TLObject(-183077365)]
     public class TLRequestGetScheduledHistory : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -490575781;
+                return -183077365;
             }
         }
 
         public TLAbsInputPeer Peer { get; set; }
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public Messages.TLAbsMessages Response { get; set; }
 
         public void ComputeFlags()
@@ -32,7 +32,7 @@ namespace TgSharp.TL.Messages
         public override void DeserializeBody(BinaryReader br)
         {
             Peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

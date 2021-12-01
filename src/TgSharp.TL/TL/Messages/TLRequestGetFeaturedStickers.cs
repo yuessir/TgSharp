@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(766298703)]
+    [TLObject(1685588756)]
     public class TLRequestGetFeaturedStickers : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return 766298703;
+                return 1685588756;
             }
         }
 
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public Messages.TLAbsFeaturedStickers Response { get; set; }
 
         public void ComputeFlags()
@@ -30,7 +30,7 @@ namespace TgSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

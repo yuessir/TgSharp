@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-753232354)]
+    [TLObject(-2107528095)]
     public class TLChannel : TLAbsChat
     {
         public override int Constructor
         {
             get
             {
-                return -753232354;
+                return -2107528095;
             }
         }
 
@@ -33,13 +33,17 @@ namespace TgSharp.TL
         public bool HasLink { get; set; }
         public bool HasGeo { get; set; }
         public bool SlowmodeEnabled { get; set; }
-        public int Id { get; set; }
+        public bool CallActive { get; set; }
+        public bool CallNotEmpty { get; set; }
+        public bool Fake { get; set; }
+        public bool Gigagroup { get; set; }
+        public bool Noforwards { get; set; }
+        public long Id { get; set; }
         public long? AccessHash { get; set; }
         public string Title { get; set; }
         public string Username { get; set; }
         public TLAbsChatPhoto Photo { get; set; }
         public int Date { get; set; }
-        public int Version { get; set; }
         public TLVector<TLRestrictionReason> RestrictionReason { get; set; }
         public TLChatAdminRights AdminRights { get; set; }
         public TLChatBannedRights BannedRights { get; set; }
@@ -49,25 +53,30 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Creator ? (Flags | 1) : (Flags & ~1);
-            Flags = Left ? (Flags | 4) : (Flags & ~4);
-            Flags = Broadcast ? (Flags | 32) : (Flags & ~32);
-            Flags = Verified ? (Flags | 128) : (Flags & ~128);
-            Flags = Megagroup ? (Flags | 256) : (Flags & ~256);
-            Flags = Restricted ? (Flags | 512) : (Flags & ~512);
-            Flags = Signatures ? (Flags | 2048) : (Flags & ~2048);
-            Flags = Min ? (Flags | 4096) : (Flags & ~4096);
-            Flags = Scam ? (Flags | 524288) : (Flags & ~524288);
-            Flags = HasLink ? (Flags | 1048576) : (Flags & ~1048576);
-            Flags = HasGeo ? (Flags | 2097152) : (Flags & ~2097152);
-            Flags = SlowmodeEnabled ? (Flags | 4194304) : (Flags & ~4194304);
-            Flags = AccessHash != null ? (Flags | 8192) : (Flags & ~8192);
-            Flags = Username != null ? (Flags | 64) : (Flags & ~64);
-            Flags = RestrictionReason != null ? (Flags | 512) : (Flags & ~512);
-            Flags = AdminRights != null ? (Flags | 16384) : (Flags & ~16384);
-            Flags = BannedRights != null ? (Flags | 32768) : (Flags & ~32768);
-            Flags = DefaultBannedRights != null ? (Flags | 262144) : (Flags & ~262144);
-            Flags = ParticipantsCount != null ? (Flags | 131072) : (Flags & ~131072);
+Flags = Creator ? (Flags | 1) : (Flags & ~1);
+Flags = Left ? (Flags | 4) : (Flags & ~4);
+Flags = Broadcast ? (Flags | 32) : (Flags & ~32);
+Flags = Verified ? (Flags | 128) : (Flags & ~128);
+Flags = Megagroup ? (Flags | 256) : (Flags & ~256);
+Flags = Restricted ? (Flags | 512) : (Flags & ~512);
+Flags = Signatures ? (Flags | 2048) : (Flags & ~2048);
+Flags = Min ? (Flags | 4096) : (Flags & ~4096);
+Flags = Scam ? (Flags | 524288) : (Flags & ~524288);
+Flags = HasLink ? (Flags | 1048576) : (Flags & ~1048576);
+Flags = HasGeo ? (Flags | 2097152) : (Flags & ~2097152);
+Flags = SlowmodeEnabled ? (Flags | 4194304) : (Flags & ~4194304);
+Flags = CallActive ? (Flags | 8388608) : (Flags & ~8388608);
+Flags = CallNotEmpty ? (Flags | 16777216) : (Flags & ~16777216);
+Flags = Fake ? (Flags | 33554432) : (Flags & ~33554432);
+Flags = Gigagroup ? (Flags | 67108864) : (Flags & ~67108864);
+Flags = Noforwards ? (Flags | 134217728) : (Flags & ~134217728);
+Flags = AccessHash != null ? (Flags | 8192) : (Flags & ~8192);
+Flags = Username != null ? (Flags | 64) : (Flags & ~64);
+Flags = RestrictionReason != null ? (Flags | 512) : (Flags & ~512);
+Flags = AdminRights != null ? (Flags | 16384) : (Flags & ~16384);
+Flags = BannedRights != null ? (Flags | 32768) : (Flags & ~32768);
+Flags = DefaultBannedRights != null ? (Flags | 262144) : (Flags & ~262144);
+Flags = ParticipantsCount != null ? (Flags | 131072) : (Flags & ~131072);
 
         }
 
@@ -86,7 +95,12 @@ namespace TgSharp.TL
             HasLink = (Flags & 1048576) != 0;
             HasGeo = (Flags & 2097152) != 0;
             SlowmodeEnabled = (Flags & 4194304) != 0;
-            Id = br.ReadInt32();
+            CallActive = (Flags & 8388608) != 0;
+            CallNotEmpty = (Flags & 16777216) != 0;
+            Fake = (Flags & 33554432) != 0;
+            Gigagroup = (Flags & 67108864) != 0;
+            Noforwards = (Flags & 134217728) != 0;
+            Id = br.ReadInt64();
             if ((Flags & 8192) != 0)
                 AccessHash = br.ReadInt64();
             else
@@ -100,7 +114,6 @@ namespace TgSharp.TL
 
             Photo = (TLAbsChatPhoto)ObjectUtils.DeserializeObject(br);
             Date = br.ReadInt32();
-            Version = br.ReadInt32();
             if ((Flags & 512) != 0)
                 RestrictionReason = (TLVector<TLRestrictionReason>)ObjectUtils.DeserializeVector<TLRestrictionReason>(br);
             else
@@ -141,7 +154,6 @@ namespace TgSharp.TL
                 StringUtil.Serialize(Username, bw);
             ObjectUtils.SerializeObject(Photo, bw);
             bw.Write(Date);
-            bw.Write(Version);
             if ((Flags & 512) != 0)
                 ObjectUtils.SerializeObject(RestrictionReason, bw);
             if ((Flags & 16384) != 0)

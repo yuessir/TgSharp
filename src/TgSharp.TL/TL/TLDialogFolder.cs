@@ -33,7 +33,7 @@ namespace TgSharp.TL
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Pinned ? (Flags | 4) : (Flags & ~4);
+Flags = Pinned ? (Flags | 4) : (Flags & ~4);
 
         }
 

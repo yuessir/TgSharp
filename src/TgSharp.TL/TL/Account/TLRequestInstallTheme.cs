@@ -29,9 +29,9 @@ namespace TgSharp.TL.Account
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Dark ? (Flags | 1) : (Flags & ~1);
-            Flags = Format != null ? (Flags | 2) : (Flags & ~2);
-            Flags = Theme != null ? (Flags | 2) : (Flags & ~2);
+Flags = Dark ? (Flags | 1) : (Flags & ~1);
+Flags = Format != null ? (Flags | 2) : (Flags & ~2);
+Flags = Theme != null ? (Flags | 2) : (Flags & ~2);
 
         }
 

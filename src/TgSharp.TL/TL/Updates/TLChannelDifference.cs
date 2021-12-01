@@ -32,8 +32,8 @@ namespace TgSharp.TL.Updates
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Final ? (Flags | 1) : (Flags & ~1);
-            Flags = Timeout != null ? (Flags | 2) : (Flags & ~2);
+Flags = Final ? (Flags | 1) : (Flags & ~1);
+Flags = Timeout != null ? (Flags | 2) : (Flags & ~2);
 
         }
 

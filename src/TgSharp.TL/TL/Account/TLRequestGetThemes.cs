@@ -9,19 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Account
 {
-    [TLObject(676939512)]
+    [TLObject(1913054296)]
     public class TLRequestGetThemes : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return 676939512;
+                return 1913054296;
             }
         }
 
         public string Format { get; set; }
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public Account.TLAbsThemes Response { get; set; }
 
         public void ComputeFlags()
@@ -32,7 +32,7 @@ namespace TgSharp.TL.Account
         public override void DeserializeBody(BinaryReader br)
         {
             Format = StringUtil.Deserialize(br);
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

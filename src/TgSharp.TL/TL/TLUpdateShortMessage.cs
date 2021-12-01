@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-1857044719)]
+    [TLObject(826001400)]
     public class TLUpdateShortMessage : TLAbsUpdates
     {
         public override int Constructor
         {
             get
             {
-                return -1857044719;
+                return 826001400;
             }
         }
 
@@ -26,27 +26,29 @@ namespace TgSharp.TL
         public bool MediaUnread { get; set; }
         public bool Silent { get; set; }
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public long UserId { get; set; }
         public string Message { get; set; }
         public int Pts { get; set; }
         public int PtsCount { get; set; }
         public int Date { get; set; }
         public TLMessageFwdHeader FwdFrom { get; set; }
-        public int? ViaBotId { get; set; }
-        public int? ReplyToMsgId { get; set; }
+        public long? ViaBotId { get; set; }
+        public TLMessageReplyHeader ReplyTo { get; set; }
         public TLVector<TLAbsMessageEntity> Entities { get; set; }
+        public int? TtlPeriod { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Out ? (Flags | 2) : (Flags & ~2);
-            Flags = Mentioned ? (Flags | 16) : (Flags & ~16);
-            Flags = MediaUnread ? (Flags | 32) : (Flags & ~32);
-            Flags = Silent ? (Flags | 8192) : (Flags & ~8192);
-            Flags = FwdFrom != null ? (Flags | 4) : (Flags & ~4);
-            Flags = ViaBotId != null ? (Flags | 2048) : (Flags & ~2048);
-            Flags = ReplyToMsgId != null ? (Flags | 8) : (Flags & ~8);
-            Flags = Entities != null ? (Flags | 128) : (Flags & ~128);
+Flags = Out ? (Flags | 2) : (Flags & ~2);
+Flags = Mentioned ? (Flags | 16) : (Flags & ~16);
+Flags = MediaUnread ? (Flags | 32) : (Flags & ~32);
+Flags = Silent ? (Flags | 8192) : (Flags & ~8192);
+Flags = FwdFrom != null ? (Flags | 4) : (Flags & ~4);
+Flags = ViaBotId != null ? (Flags | 2048) : (Flags & ~2048);
+Flags = ReplyTo != null ? (Flags | 8) : (Flags & ~8);
+Flags = Entities != null ? (Flags | 128) : (Flags & ~128);
+Flags = TtlPeriod != null ? (Flags | 33554432) : (Flags & ~33554432);
 
         }
 
@@ -58,7 +60,7 @@ namespace TgSharp.TL
             MediaUnread = (Flags & 32) != 0;
             Silent = (Flags & 8192) != 0;
             Id = br.ReadInt32();
-            UserId = br.ReadInt32();
+            UserId = br.ReadInt64();
             Message = StringUtil.Deserialize(br);
             Pts = br.ReadInt32();
             PtsCount = br.ReadInt32();
@@ -69,19 +71,24 @@ namespace TgSharp.TL
                 FwdFrom = null;
 
             if ((Flags & 2048) != 0)
-                ViaBotId = br.ReadInt32();
+                ViaBotId = br.ReadInt64();
             else
                 ViaBotId = null;
 
             if ((Flags & 8) != 0)
-                ReplyToMsgId = br.ReadInt32();
+                ReplyTo = (TLMessageReplyHeader)ObjectUtils.DeserializeObject(br);
             else
-                ReplyToMsgId = null;
+                ReplyTo = null;
 
             if ((Flags & 128) != 0)
                 Entities = (TLVector<TLAbsMessageEntity>)ObjectUtils.DeserializeVector<TLAbsMessageEntity>(br);
             else
                 Entities = null;
+
+            if ((Flags & 33554432) != 0)
+                TtlPeriod = br.ReadInt32();
+            else
+                TtlPeriod = null;
 
         }
 
@@ -101,9 +108,11 @@ namespace TgSharp.TL
             if ((Flags & 2048) != 0)
                 bw.Write(ViaBotId.Value);
             if ((Flags & 8) != 0)
-                bw.Write(ReplyToMsgId.Value);
+                ObjectUtils.SerializeObject(ReplyTo, bw);
             if ((Flags & 128) != 0)
                 ObjectUtils.SerializeObject(Entities, bw);
+            if ((Flags & 33554432) != 0)
+                bw.Write(TtlPeriod.Value);
         }
     }
 }

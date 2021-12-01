@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-900957736)]
+    [TLObject(903730804)]
     public class TLRequestEditChatPhoto : TLMethod
     {
         public override int Constructor
         {
             get
             {
-                return -900957736;
+                return 903730804;
             }
         }
 
-        public int ChatId { get; set; }
+        public long ChatId { get; set; }
         public TLAbsInputChatPhoto Photo { get; set; }
         public TLAbsUpdates Response { get; set; }
 
@@ -31,7 +31,7 @@ namespace TgSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChatId = br.ReadInt32();
+            ChatId = br.ReadInt64();
             Photo = (TLAbsInputChatPhoto)ObjectUtils.DeserializeObject(br);
         }
 

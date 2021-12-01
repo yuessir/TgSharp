@@ -9,20 +9,20 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(892193368)]
+    [TLObject(-595914432)]
     public class TLMessageEntityMentionName : TLAbsMessageEntity
     {
         public override int Constructor
         {
             get
             {
-                return 892193368;
+                return -595914432;
             }
         }
 
         public int Offset { get; set; }
         public int Length { get; set; }
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
         public void ComputeFlags()
         {
@@ -33,7 +33,7 @@ namespace TgSharp.TL
         {
             Offset = br.ReadInt32();
             Length = br.ReadInt32();
-            UserId = br.ReadInt32();
+            UserId = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

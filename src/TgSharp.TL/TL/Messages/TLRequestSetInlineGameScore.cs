@@ -23,7 +23,7 @@ namespace TgSharp.TL.Messages
         public int Flags { get; set; }
         public bool EditMessage { get; set; }
         public bool Force { get; set; }
-        public TLInputBotInlineMessageID Id { get; set; }
+        public TLAbsInputBotInlineMessageID Id { get; set; }
         public TLAbsInputUser UserId { get; set; }
         public int Score { get; set; }
         public bool Response { get; set; }
@@ -31,8 +31,8 @@ namespace TgSharp.TL.Messages
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = EditMessage ? (Flags | 1) : (Flags & ~1);
-            Flags = Force ? (Flags | 2) : (Flags & ~2);
+Flags = EditMessage ? (Flags | 1) : (Flags & ~1);
+Flags = Force ? (Flags | 2) : (Flags & ~2);
 
         }
 
@@ -41,7 +41,7 @@ namespace TgSharp.TL.Messages
             Flags = br.ReadInt32();
             EditMessage = (Flags & 1) != 0;
             Force = (Flags & 2) != 0;
-            Id = (TLInputBotInlineMessageID)ObjectUtils.DeserializeObject(br);
+            Id = (TLAbsInputBotInlineMessageID)ObjectUtils.DeserializeObject(br);
             UserId = (TLAbsInputUser)ObjectUtils.DeserializeObject(br);
             Score = br.ReadInt32();
         }

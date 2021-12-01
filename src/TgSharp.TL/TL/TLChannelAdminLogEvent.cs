@@ -9,20 +9,20 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(995769920)]
+    [TLObject(531458253)]
     public class TLChannelAdminLogEvent : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return 995769920;
+                return 531458253;
             }
         }
 
         public long Id { get; set; }
         public int Date { get; set; }
-        public int UserId { get; set; }
+        public long UserId { get; set; }
         public TLAbsChannelAdminLogEventAction Action { get; set; }
 
         public void ComputeFlags()
@@ -34,7 +34,7 @@ namespace TgSharp.TL
         {
             Id = br.ReadInt64();
             Date = br.ReadInt32();
-            UserId = br.ReadInt32();
+            UserId = br.ReadInt64();
             Action = (TLAbsChannelAdminLogEventAction)ObjectUtils.DeserializeObject(br);
         }
 

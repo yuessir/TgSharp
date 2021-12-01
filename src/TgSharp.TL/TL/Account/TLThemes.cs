@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Account
 {
-    [TLObject(2137482273)]
+    [TLObject(-1707242387)]
     public class TLThemes : TLAbsThemes
     {
         public override int Constructor
         {
             get
             {
-                return 2137482273;
+                return -1707242387;
             }
         }
 
-        public int Hash { get; set; }
+        public long Hash { get; set; }
         public TLVector<TLTheme> Themes { get; set; }
 
         public void ComputeFlags()
@@ -30,7 +30,7 @@ namespace TgSharp.TL.Account
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Hash = br.ReadInt32();
+            Hash = br.ReadInt64();
             Themes = (TLVector<TLTheme>)ObjectUtils.DeserializeVector<TLTheme>(br);
         }
 

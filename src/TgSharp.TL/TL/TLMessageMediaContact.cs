@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-873313984)]
+    [TLObject(1882335561)]
     public class TLMessageMediaContact : TLAbsMessageMedia
     {
         public override int Constructor
         {
             get
             {
-                return -873313984;
+                return 1882335561;
             }
         }
 
@@ -24,7 +24,7 @@ namespace TgSharp.TL
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Vcard { get; set; }
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
         public void ComputeFlags()
         {
@@ -37,7 +37,7 @@ namespace TgSharp.TL
             FirstName = StringUtil.Deserialize(br);
             LastName = StringUtil.Deserialize(br);
             Vcard = StringUtil.Deserialize(br);
-            UserId = br.ReadInt32();
+            UserId = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)

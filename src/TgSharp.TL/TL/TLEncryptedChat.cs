@@ -9,22 +9,22 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-94974410)]
+    [TLObject(1643173063)]
     public class TLEncryptedChat : TLAbsEncryptedChat
     {
         public override int Constructor
         {
             get
             {
-                return -94974410;
+                return 1643173063;
             }
         }
 
         public int Id { get; set; }
         public long AccessHash { get; set; }
         public int Date { get; set; }
-        public int AdminId { get; set; }
-        public int ParticipantId { get; set; }
+        public long AdminId { get; set; }
+        public long ParticipantId { get; set; }
         public byte[] GAOrB { get; set; }
         public long KeyFingerprint { get; set; }
 
@@ -38,8 +38,8 @@ namespace TgSharp.TL
             Id = br.ReadInt32();
             AccessHash = br.ReadInt64();
             Date = br.ReadInt32();
-            AdminId = br.ReadInt32();
-            ParticipantId = br.ReadInt32();
+            AdminId = br.ReadInt64();
+            ParticipantId = br.ReadInt64();
             GAOrB = BytesUtil.Deserialize(br);
             KeyFingerprint = br.ReadInt64();
         }

@@ -9,20 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(230353641)]
+    [TLObject(-1652231205)]
     public class TLInputStickerSetThumb : TLAbsInputFileLocation
     {
         public override int Constructor
         {
             get
             {
-                return 230353641;
+                return -1652231205;
             }
         }
 
         public TLAbsInputStickerSet Stickerset { get; set; }
-        public long VolumeId { get; set; }
-        public int LocalId { get; set; }
+        public int ThumbVersion { get; set; }
 
         public void ComputeFlags()
         {
@@ -32,16 +31,14 @@ namespace TgSharp.TL
         public override void DeserializeBody(BinaryReader br)
         {
             Stickerset = (TLAbsInputStickerSet)ObjectUtils.DeserializeObject(br);
-            VolumeId = br.ReadInt64();
-            LocalId = br.ReadInt32();
+            ThumbVersion = br.ReadInt32();
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
             ObjectUtils.SerializeObject(Stickerset, bw);
-            bw.Write(VolumeId);
-            bw.Write(LocalId);
+            bw.Write(ThumbVersion);
         }
     }
 }

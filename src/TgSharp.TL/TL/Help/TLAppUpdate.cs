@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Help
 {
-    [TLObject(497489295)]
+    [TLObject(-860107216)]
     public class TLAppUpdate : TLAbsAppUpdate
     {
         public override int Constructor
         {
             get
             {
-                return 497489295;
+                return -860107216;
             }
         }
 
@@ -28,13 +28,15 @@ namespace TgSharp.TL.Help
         public TLVector<TLAbsMessageEntity> Entities { get; set; }
         public TLAbsDocument Document { get; set; }
         public string Url { get; set; }
+        public TLAbsDocument Sticker { get; set; }
 
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = CanNotSkip ? (Flags | 1) : (Flags & ~1);
-            Flags = Document != null ? (Flags | 2) : (Flags & ~2);
-            Flags = Url != null ? (Flags | 4) : (Flags & ~4);
+Flags = CanNotSkip ? (Flags | 1) : (Flags & ~1);
+Flags = Document != null ? (Flags | 2) : (Flags & ~2);
+Flags = Url != null ? (Flags | 4) : (Flags & ~4);
+Flags = Sticker != null ? (Flags | 8) : (Flags & ~8);
 
         }
 
@@ -56,6 +58,11 @@ namespace TgSharp.TL.Help
             else
                 Url = null;
 
+            if ((Flags & 8) != 0)
+                Sticker = (TLAbsDocument)ObjectUtils.DeserializeObject(br);
+            else
+                Sticker = null;
+
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -71,6 +78,8 @@ namespace TgSharp.TL.Help
                 ObjectUtils.SerializeObject(Document, bw);
             if ((Flags & 4) != 0)
                 StringUtil.Serialize(Url, bw);
+            if ((Flags & 8) != 0)
+                ObjectUtils.SerializeObject(Sticker, bw);
         }
     }
 }

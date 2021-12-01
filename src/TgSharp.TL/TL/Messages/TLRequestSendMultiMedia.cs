@@ -33,11 +33,11 @@ namespace TgSharp.TL.Messages
         public void ComputeFlags()
         {
             Flags = 0;
-            Flags = Silent ? (Flags | 32) : (Flags & ~32);
-            Flags = Background ? (Flags | 64) : (Flags & ~64);
-            Flags = ClearDraft ? (Flags | 128) : (Flags & ~128);
-            Flags = ReplyToMsgId != null ? (Flags | 1) : (Flags & ~1);
-            Flags = ScheduleDate != null ? (Flags | 1024) : (Flags & ~1024);
+Flags = Silent ? (Flags | 32) : (Flags & ~32);
+Flags = Background ? (Flags | 64) : (Flags & ~64);
+Flags = ClearDraft ? (Flags | 128) : (Flags & ~128);
+Flags = ReplyToMsgId != null ? (Flags | 1) : (Flags & ~1);
+Flags = ScheduleDate != null ? (Flags | 1024) : (Flags & ~1024);
 
         }
 
